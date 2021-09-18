@@ -2,6 +2,10 @@
 
 * Client.txt log monitoring
   * Captures game messages (whispers) which triggers trade interface/overlay in game
+  * Only monitor while game client is open
+* Game Client monitoring
+  * Game client is open/closed
+  * Bounds and Location of game client while opened
 * In-Game trade interface/overlay
   * Displays incoming/outgoing trade requests
   * Trade interface or the interface elements will differ depending on
