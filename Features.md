@@ -1,7 +1,9 @@
 # Planned Features / Specs
 
 * Client.txt log monitoring
-  * Captures game messages (whispers) which triggers trade interface/overlay in game
+  * Captures game messages (whispers) 
+    * Parses log entries and fires corresponding events to be handled by a broker
+    * Broker triggers trade interface/overlay in game
   * Only monitor while game client is open
 * Game Client monitoring
   * Game client is open/closed
@@ -34,3 +36,6 @@
   * Time spent per map
   * Currency / Valuables per time spent
 * Custom quick actions
+* Clipboard monitoring / Mouseover monitoring
+  * More advanced tooltips for items (dangerous map mods, T0 affixes, etc)
+  * Using clipboard data or item lookup via mouse location (very advanced)

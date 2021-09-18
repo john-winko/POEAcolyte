@@ -15,10 +15,10 @@ namespace PoeAcolyte
         public Form1()
         {
             InitializeComponent();
-            InitControls();
+            
             _monitor = new FileChangeMonitor(POEPATH);
             _monitor.FileChanged += FileChanged;
-            
+            InitControls();
         }
 
         private void FileChanged(object sender, FileChangedEventArgs e)
@@ -36,6 +36,10 @@ namespace PoeAcolyte
                 Height = 50,
                 Text = "Start"
             };
+            _startButton.Click += (sender, args) =>
+            {
+                _monitor.Running = true;
+            };
             _stopButton = new Button()
             {
                 Left = 10,
@@ -43,6 +47,10 @@ namespace PoeAcolyte
                 Width = 200,
                 Height = 50,
                 Text = "Stop"
+            };
+            _stopButton.Click += (sender, args) =>
+            {
+                _monitor.Running = false;
             };
             _textBox = new TextBox()
             {
