@@ -13,9 +13,6 @@
       <Compile Update="UI\IncomingTradeControl.cs">
         <SubType>UserControl</SubType>
       </Compile>
-      <Compile Update="UI\FullOverlay.cs">
-        <SubType>Form</SubType>
-      </Compile>
     </ItemGroup>
 
 </Project>
