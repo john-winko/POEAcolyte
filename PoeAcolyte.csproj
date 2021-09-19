@@ -6,4 +6,16 @@
         <UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Update="UI\InteractionPanel.cs">
+        <SubType>UserControl</SubType>
+      </Compile>
+      <Compile Update="UI\IncomingTradeControl.cs">
+        <SubType>UserControl</SubType>
+      </Compile>
+      <Compile Update="UI\FullOverlay.cs">
+        <SubType>Form</SubType>
+      </Compile>
+    </ItemGroup>
+
 </Project>

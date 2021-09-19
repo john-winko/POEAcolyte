@@ -1,5 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using PoeAcolyte.API;
+using PoeAcolyte.API.Parsers;
 using PoeAcolyte.API.Services;
 
 namespace PoeAcolyte
@@ -9,21 +11,14 @@ namespace PoeAcolyte
         private Button _startButton;
         private Button _stopButton;
         private TextBox _textBox;
-        private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
-        private FileChangeMonitor _monitor;
+        private PoeBroker _broker;
         
         public Form1()
         {
-            InitializeComponent();
             
-            _monitor = new FileChangeMonitor(POEPATH);
-            _monitor.FileChanged += FileChanged;
+            InitializeComponent();
+            _broker = new PoeBroker();
             InitControls();
-        }
-
-        private void FileChanged(object sender, FileChangedEventArgs e)
-        {
-            _textBox.PerformSafely(()=> _textBox.Text += e.Changes);
         }
 
         private void InitControls()
@@ -38,7 +33,7 @@ namespace PoeAcolyte
             };
             _startButton.Click += (sender, args) =>
             {
-                _monitor.Running = true;
+                _broker.ManualFire();
             };
             _stopButton = new Button()
             {
@@ -50,7 +45,7 @@ namespace PoeAcolyte
             };
             _stopButton.Click += (sender, args) =>
             {
-                _monitor.Running = false;
+                _broker.Running = false;
             };
             _textBox = new TextBox()
             {

@@ -40,7 +40,7 @@ namespace PoeAcolyte.API.Services
             StartStreamReader();
         }
 
-        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+       private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             if (_streamReader.EndOfStream) return;
             try
@@ -72,6 +72,21 @@ namespace PoeAcolyte.API.Services
                Console.WriteLine(e);
            }
         }
+
+        private long _manualLocation = 0;
+        private StreamReader _stream;
+        public void ManualFire()
+        {
+            if (_stream is null || _stream.EndOfStream)
+            {
+                _stream?.Close();
+                string testFilePath = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\test.txt";
+                _stream = new StreamReader(File.Open(testFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+            }
+
+            var changes = _stream.ReadLine();
+            FileChanged?.Invoke(this, new FileChangedEventArgs(changes));
+        }
         
         /// <summary>
         /// Implementing disposal pattern
@@ -79,6 +94,7 @@ namespace PoeAcolyte.API.Services
         public void Dispose()
         {
             _timer?.Dispose();
+            _stream?.Dispose();
             _streamReader?.Dispose();
         }
     }
