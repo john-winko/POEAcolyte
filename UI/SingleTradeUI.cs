@@ -2,9 +2,9 @@
 
 namespace PoeAcolyte.UI
 {
-    public partial class IncomingTradeControl : UserControl
+    public partial class SingleTradeUI : UserControl
     {
-        public IncomingTradeControl()
+        public SingleTradeUI()
         {
             InitializeComponent();
             Controls.Add(new Button()

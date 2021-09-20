@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
 
 namespace PoeAcolyte.API.Services
 {
-    public partial class PoeBroker : IDisposable
+    public class PoeBroker : IDisposable
     {
-        private FileChangeMonitor _fileChangeMonitor;
+        private readonly FileChangeMonitor _fileChangeMonitor;
         private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         public readonly List<IPoeInteraction> Interactions = new();
+        public IInteractionContainer InteractionContainer { get; init; }
         
         public bool Running
         {
@@ -16,8 +18,9 @@ namespace PoeAcolyte.API.Services
             set => _fileChangeMonitor.Running = value;
         }
 
-        public PoeBroker(string clientLogPath = POEPATH)
+        public PoeBroker(IInteractionContainer interactionContainer, string clientLogPath = POEPATH)
         {
+            InteractionContainer = interactionContainer;
             _fileChangeMonitor = new FileChangeMonitor(clientLogPath);
             _fileChangeMonitor.FileChanged += ClientLogFileChanged;
         }
@@ -36,19 +39,19 @@ namespace PoeAcolyte.API.Services
             switch (entry.PoeLogEntryType)
             {
                 case IPoeLogEntry.PoeLogEntryTypeEnum.Whisper:
-                    AddInteraction(new PoeWhisper(entry));
+                    InteractionContainer.AddInteraction(new PoeWhisper(entry));
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin:
                     //DispatchYouJoin(entry);
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade:
-                    AddInteraction(new PoeSingleTrade(entry));
+                    InteractionContainer.AddInteraction(new PoeSingleTrade(entry));
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade:
-                    AddInteraction(new PoeSingleTrade(entry));
+                    InteractionContainer.AddInteraction(new PoeSingleTrade(entry));
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade:
-                    AddInteraction(new PoeBulkTrade(entry));
+                    InteractionContainer.AddInteraction(new PoeBulkTrade(entry));
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined:
                     //DispatchAreaJoined(entry);
@@ -64,24 +67,11 @@ namespace PoeAcolyte.API.Services
             }
         }
 
-        private void AddInteraction(IPoeInteraction newInteraction)
-        {
-            var results = Interactions.FindAll(entry => newInteraction.Player == entry.Player);
-            if (results.Count == 0)
-            {
-                Interactions.Add(newInteraction);
-                return;
-            }
-
-            foreach (var result in results)
-            {
-                result.AddInteraction(newInteraction);
-            }
-        }
         public void ManualFire()
         {
             _fileChangeMonitor.ManualFire();
         }
+
         public void Dispose()
         {
             _fileChangeMonitor?.Dispose();

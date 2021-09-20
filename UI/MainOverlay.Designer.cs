@@ -30,6 +30,8 @@ namespace PoeAcolyte.UI
         private void InitializeComponent()
         {
             this.btnExit = new System.Windows.Forms.Button();
+            this._interactionPanel = new PoeAcolyte.UI.InteractionPanel();
+            this._btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnExit
@@ -42,15 +44,38 @@ namespace PoeAcolyte.UI
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // _interactionPanel
+            // 
+            this._interactionPanel.Location = new System.Drawing.Point(348, 196);
+            this._interactionPanel.Name = "_interactionPanel";
+            this._interactionPanel.Size = new System.Drawing.Size(440, 222);
+            this._interactionPanel.TabIndex = 1;
+            // 
+            // _btnTest
+            // 
+            this._btnTest.Location = new System.Drawing.Point(96, 185);
+            this._btnTest.Name = "_btnTest";
+            this._btnTest.Size = new System.Drawing.Size(75, 23);
+            this._btnTest.TabIndex = 2;
+            this._btnTest.Text = "Test";
+            this._btnTest.UseVisualStyleBackColor = true;
+            this._btnTest.Click += new System.EventHandler(this._btnTest_Click);
+            // 
             // MainOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._btnTest);
+            this.Controls.Add(this._interactionPanel);
             this.Controls.Add(this.btnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainOverlay";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "MainOverlay";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
@@ -62,5 +87,7 @@ namespace PoeAcolyte.UI
         #endregion
 
         private System.Windows.Forms.Button btnExit;
+        private InteractionPanel _interactionPanel;
+        private System.Windows.Forms.Button _btnTest;
     }
 }
