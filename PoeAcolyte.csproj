@@ -10,7 +10,10 @@
       <Compile Update="UI\InteractionPanel.cs">
         <SubType>UserControl</SubType>
       </Compile>
-      <Compile Update="UI\SingleTradeUI.cs">
+      <Compile Update="UI\Interactions\BulkTradeUI.cs">
+        <SubType>UserControl</SubType>
+      </Compile>
+      <Compile Update="UI\Interactions\SingleTradeUI.cs">
         <SubType>UserControl</SubType>
       </Compile>
     </ItemGroup>

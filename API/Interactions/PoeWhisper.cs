@@ -1,6 +1,6 @@
 ﻿using PoeAcolyte.API.Parsers;
 
-namespace PoeAcolyte.API
+namespace PoeAcolyte.API.Interactions
 {
     public class PoeWhisper : PoeInteraction
     {

@@ -8,6 +8,8 @@ namespace PoeAcolyte.API.Parsers
     {
         #region IPoeLogEntry
 
+        public IPoeLogEntry Entry => this;
+
         public string Other { get; set; }
         public string Area { get; set; }
         public string Item { get; set; }
@@ -44,7 +46,7 @@ namespace PoeAcolyte.API.Parsers
         /// whisper, system message or trade
         /// </summary>
         /// <param name="raw"></param>
-        public PoeLogEntry(string raw)
+        public PoeLogEntry(string raw) 
         {
             Raw = raw;
             try
@@ -59,6 +61,7 @@ namespace PoeAcolyte.API.Parsers
                 //Debug.Print("tossing invalid log " + e.Message);
                 IsValid = false;
             }
+
         }
 
         /// <summary>
@@ -279,5 +282,7 @@ namespace PoeAcolyte.API.Parsers
                 _ => ""
             };
         }
+
+        
     }
 }

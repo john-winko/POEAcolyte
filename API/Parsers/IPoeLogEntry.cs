@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PoeAcolyte.API.Interactions;
 
 namespace PoeAcolyte.API.Parsers
 {
-    public interface IPoeLogEntry
+    public interface IPoeLogEntry : IPoeEvent
     {
         /// <summary>
         /// What type of log entry is detected in the client.txt

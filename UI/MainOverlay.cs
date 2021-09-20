@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PoeAcolyte.API.Services;
+using System;
 using System.Windows.Forms;
-using PoeAcolyte.API;
-using PoeAcolyte.API.Parsers;
-using PoeAcolyte.API.Services;
 
 namespace PoeAcolyte.UI
 {
@@ -21,7 +12,7 @@ namespace PoeAcolyte.UI
             InitializeComponent();
             Show();
             _broker = new PoeBroker(_interactionPanel);
-
+            //var test = PoeClient.GetPoeProcess();
         }
 
         private void btnExit_Click(object sender, EventArgs e)

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Parsers;
 using PoeAcolyte.UI;
+using PoeAcolyte.UI.Interactions;
 
 namespace PoeAcolyte.API.Services
 {
@@ -11,7 +14,7 @@ namespace PoeAcolyte.API.Services
         private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         public readonly List<IPoeInteraction> Interactions = new();
         public IInteractionContainer InteractionContainer { get; init; }
-        
+        private PoeClient _poeClient;
         public bool Running
         {
             get => _fileChangeMonitor.Running;
@@ -23,6 +26,21 @@ namespace PoeAcolyte.API.Services
             InteractionContainer = interactionContainer;
             _fileChangeMonitor = new FileChangeMonitor(clientLogPath);
             _fileChangeMonitor.FileChanged += ClientLogFileChanged;
+            _poeClient = new PoeClient();
+            _poeClient.GameClientOpened += OnGameClientOpened;
+            _poeClient.GameClientClosed += OnGameClientClosed;
+        }
+
+        private void OnGameClientClosed(object sender, EventArgs e)
+        {
+            Running = false;
+            Debug.Print("not searching log");
+        }
+
+        private void OnGameClientOpened(object sender, EventArgs e)
+        {
+            Running = true;
+            Debug.Print("started searching log");
         }
 
         private void ClientLogFileChanged(object sender, FileChangedEventArgs e)
@@ -32,6 +50,7 @@ namespace PoeAcolyte.API.Services
             {
                 DispatchLogEvent(entry);
             }
+            
         }
         
         private void DispatchLogEvent(IPoeLogEntry entry)
@@ -40,9 +59,6 @@ namespace PoeAcolyte.API.Services
             {
                 case IPoeLogEntry.PoeLogEntryTypeEnum.Whisper:
                     InteractionContainer.AddInteraction(new PoeWhisper(entry));
-                    break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin:
-                    //DispatchYouJoin(entry);
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade:
                     InteractionContainer.AddInteraction(new PoeSingleTrade(entry));
@@ -54,13 +70,10 @@ namespace PoeAcolyte.API.Services
                     InteractionContainer.AddInteraction(new PoeBulkTrade(entry));
                     break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined:
-                    //DispatchAreaJoined(entry);
-                    break;
+                case IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin:    
                 case IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft:
-                    // DispatchAreaLeft(entry);
-                    break;
                 case IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage:
-                    //DispatchSystemMessage(entry);
+                    InteractionContainer.AddEvent(new PoeEvent(entry));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
