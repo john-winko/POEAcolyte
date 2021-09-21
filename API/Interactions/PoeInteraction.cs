@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using PoeAcolyte.API.Parsers;
@@ -25,12 +26,15 @@ namespace PoeAcolyte.API.Interactions
 
         public virtual bool ShouldAdd(IPoeInteraction interaction)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            Debug.Print("PoeInteraction should add error");
+            return false;
         }
 
         public virtual void Complete()
         {
             InteractionContainer.RemoveInteraction(this);
+            // TODO disposal pattern needed?
         }
 
         public bool HasPlayer(string playerName)

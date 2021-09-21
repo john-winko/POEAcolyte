@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PoeAcolyte.API.Parsers
@@ -52,9 +53,20 @@ namespace PoeAcolyte.API.Parsers
             try
             {
                 // Date and time split by first two spaces "2021/07/04 08:38:45 67873453 bad [INFO Client 22384] @From Fu..."
-                TimeStamp = DateTime.Parse(raw.Split(' ')[0] + " " + raw.Split(' ')[1], new DateTimeFormatInfo());
-                SetLogEntryType();
-                IsValid = true;
+                var split = raw.Split(' ');
+                if (split.Length > 1) // may need to check for at least 2 entries as edge case
+                {
+                    TimeStamp = DateTime.Parse(raw.Split(' ')[0] + " " + raw.Split(' ')[1], new DateTimeFormatInfo());
+                    //DateTime.TryParse(raw.Split(' ')[0] + " " + raw.Split(' ')[1], new DateTimeFormatInfo(), TimeStamp);
+                
+                    SetLogEntryType();
+                    IsValid = true;
+                }
+                else
+                {
+                    IsValid = false;
+                }
+                
             }
             catch (Exception)
             {

@@ -1,4 +1,5 @@
-﻿using PoeAcolyte.API;
+﻿using System;
+using PoeAcolyte.API;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,7 +31,17 @@ namespace PoeAcolyte.UI
             {
                 Interactions.Add(interaction);
                 interaction.InteractionContainer = this;
-                Controls.Add(interaction.InteractionUI);
+
+                this.PerformSafely(()=> Controls.Add(interaction.InteractionUI));
+                // if (InvokeRequired)
+                // {
+                //     Invoke(new Action(() => Controls.Add(interaction.InteractionUI)));
+                // }
+                // else
+                // {
+                //     Controls.Add(interaction.InteractionUI);
+                // }
+                
                 return;
             }
 
@@ -78,12 +89,14 @@ namespace PoeAcolyte.UI
 
                    break;
                }
+               default:
+                   break;
            }
        }
 
         public void RemoveInteraction(IPoeInteraction interaction)
         {
-            Controls.Remove(interaction.InteractionUI);
+            this.PerformSafely(() => Controls.Remove(interaction.InteractionUI));
             Interactions.Remove(interaction);
         }
 

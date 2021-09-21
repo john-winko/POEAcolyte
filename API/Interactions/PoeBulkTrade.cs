@@ -65,20 +65,23 @@ namespace PoeAcolyte.API.Interactions
 
         public override bool ShouldAdd(IPoeInteraction interaction)
         {
+            // correct type
             if (interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.Whisper &&
                 interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade) return false;
 
             // whisper from same player
-            if (interaction.Entry.Player == Entry.Player &&
-                interaction.Entry.PoeLogEntryType == IPoeLogEntry.PoeLogEntryTypeEnum.Whisper)
-            {
-                History.Add(interaction);
-                UpdateUI();
-                return true;
-            }
+            if (interaction.Entry.Player != Entry.Player) return false;
+
+            History.Add(interaction);
+            return true;
 
             // TODO add logic for duplicate trade requests
-            return false;
+        }
+
+        public override void AddInteraction(IPoeInteraction interaction)
+        {
+            base.AddInteraction(interaction);
+            _ui.PerformSafely(UpdateUI);
         }
     }
 }

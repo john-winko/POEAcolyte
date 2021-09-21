@@ -38,12 +38,14 @@ namespace PoeAcolyte.API.Interactions
         public PoeSingleTrade(IPoeLogEntry entry) : base(entry)
         {
             _ui = new SingleTradeUI(this);
-            
-            UpdateUI();
+
+            _ui.PerformSafely(UpdateUI); //UpdateUI();
         }
 
         public void UpdateUI()
         {
+            // TODO make thread safe to UI
+            //_ui.PerformSafely(()=>_ui
             if (Entry.Incoming)
             {
                 _ui.IncomingLabel.Text = "Incoming";
@@ -69,23 +71,24 @@ namespace PoeAcolyte.API.Interactions
 
         public override bool ShouldAdd(IPoeInteraction interaction)
         {
+            // correct type
             if (interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.Whisper && 
                 interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade &&
                 interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade) return false;
 
             // whisper from same player
-            if (interaction.Entry.Player == Entry.Player &&
-                interaction.Entry.PoeLogEntryType == IPoeLogEntry.PoeLogEntryTypeEnum.Whisper)
-            {
-                History.Add(interaction);
-                UpdateUI();
-                return true;
-            }
+            if (interaction.Entry.Player != Entry.Player ) return false;
+
+            History.Add(interaction);
+            return true;
 
             // TODO add logic for duplicate trade requests
-            return false;
         }
 
-        
+        public override void AddInteraction(IPoeInteraction interaction)
+        {
+            base.AddInteraction(interaction);
+            _ui.PerformSafely(UpdateUI);
+        }
     }
 }

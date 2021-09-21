@@ -155,6 +155,7 @@ namespace PoeAcolyte.API.Parsers
                 .Where(logEntry => logEntry.IsValid)
                 .Cast<IPoeLogEntry>()
                 .ToList();
+
             return ret;
         }
     }

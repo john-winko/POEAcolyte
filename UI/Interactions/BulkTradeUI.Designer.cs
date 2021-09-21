@@ -106,6 +106,10 @@ namespace PoeAcolyte.UI.Interactions
             this.QuickButton.Text = "Quick";
             this.QuickButton.UseVisualStyleBackColor = true;
             // 
+            // ToolTipHistory
+            // 
+            this.ToolTipHistory.ShowAlways = true;
+            // 
             // BulkTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);

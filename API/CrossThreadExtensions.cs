@@ -19,7 +19,17 @@ namespace PoeAcolyte.API
                 action();
             }
         }
-
+        // public static void PerformSafely(this UserControl target, Action action)
+        // {
+        //     if (target.InvokeRequired)
+        //     {
+        //         target.Invoke(action);
+        //     }
+        //     else
+        //     {
+        //         action();
+        //     }
+        // }
         public static void PerformSafely<T1>(this Control target, Action<T1> action,T1 parameter)
         {
             if (target.InvokeRequired)

@@ -48,7 +48,7 @@ namespace PoeAcolyte.API.Services
             var logEntries = IPoeLogEntry.ParseStrings(e.Changes);
             foreach (var entry in logEntries)
             {
-                DispatchLogEvent(entry);
+                if (entry.IsValid) DispatchLogEvent(entry);
             }
             
         }
@@ -76,7 +76,8 @@ namespace PoeAcolyte.API.Services
                     InteractionContainer.AddEvent(new PoeEvent(entry));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    break;
+                    //throw new ArgumentOutOfRangeException();
             }
         }
 
