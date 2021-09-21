@@ -9,5 +9,12 @@ namespace PoeAcolyte.API.Interactions
         {
             
         }
+
+
+        public override void Update_UI()
+        {
+            // Do nothing
+            throw new System.NotImplementedException();
+        }
     }
 }

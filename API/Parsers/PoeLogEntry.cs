@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PoeAcolyte.API.Parsers
@@ -33,15 +32,6 @@ namespace PoeAcolyte.API.Parsers
 
         #endregion
 
-        public class PoeLogEntryEventArgs : EventArgs
-        {
-            public IPoeLogEntry PoeLogEntry;
-            public PoeLogEntryEventArgs(IPoeLogEntry poeLogEntry)
-            {
-                PoeLogEntry = poeLogEntry;
-            }
-        }
-        
         /// <summary>
         /// Parses <paramref name="raw"/> to determine if client.txt entry is a
         /// whisper, system message or trade
@@ -50,29 +40,16 @@ namespace PoeAcolyte.API.Parsers
         public PoeLogEntry(string raw) 
         {
             Raw = raw;
-            try
-            {
-                // Date and time split by first two spaces "2021/07/04 08:38:45 67873453 bad [INFO Client 22384] @From Fu..."
-                var split = raw.Split(' ');
-                if (split.Length > 1) // may need to check for at least 2 entries as edge case
-                {
-                    TimeStamp = DateTime.Parse(raw.Split(' ')[0] + " " + raw.Split(' ')[1], new DateTimeFormatInfo());
-                    //DateTime.TryParse(raw.Split(' ')[0] + " " + raw.Split(' ')[1], new DateTimeFormatInfo(), TimeStamp);
-                
-                    SetLogEntryType();
-                    IsValid = true;
-                }
-                else
-                {
-                    IsValid = false;
-                }
-                
-            }
-            catch (Exception)
-            {
-                //Debug.Print("tossing invalid log " + e.Message);
-                IsValid = false;
-            }
+            IsValid = false;
+
+            // needs at least one space for correct date and time input before trying to parse (index error if only 1 element)
+            var sections = raw.Split(' ');
+            if (sections.Length < 2) return;
+            if (!DateTime.TryParse(sections[0] + " " + sections[1], new DateTimeFormatInfo(), DateTimeStyles.None, out var parsedDate)) return;
+
+            TimeStamp = parsedDate;
+            SetLogEntryType();
+            IsValid = true;
 
         }
 
@@ -294,7 +271,15 @@ namespace PoeAcolyte.API.Parsers
                 _ => ""
             };
         }
-
-        
     }
 }
+
+
+// public class PoeLogEntryEventArgs : EventArgs
+// {
+//     public IPoeLogEntry PoeLogEntry;
+//     public PoeLogEntryEventArgs(IPoeLogEntry poeLogEntry)
+//     {
+//         PoeLogEntry = poeLogEntry;
+//     }
+// }

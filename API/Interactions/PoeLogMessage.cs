@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
 
 namespace PoeAcolyte.API.Interactions
 {
-    public class PoeEvent : IPoeEvent
+    public class PoeLogMessage : IPoeLogMessage
     {
         public IPoeLogEntry Entry { get; }
 
-        public PoeEvent(IPoeLogEntry entry)
+        public PoeLogMessage(IPoeLogEntry entry) 
         {
             Entry = entry;
         }
 
+
     }
 
-    public interface IPoeEvent
+    public interface IPoeLogMessage
     {
         public IPoeLogEntry Entry { get;  }
+
     }
 
 

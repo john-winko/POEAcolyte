@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PoeAcolyte.API.Interactions;
 
 namespace PoeAcolyte.API.Parsers
 {
-    public interface IPoeLogEntry : IPoeEvent
+    public interface IPoeLogEntry 
     {
         /// <summary>
         /// What type of log entry is detected in the client.txt
-        /// <para>Based on the <see cref="Service.PoeLogReader"/> event</para>
         /// </summary>
         public enum PoeLogEntryTypeEnum
         {
@@ -147,16 +145,18 @@ namespace PoeAcolyte.API.Parsers
         /// </summary>
         public PoeLogEntryTypeEnum PoeLogEntryType { get; set; }
         
+        /// <summary>
+        /// Parses given string. Splits input by line breaks then tests each on for valid <see cref="PoeLogEntry"/>.
+        /// </summary>
+        /// <param name="input">non-array string</param>
+        /// <returns><see cref="PoeLogEntry"/>[]</returns>
         public static IEnumerable<IPoeLogEntry> ParseStrings(string input)
         {
-            var inputArray = input.Split("\r\n");
-            var ret = inputArray
-                .Select(entry => new PoeLogEntry(entry))
-                .Where(logEntry => logEntry.IsValid)
+            return input.Split("\r\n") // turn into array based on line breaks
+                .Select(entry => new PoeLogEntry(entry)) // make each one a PoeLogEntry
+                .Where(logEntry => logEntry.IsValid) // only return ones that are valid
                 .Cast<IPoeLogEntry>()
                 .ToList();
-
-            return ret;
         }
     }
 }

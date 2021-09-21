@@ -5,21 +5,46 @@ using System.Timers;
 
 namespace PoeAcolyte.API.Services
 {
-    public class PoeClient
+    /// <summary>
+    ///     Singleton to monitor the game client and acts as mediator to focus and send keystrokes to the game
+    /// </summary>
+    public class PoeClient : IDisposable
     {
-        private Process _poeProcess;
+        private static PoeClient _instance;
         private readonly Timer _searchTimer;
-        public event EventHandler GameClientOpened;
-        public event EventHandler GameClientClosed;
-        public bool IsGameClientOpen => _poeProcess == null;
-        public bool ActiveScan => _searchTimer.Enabled;
+        private Process _poeProcess;
 
-        public PoeClient(bool autoStart = true)
+        /// <summary>
+        ///     Private constructor for Singleton pattern
+        /// </summary>
+        /// <param name="autoStart">Automatically start scanning for open game client</param>
+        private PoeClient(bool autoStart = true)
         {
             _searchTimer = new Timer(5000);
             _searchTimer.Elapsed += _searchTimer_Elapsed;
             _searchTimer.Enabled = autoStart;
         }
+
+        public bool IsGameClientOpen => _poeProcess == null;
+        public bool ActiveScan => _searchTimer.Enabled;
+
+        public void Dispose()
+        {
+            _poeProcess?.Dispose();
+            _searchTimer?.Dispose();
+        }
+
+        /// <summary>
+        ///     Factory method to get the instance of PoeClient
+        /// </summary>
+        /// <returns>Instance of PoeClient</returns>
+        public static PoeClient GetInstance()
+        {
+            return _instance ??= new PoeClient();
+        }
+
+        public event EventHandler GameClientOpened;
+        public event EventHandler GameClientClosed;
 
         private void _searchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -42,28 +67,28 @@ namespace PoeAcolyte.API.Services
         }
 
         /// <summary>
-        /// Searches Process stack for a match of:
-        /// <list type="table">
-        /// <item>PathOfExile</item>
-        /// <item>PathOfExile_x64</item>
-        /// <item>PathOfExileSteam</item>
-        /// <item>PathOfExile_x64Steam</item>
-        /// <item>PathOfExile_x64_KG.exe</item>
-        /// <item>PathOfExile_KG.exe</item>
-        /// </list>
+        ///     Searches Process stack for a match of:
+        ///     <list type="table">
+        ///         <item>PathOfExile</item>
+        ///         <item>PathOfExile_x64</item>
+        ///         <item>PathOfExileSteam</item>
+        ///         <item>PathOfExile_x64Steam</item>
+        ///         <item>PathOfExile_x64_KG.exe</item>
+        ///         <item>PathOfExile_KG.exe</item>
+        ///     </list>
         /// </summary>
         /// <returns>Process if program found, null if not</returns>
         public static Process GetPoeProcess()
         {
-            var result = (from proc in Process.GetProcesses() 
-                where proc.ProcessName is 
-                    "PathOfExile" or 
-                    "PathOfExile_x64" or 
-                    "PathOfExileSteam" or
-                    "PathOfExile_x64Steam" or 
-                    "PathOfExile_x64_KG.exe" or 
-                    "PathOfExile_KG.exe"
-                select proc)
+            var result = (from proc in Process.GetProcesses()
+                    where proc.ProcessName is
+                        "PathOfExile" or
+                        "PathOfExile_x64" or
+                        "PathOfExileSteam" or
+                        "PathOfExile_x64Steam" or
+                        "PathOfExile_x64_KG.exe" or
+                        "PathOfExile_KG.exe"
+                    select proc)
                 .ToList();
 
             return result.Any() ? result.First() : null;
