@@ -10,12 +10,14 @@ namespace PoeAcolyte.UI.Interactions
         public SingleTradeUI()
         {
             InitializeComponent();
-
+            
         }
 
         public SingleTradeUI(IPoeInteraction interaction) : this()
         {
             _interaction = interaction;
+            MenuStrip.Items.Add(new GameClientCommand(GameClientCommandType.Invite, _interaction));
+            
         }
 
         private void CloseButton_Click(object sender, System.EventArgs e)

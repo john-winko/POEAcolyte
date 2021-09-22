@@ -10,24 +10,24 @@ namespace PoeAcolyte.API.Parsers
     {
         /// <summary>
         /// REGEX to determine if @From is found (meaning a whisper from someone) <br></br>
-        /// (?:From|De|От кого|จาก|Von|Desde|수신|來自) (?&lt;Player&gt;.*?): (?&lt;Other&gt;.*)
-        /// <value>Player, Other</value>
+        /// (?:From|De|От кого|จาก|Von|Desde|수신|來自) (?&lt;Interaction&gt;.*?): (?&lt;Other&gt;.*)
+        /// <value>Interaction, Other</value>
         /// </summary>
-        public static readonly Regex WhisperFrom = new(@"@(?:From|De|От кого|จาก|Von|Desde|수신|來自) (?<Player>.*?): (?<Other>.*)");
+        public static readonly Regex WhisperFrom = new(@"@(?:From|De|От кого|จาก|Von|Desde|수신|來自) (?<Interaction>.*?): (?<Other>.*)");
         
         /// <summary>
         /// REGEX to determine if @To is found (meaning a whisper to someone) <br></br>
-        /// (?:To|À|An|Para|Кому|ถึง|발신|向) (?&lt;Player&gt;.*?): (?&lt;Other&gt;.*)
-        /// <value>Player, Other</value> 
+        /// (?:To|À|An|Para|Кому|ถึง|발신|向) (?&lt;Interaction&gt;.*?): (?&lt;Other&gt;.*)
+        /// <value>Interaction, Other</value> 
         /// </summary>
-        public static readonly Regex WhisperTo = new(@"@(?:To|À|An|Para|Кому|ถึง|발신|向) (?<Player>.*?): (?<Other>.*)");
+        public static readonly Regex WhisperTo = new(@"@(?:To|À|An|Para|Кому|ถึง|발신|向) (?<Interaction>.*?): (?<Other>.*)");
         
         /// <summary>
         /// REGEX for guild and player name <br></br>
-        /// &lt;(?&lt;Guild&gt;.*?)&gt; (?&lt;Player&gt;.*?): 
-        /// <value>Guild, Player</value>
+        /// &lt;(?&lt;Guild&gt;.*?)&gt; (?&lt;Interaction&gt;.*?): 
+        /// <value>Guild, Interaction</value>
         /// </summary>
-        public static readonly Regex Guild = new(@"<(?<Guild>.*?)> (?<Player>.*?): ");
+        public static readonly Regex Guild = new(@"<(?<Guild>.*?)> (?<Interaction>.*?): ");
 
         /// <summary>
         /// Regex used as a catch all <br></br>
@@ -114,38 +114,38 @@ namespace PoeAcolyte.API.Parsers
 
         /// <summary>
         /// Regex if player joins an area <br></br>
-        /// (.*) : (?&lt;Player&gt;.*?) has joined the area.*
-        /// <value>Player</value>
+        /// (.*) : (?&lt;Interaction&gt;.*?) has joined the area.*
+        /// <value>Interaction</value>
         /// </summary>
         public static readonly Regex[] AreaJoinedList =
         {
-            /* ENG */ new(@"(.*) : (?<Player>.*?) has joined the area.*", RegexOptions.Compiled),
-            /* FRE */ new(@"(.*) : (?<Player>.*?) a rejoint la zone.*", RegexOptions.Compiled),
-            /* GER */ new(@"(.*) : (?<Player>.*?) hat das Gebiet betreten.*", RegexOptions.Compiled),
-            /* POR */ new(@"(.*) : (?<Player>.*?) entrou na área.*", RegexOptions.Compiled),
-            /* RUS */ new(@"(.*) : (?<Player>.*?) присоединился.*", RegexOptions.Compiled),
-            /* THA */ new(@"(.*) : (?<Player>.*?) เข้าสู่พื้นที่.*", RegexOptions.Compiled),
-            /* SPA */ new(@"(.*) : (?<Player>.*?) se unió al área.*", RegexOptions.Compiled),
-            /* KOR */ new(@"(.*) : (?<Player>.*?)(이)가 구역에 들어왔습니다.*", RegexOptions.Compiled),
-            /* TWN */ new(@"(.*) : (?<Player>.*?) 進入了此區域.*", RegexOptions.Compiled)
+            /* ENG */ new(@"(.*) : (?<Interaction>.*?) has joined the area.*", RegexOptions.Compiled),
+            /* FRE */ new(@"(.*) : (?<Interaction>.*?) a rejoint la zone.*", RegexOptions.Compiled),
+            /* GER */ new(@"(.*) : (?<Interaction>.*?) hat das Gebiet betreten.*", RegexOptions.Compiled),
+            /* POR */ new(@"(.*) : (?<Interaction>.*?) entrou na área.*", RegexOptions.Compiled),
+            /* RUS */ new(@"(.*) : (?<Interaction>.*?) присоединился.*", RegexOptions.Compiled),
+            /* THA */ new(@"(.*) : (?<Interaction>.*?) เข้าสู่พื้นที่.*", RegexOptions.Compiled),
+            /* SPA */ new(@"(.*) : (?<Interaction>.*?) se unió al área.*", RegexOptions.Compiled),
+            /* KOR */ new(@"(.*) : (?<Interaction>.*?)(이)가 구역에 들어왔습니다.*", RegexOptions.Compiled),
+            /* TWN */ new(@"(.*) : (?<Interaction>.*?) 進入了此區域.*", RegexOptions.Compiled)
         };
 
         /// <summary>
         /// Regex if a player leaves an area <br></br>
-        /// (.*) : (?&lt;Player&gt;.*?) has left the area.*
-        /// <value>Player</value>
+        /// (.*) : (?&lt;Interaction&gt;.*?) has left the area.*
+        /// <value>Interaction</value>
         /// </summary>
         public static readonly Regex[] AreaLeftList =
         {
-            /* ENG */ new(@"(.*) : (?<Player>.*?) has left the area.*", RegexOptions.Compiled),
-            /* FRE */ new(@"(.*) : (?<Player>.*?) a quitté la zone.*", RegexOptions.Compiled),
-            /* GER */ new(@"(.*) : (?<Player>.*?) hat das Gebiet verlassen.*", RegexOptions.Compiled),
-            /* POR */ new(@"(.*) : (?<Player>.*?) saiu da área.*", RegexOptions.Compiled),
-            /* RUS */ new(@"(.*) : (?<Player>.*?) покинул область.*", RegexOptions.Compiled),
-            /* THA */ new(@"(.*) : (?<Player>.*?) ออกจากพื้นที่.*", RegexOptions.Compiled),
-            /* SPA */ new(@"(.*) : (?<Player>.*?) abandonó el área.*", RegexOptions.Compiled),
-            /* KOR */ new(@"(.*) : (?<Player>.*?)(이)가 구역에서 나갔습니다.*", RegexOptions.Compiled),
-            /* TWN */ new(@"(.*) : (?<Player>.*?) 離開了此區域.*", RegexOptions.Compiled)
+            /* ENG */ new(@"(.*) : (?<Interaction>.*?) has left the area.*", RegexOptions.Compiled),
+            /* FRE */ new(@"(.*) : (?<Interaction>.*?) a quitté la zone.*", RegexOptions.Compiled),
+            /* GER */ new(@"(.*) : (?<Interaction>.*?) hat das Gebiet verlassen.*", RegexOptions.Compiled),
+            /* POR */ new(@"(.*) : (?<Interaction>.*?) saiu da área.*", RegexOptions.Compiled),
+            /* RUS */ new(@"(.*) : (?<Interaction>.*?) покинул область.*", RegexOptions.Compiled),
+            /* THA */ new(@"(.*) : (?<Interaction>.*?) ออกจากพื้นที่.*", RegexOptions.Compiled),
+            /* SPA */ new(@"(.*) : (?<Interaction>.*?) abandonó el área.*", RegexOptions.Compiled),
+            /* KOR */ new(@"(.*) : (?<Interaction>.*?)(이)가 구역에서 나갔습니다.*", RegexOptions.Compiled),
+            /* TWN */ new(@"(.*) : (?<Interaction>.*?) 離開了此區域.*", RegexOptions.Compiled)
         };
 
         /// <summary>

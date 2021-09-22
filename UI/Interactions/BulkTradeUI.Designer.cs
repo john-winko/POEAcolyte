@@ -67,7 +67,7 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel.Name = "PlayerLabel";
             this.PlayerLabel.Size = new System.Drawing.Size(130, 23);
             this.PlayerLabel.TabIndex = 3;
-            this.PlayerLabel.Text = "Player";
+            this.PlayerLabel.Text = "Interaction";
             this.PlayerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PriceOut

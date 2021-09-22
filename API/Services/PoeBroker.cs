@@ -59,5 +59,10 @@ namespace PoeAcolyte.API.Services
         {
             _fileChangeMonitor.ManualFire();
         }
+
+        public void SendToGame(string message)
+        {
+            _poeClient.SendMessage(message);
+        }
     }
 }

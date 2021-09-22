@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Timers;
+using System.Windows.Forms;
+using Timer = System.Timers.Timer;
 
 namespace PoeAcolyte.API.Services
 {
@@ -92,6 +94,38 @@ namespace PoeAcolyte.API.Services
                 .ToList();
 
             return result.Any() ? result.First() : null;
+        }
+
+        /// <summary>
+        ///     Only works on windows
+        /// </summary>
+        /// <returns></returns>
+        public bool SetFocus()
+        {
+            if (_poeProcess is null) return false;
+            WIN32.SetForegroundWindow(_poeProcess.MainWindowHandle);
+            return true;
+        }
+
+        /// <summary>
+        ///     Sends string of text to game client
+        /// by setting string to clipboard then {Enter} [CTRL+V] {Enter}
+        /// </summary>
+        /// <param name="message">Message to be sent</param>
+        /// <param name="holdSend">Do not press enter at end (useful for appending manually in game)</param>
+        /// <returns></returns>
+        public bool SendMessage(string message, bool holdSend = false)
+        {
+            if (!SetFocus()) return false;
+
+            SendKeys.Flush();
+            SendKeys.Send("{Enter}");
+            Clipboard.SetText(message);
+            SendKeys.Send("^V");
+            if (!holdSend) SendKeys.Send("{Enter}");
+
+            return true;
+            // TODO add code to replace clipboard contents
         }
     }
 }

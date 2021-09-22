@@ -89,13 +89,13 @@ namespace PoeAcolyte.API.Parsers
         {
             if (PoeRegex.WhisperFrom.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["Player"].Value;
+                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["Interaction"].Value;
                 Other = PoeRegex.WhisperFrom.Match(Raw).Groups["Other"].Value;
                 Incoming = true;
             }
             else if (PoeRegex.WhisperTo.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperTo.Match(Raw).Groups["Player"].Value;
+                Player = PoeRegex.WhisperTo.Match(Raw).Groups["Interaction"].Value;
                 Other = PoeRegex.WhisperTo.Match(Raw).Groups["Other"].Value;
                 Outgoing = true;
             }
@@ -104,7 +104,7 @@ namespace PoeAcolyte.API.Parsers
 
             // Override guild/player name if guild name is found
             Guild = PoeRegex.Guild.Match(Raw).Groups["Guild"].Value;
-            Player = PoeRegex.Guild.Match(Raw).Groups["Player"].Value;
+            Player = PoeRegex.Guild.Match(Raw).Groups["Interaction"].Value;
 
             return (Incoming || Outgoing);
         }
@@ -206,7 +206,7 @@ namespace PoeAcolyte.API.Parsers
             foreach (Regex regex in PoeRegex.AreaJoinedList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Player"].Value;
+                Player = regex.Match(Raw).Groups["Interaction"].Value;
                 return true;
             }
 
@@ -223,7 +223,7 @@ namespace PoeAcolyte.API.Parsers
             foreach (Regex regex in PoeRegex.AreaLeftList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Player"].Value;
+                Player = regex.Match(Raw).Groups["Interaction"].Value;
                 return true;
             }
 

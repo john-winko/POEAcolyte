@@ -37,7 +37,7 @@ namespace PoeAcolyte.API.Interactions
         public List<IPoeInteraction> History { get; }
 
         #region IPoeInteraction
-        
+        public GameClientCommandType LastGameClientCommand { get; set; }
         public IInteractionContainer InteractionContainer { get; set; }
         public virtual UserControl Interaction_UI { get; set; }
 
@@ -73,6 +73,10 @@ namespace PoeAcolyte.API.Interactions
 
     public interface IPoeInteraction : IPoeLogMessage
     {
+        /// <summary>
+        ///     Last game command sent (invited/kicked etc) as state information
+        /// </summary>
+        public GameClientCommandType LastGameClientCommand { get; set; }
         public IInteractionContainer InteractionContainer { get; set; }
         /// <summary>
         /// UserControl associated with this interaction

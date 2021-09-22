@@ -32,7 +32,7 @@ namespace PoeAcolyte.API.Parsers
         /// </summary>
         public string Other { get; set; }
         /// <summary>
-        /// Player enters your area <br></br>
+        /// Interaction enters your area <br></br>
         /// <seealso cref="PoeRegex"/>
         /// <seealso cref="PoeRegex.AreaJoinedList"/>
         /// </summary>
@@ -64,7 +64,7 @@ namespace PoeAcolyte.API.Parsers
         /// </summary>
         public string Guild { get; set; }
         /// <summary>
-        /// Player Name
+        /// Interaction Name
         /// <seealso cref="PoeRegex"/>
         /// <seealso cref="PoeRegex.WhisperFrom"/>
         /// <seealso cref="PoeRegex.WhisperTo"/>
