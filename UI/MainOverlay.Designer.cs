@@ -48,7 +48,7 @@ namespace PoeAcolyte.UI
             // 
             this._interactionPanel.Location = new System.Drawing.Point(348, 196);
             this._interactionPanel.Name = "_interactionPanel";
-            this._interactionPanel.Size = new System.Drawing.Size(440, 222);
+            this._interactionPanel.Size = new System.Drawing.Size(1108, 490);
             this._interactionPanel.TabIndex = 1;
             // 
             // _btnTest
@@ -66,7 +66,7 @@ namespace PoeAcolyte.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1546, 914);
             this.Controls.Add(this._btnTest);
             this.Controls.Add(this._interactionPanel);
             this.Controls.Add(this.btnExit);

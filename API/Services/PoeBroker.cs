@@ -1,7 +1,7 @@
-﻿using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI;
-using System;
+﻿using System;
 using System.Diagnostics;
+using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
 
 namespace PoeAcolyte.API.Services
 {

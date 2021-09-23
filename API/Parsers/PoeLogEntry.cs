@@ -1,11 +1,79 @@
 ﻿using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace PoeAcolyte.API.Parsers
 {
     public class PoeLogEntry : IPoeLogEntry
     {
+        /// <summary>
+        ///     Parses <paramref name="raw" /> to determine if client.txt entry is a
+        ///     whisper, system message or trade
+        /// </summary>
+        /// <param name="raw"></param>
+        public PoeLogEntry(string raw)
+        {
+            Raw = raw;
+            IsValid = false;
+
+            // needs at least one space for correct date and time input before trying to parse (index error if only 1 element)
+            var sections = raw.Split(' ');
+            if (sections.Length < 2) return;
+            if (!DateTime.TryParse(sections[0] + " " + sections[1], new DateTimeFormatInfo(), DateTimeStyles.None,
+                out var parsedDate)) return;
+
+            TimeStamp = parsedDate;
+            SetLogEntryType();
+            IsValid = true;
+        }
+
+        /// <summary>
+        ///     Init helper function: checks whisper -> checks type of trade. defaults to system message
+        /// </summary>
+        private void SetLogEntryType()
+        {
+            if (CheckWhisper())
+            {
+                if (CheckPricedTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.PricedTrade;
+                // only check if bulk if not priced trade
+                else if (CheckBulkTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.BulkTrade;
+                // only check if unpriced if not priced or bulk trade
+                else if (CheckUnpricedTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.UnpricedTrade;
+                // treat as general whisper if no trade information found
+                else PoeLogEntryType = PoeLogEntryTypeEnum.Whisper;
+            }
+            else // Some type of system message
+            {
+                if (CheckAreaLeft()) PoeLogEntryType = PoeLogEntryTypeEnum.AreaLeft;
+                else if (CheckAreaJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.AreaJoined;
+                else if (CheckYouJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.YouJoin;
+                else PoeLogEntryType = PoeLogEntryTypeEnum.SystemMessage;
+                Other = PoeRegex.SystemMessage.Match(Raw).Groups["Message"].Value;
+            }
+        }
+
+        /// <summary>
+        ///     Reformat class field into easier to read format
+        /// </summary>
+        /// <returns>description with appropriate fields</returns>
+        public override string ToString()
+        {
+            return PoeLogEntryType switch
+            {
+                PoeLogEntryTypeEnum.BulkTrade =>
+                    $"{BuyPriceAmount} {BuyPriceUnits}\r\n {Player}\r\n({League}) {PoeLogEntryType}",
+                PoeLogEntryTypeEnum.PricedTrade =>
+                    $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
+                PoeLogEntryTypeEnum.UnpricedTrade =>
+                    $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
+                PoeLogEntryTypeEnum.Whisper => $"({Player} - {Other}",
+                PoeLogEntryTypeEnum.AreaJoined => $"{Player} joined",
+                PoeLogEntryTypeEnum.AreaLeft => $"{Player} left",
+                PoeLogEntryTypeEnum.YouJoin => $"You entered {Area}",
+                PoeLogEntryTypeEnum.SystemMessage => $"System Message - {Other}",
+                _ => ""
+            };
+        }
+
         #region IPoeLogEntry
 
         public IPoeLogEntry Entry => this;
@@ -28,95 +96,49 @@ namespace PoeAcolyte.API.Parsers
         public DateTime TimeStamp { get; set; }
         public string Raw { get; set; }
         public bool IsValid { get; set; }
-        public IPoeLogEntry.PoeLogEntryTypeEnum PoeLogEntryType { get; set; }
+        public PoeLogEntryTypeEnum PoeLogEntryType { get; set; }
 
         #endregion
-
-        /// <summary>
-        /// Parses <paramref name="raw"/> to determine if client.txt entry is a
-        /// whisper, system message or trade
-        /// </summary>
-        /// <param name="raw"></param>
-        public PoeLogEntry(string raw) 
-        {
-            Raw = raw;
-            IsValid = false;
-
-            // needs at least one space for correct date and time input before trying to parse (index error if only 1 element)
-            var sections = raw.Split(' ');
-            if (sections.Length < 2) return;
-            if (!DateTime.TryParse(sections[0] + " " + sections[1], new DateTimeFormatInfo(), DateTimeStyles.None, out var parsedDate)) return;
-
-            TimeStamp = parsedDate;
-            SetLogEntryType();
-            IsValid = true;
-
-        }
-
-        /// <summary>
-        /// Init helper function: checks whisper -> checks type of trade. defaults to system message
-        /// </summary>
-        private void SetLogEntryType()
-        {
-            if (CheckWhisper())
-            {
-                if (CheckPricedTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade;
-                // only check if bulk if not priced trade
-                else if (CheckBulkTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade;
-                // only check if unpriced if not priced or bulk trade
-                else if (CheckUnpricedTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade;
-                // treat as general whisper if no trade information found
-                else PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.Whisper;
-            }
-            else // Some type of system message
-            {
-                if (CheckAreaLeft()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft;
-                else if (CheckAreaJoin()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined;
-                else if (CheckYouJoin()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin;
-                else PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage;
-                Other = PoeRegex.SystemMessage.Match(Raw).Groups["Message"].Value;
-            }
-        }
 
         #region Check and Populate
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.WhisperFrom"/> or <see cref="PoeRegex.WhisperTo"/> is matched
+        ///     Populates values if <see cref="PoeRegex.WhisperFrom" /> or <see cref="PoeRegex.WhisperTo" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Player"/>, <see cref="Other"/>, (<see cref="Incoming"/>/<see cref="Outgoing"/>)</value>
+        /// <value><see cref="Player" />, <see cref="Other" />, (<see cref="Incoming" />/<see cref="Outgoing" />)</value>
         private bool CheckWhisper() //see if whisper and set flags (Outgoing/Incoming)
         {
             if (PoeRegex.WhisperFrom.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["Player"].Value;
+                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["TradeInteraction"].Value;
                 Other = PoeRegex.WhisperFrom.Match(Raw).Groups["Other"].Value;
                 Incoming = true;
             }
             else if (PoeRegex.WhisperTo.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperTo.Match(Raw).Groups["Player"].Value;
+                Player = PoeRegex.WhisperTo.Match(Raw).Groups["TradeInteraction"].Value;
                 Other = PoeRegex.WhisperTo.Match(Raw).Groups["Other"].Value;
                 Outgoing = true;
             }
 
-            if (!PoeRegex.Guild.IsMatch(Raw)) return (Incoming || Outgoing);
+            if (!PoeRegex.Guild.IsMatch(Raw)) return Incoming || Outgoing;
 
             // Override guild/player name if guild name is found
             Guild = PoeRegex.Guild.Match(Raw).Groups["Guild"].Value;
-            Player = PoeRegex.Guild.Match(Raw).Groups["Player"].Value;
+            Player = PoeRegex.Guild.Match(Raw).Groups["TradeInteraction"].Value;
 
-            return (Incoming || Outgoing);
+            return Incoming || Outgoing;
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.StashTabList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.StashTabList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Top"/>, <see cref="Left"/>, <see cref="StashTab"/>, <see cref="Other"/></value>
+        /// <value><see cref="Top" />, <see cref="Left" />, <see cref="StashTab" />, <see cref="Other" /></value>
         private bool CheckStashTab()
         {
-            foreach (Regex regex in PoeRegex.StashTabList)
+            foreach (var regex in PoeRegex.StashTabList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Top = int.Parse(regex.Match(Raw).Groups["Top"].Value);
@@ -130,13 +152,13 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.PricedTradeList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.PricedTradeList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Item"/>, <see cref="PriceAmount"/>, <see cref="PriceUnits"/>, <see cref="League"/></value>
+        /// <value><see cref="Item" />, <see cref="PriceAmount" />, <see cref="PriceUnits" />, <see cref="League" /></value>
         private bool CheckPricedTrade()
         {
-            foreach (Regex regex in PoeRegex.PricedTradeList)
+            foreach (var regex in PoeRegex.PricedTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
 
@@ -154,13 +176,13 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.UnpricedTradeList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.UnpricedTradeList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Item"/>, <see cref="League"/></value>
+        /// <value><see cref="Item" />, <see cref="League" /></value>
         private bool CheckUnpricedTrade()
         {
-            foreach (Regex regex in PoeRegex.UnpricedTradeList)
+            foreach (var regex in PoeRegex.UnpricedTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
 
@@ -174,14 +196,16 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.BulkTradeList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.BulkTradeList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="PriceAmount"/>, <see cref="PriceUnits"/>, <see cref="BuyPriceAmount"/>, 
-        /// <see cref="BuyPriceUnits"/>, <see cref="League"/>, <see cref="Other"/></value>
+        /// <value>
+        ///     <see cref="PriceAmount" />, <see cref="PriceUnits" />, <see cref="BuyPriceAmount" />,
+        ///     <see cref="BuyPriceUnits" />, <see cref="League" />, <see cref="Other" />
+        /// </value>
         private bool CheckBulkTrade()
         {
-            foreach (Regex regex in PoeRegex.BulkTradeList)
+            foreach (var regex in PoeRegex.BulkTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 PriceAmount = int.Parse(regex.Match(Raw).Groups["SellAmount"].Value);
@@ -197,16 +221,18 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.AreaJoinedList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.AreaJoinedList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Player"/></value>
+        /// <value>
+        ///     <see cref="Player" />
+        /// </value>
         private bool CheckAreaJoin()
         {
-            foreach (Regex regex in PoeRegex.AreaJoinedList)
+            foreach (var regex in PoeRegex.AreaJoinedList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Player"].Value;
+                Player = regex.Match(Raw).Groups["TradeInteraction"].Value;
                 return true;
             }
 
@@ -214,16 +240,18 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.AreaLeftList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.AreaLeftList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Player"/></value>
+        /// <value>
+        ///     <see cref="Player" />
+        /// </value>
         private bool CheckAreaLeft()
         {
-            foreach (Regex regex in PoeRegex.AreaLeftList)
+            foreach (var regex in PoeRegex.AreaLeftList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Player"].Value;
+                Player = regex.Match(Raw).Groups["TradeInteraction"].Value;
                 return true;
             }
 
@@ -231,13 +259,15 @@ namespace PoeAcolyte.API.Parsers
         }
 
         /// <summary>
-        /// Populates values if <see cref="PoeRegex.YouJoinList"/> is matched
+        ///     Populates values if <see cref="PoeRegex.YouJoinList" /> is matched
         /// </summary>
         /// <returns>true if matched false otherwise</returns>
-        /// <value><see cref="Area"/></value>
+        /// <value>
+        ///     <see cref="Area" />
+        /// </value>
         private bool CheckYouJoin()
         {
-            foreach (Regex regex in PoeRegex.YouJoinList)
+            foreach (var regex in PoeRegex.YouJoinList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Area = regex.Match(Raw).Groups["Area"].Value;
@@ -248,29 +278,6 @@ namespace PoeAcolyte.API.Parsers
         }
 
         #endregion
-
-        /// <summary>
-        /// Reformat class field into easier to read format
-        /// </summary>
-        /// <returns>description with appropriate fields</returns>
-        public override string ToString()
-        {
-            return PoeLogEntryType switch
-            {
-                IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade =>
-                    $"{BuyPriceAmount} {BuyPriceUnits}\r\n {Player}\r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade =>
-                    $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade =>
-                    $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.Whisper => $"({Player} - {Other}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined => $"{Player} joined",
-                IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft => $"{Player} left",
-                IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin => $"You entered {Area}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage => $"System Message - {Other}",
-                _ => ""
-            };
-        }
     }
 }
 

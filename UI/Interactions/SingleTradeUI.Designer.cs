@@ -37,9 +37,10 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel = new System.Windows.Forms.Label();
             this.LocationLabel = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
-            this.ContextButton = new System.Windows.Forms.Button();
             this.QuickButton = new System.Windows.Forms.Button();
+            this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolTipHistory = new System.Windows.Forms.ToolTip(this.components);
+            this.LabelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CloseButton
@@ -68,7 +69,7 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel.Name = "PlayerLabel";
             this.PlayerLabel.Size = new System.Drawing.Size(130, 23);
             this.PlayerLabel.TabIndex = 3;
-            this.PlayerLabel.Text = "Player";
+            this.PlayerLabel.Text = "TradeInteraction";
             this.PlayerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LocationLabel
@@ -89,34 +90,41 @@ namespace PoeAcolyte.UI.Interactions
             this.PriceLabel.Text = "Price";
             this.PriceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ContextButton
-            // 
-            this.ContextButton.Location = new System.Drawing.Point(5, 49);
-            this.ContextButton.Name = "ContextButton";
-            this.ContextButton.Size = new System.Drawing.Size(75, 23);
-            this.ContextButton.TabIndex = 6;
-            this.ContextButton.Text = "Context";
-            this.ContextButton.UseVisualStyleBackColor = true;
-            // 
             // QuickButton
             // 
+            this.QuickButton.ContextMenuStrip = this.MenuStrip;
             this.QuickButton.Location = new System.Drawing.Point(86, 49);
             this.QuickButton.Name = "QuickButton";
             this.QuickButton.Size = new System.Drawing.Size(108, 52);
             this.QuickButton.TabIndex = 7;
             this.QuickButton.Text = "Quick";
             this.QuickButton.UseVisualStyleBackColor = true;
+            this.QuickButton.Click += new System.EventHandler(this.QuickButton_Click);
+            // 
+            // MenuStrip
+            // 
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(61, 4);
             // 
             // ToolTipHistory
             // 
             this.ToolTipHistory.ShowAlways = true;
             // 
+            // LabelStatus
+            // 
+            this.LabelStatus.Location = new System.Drawing.Point(0, 49);
+            this.LabelStatus.Name = "LabelStatus";
+            this.LabelStatus.Size = new System.Drawing.Size(80, 23);
+            this.LabelStatus.TabIndex = 8;
+            this.LabelStatus.Text = "Status";
+            this.LabelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // SingleTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.QuickButton);
-            this.Controls.Add(this.ContextButton);
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.LocationLabel);
             this.Controls.Add(this.PlayerLabel);
@@ -132,10 +140,11 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.Button CloseButton;
         public System.Windows.Forms.Label IncomingLabel;
         public System.Windows.Forms.Label PlayerLabel;
-        private System.Windows.Forms.Button ContextButton;
         public System.Windows.Forms.Label LocationLabel;
         public System.Windows.Forms.Label PriceLabel;
         public System.Windows.Forms.Button QuickButton;
         public System.Windows.Forms.ToolTip ToolTipHistory;
+        public System.Windows.Forms.ContextMenuStrip MenuStrip;
+        public System.Windows.Forms.Label LabelStatus;
     }
 }

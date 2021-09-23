@@ -12,7 +12,8 @@ namespace PoeAcolyte.UI
             InitializeComponent();
             Show();
             _broker = new PoeBroker(_interactionPanel);
-            //var test = PoeClient.GetPoeProcess();
+
+            
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -23,6 +24,8 @@ namespace PoeAcolyte.UI
         private void _btnTest_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
+            //_broker.SendToGame("this is a test message");
+
         }
     }
 }
