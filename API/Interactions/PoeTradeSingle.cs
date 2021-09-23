@@ -1,13 +1,21 @@
-﻿using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI.Interactions;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI.Interactions;
 
 namespace PoeAcolyte.API.Interactions
 {
     public class PoeTradeSingle : PoeTradeInteraction
     {
         private readonly SingleTradeUI _ui;
+
+        public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
+        {
+            _ui = new SingleTradeUI(this);
+
+            _ui.PerformSafely(Update_UI);
+        }
+
         public override UserControl Interaction_UI => _ui;
 
         public override bool PlayerInArea
@@ -16,9 +24,10 @@ namespace PoeAcolyte.API.Interactions
             set
             {
                 base.PlayerInArea = value;
-                _ui.PerformSafely(()=> _ui.LabelStatus.Text = $@"I {(value  ? "joined" : "left")}");
+                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"I {(value ? "joined" : "left")}");
             }
         }
+
         public override bool TraderInArea
         {
             get => base.TraderInArea;
@@ -40,13 +49,6 @@ namespace PoeAcolyte.API.Interactions
             }
         }
 
-        public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
-        {
-            _ui = new SingleTradeUI(this);
-
-            _ui.PerformSafely(Update_UI); 
-        }
-
         public sealed override void Update_UI()
         {
             if (Entry.Incoming)
@@ -64,8 +66,9 @@ namespace PoeAcolyte.API.Interactions
 
             _ui.PlayerLabel.Text = Entry.Player;
 
-            _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade ? 
-                "Unpriced" : $"{Entry.PriceAmount} {Entry.PriceUnits}";
+            _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
+                ? "Unpriced"
+                : $"{Entry.PriceAmount} {Entry.PriceUnits}";
 
             _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left}) {Entry.StashTab}";
 

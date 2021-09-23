@@ -109,7 +109,7 @@ namespace PoeAcolyte.API.Services
 
         /// <summary>
         ///     Sends string of text to game client
-        /// by setting string to clipboard then {Enter} [CTRL+V] {Enter}
+        ///     by setting string to clipboard then {Enter} [CTRL+V] {Enter}
         /// </summary>
         /// <param name="message">Message to be sent</param>
         /// <param name="holdSend">Do not press enter at end (useful for appending manually in game)</param>
@@ -130,7 +130,7 @@ namespace PoeAcolyte.API.Services
 
         /// <summary>
         ///     Sends string of text to game client
-        /// by setting string to clipboard then {Enter} [CTRL+V] {Enter}
+        ///     by setting string to clipboard then {Enter} [CTRL+V] {Enter}
         /// </summary>
         /// <param name="messages">Message to be sent</param>
         /// <returns></returns>
@@ -139,13 +139,13 @@ namespace PoeAcolyte.API.Services
             if (!SetFocus()) return false;
             foreach (var message in messages)
             {
-                 SendKeys.Flush();
+                SendKeys.Flush();
                 SendKeys.Send("{Enter}");
                 Clipboard.SetText(message);
                 SendKeys.Send("^V");
                 SendKeys.Send("{Enter}");
             }
-           
+
 
             return true;
             // TODO add code to replace clipboard contents

@@ -116,6 +116,8 @@ namespace PoeAcolyte.API.Interactions
                     Text = @"TY GL";
                     _action = Tygl;
                     break;
+                case GameClientCommandTypeEnum.None:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -210,12 +212,16 @@ namespace PoeAcolyte.API.Interactions
         #endregion
     }
 
+    /// <summary>
+    ///     Enum of chat commands to send to the game client
+    /// </summary>
     public enum GameClientCommandTypeEnum
     {
         None,
         Wait,
         Invite,
         Trade,
+
         // ReSharper disable once InconsistentNaming
         TYGL,
         NoStock,

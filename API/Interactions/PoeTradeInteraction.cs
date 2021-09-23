@@ -9,7 +9,7 @@ using PoeAcolyte.UI;
 
 namespace PoeAcolyte.API.Interactions
 {
-    public abstract class PoeTradeInteraction : IPoeTradeInteraction/*PoeLogMessage,*/ 
+    public abstract class PoeTradeInteraction : IPoeTradeInteraction /*PoeLogMessage,*/
     {
         /// <summary>
         ///     Constructor, set our first <see cref="History" /> item as the incoming parameter
@@ -52,6 +52,7 @@ namespace PoeAcolyte.API.Interactions
         public virtual UserControl Interaction_UI { get; set; }
 
         public IPoeLogEntry Entry { get; init; }
+
         public virtual void AddInteraction(IPoeLogEntry logEntry)
         {
             History.Add(logEntry);
@@ -79,7 +80,7 @@ namespace PoeAcolyte.API.Interactions
         #endregion
     }
 
-    public interface IPoeTradeInteraction :  IPoeStatus //IPoeLogMessage,
+    public interface IPoeTradeInteraction : IPoeStatus //IPoeLogMessage,
     {
         /// <summary>
         ///     Container that holds this object
@@ -90,10 +91,12 @@ namespace PoeAcolyte.API.Interactions
         ///     UserControl associated with this tradeInteraction
         /// </summary>
         public UserControl Interaction_UI { get; set; }
+
         /// <summary>
         ///     Log entry that triggered this TradeInteraction
         /// </summary>
         public IPoeLogEntry Entry { get; }
+
         /// <summary>
         ///     Add <see cref="IPoeTradeInteraction" /> (most often a whisper)
         /// </summary>

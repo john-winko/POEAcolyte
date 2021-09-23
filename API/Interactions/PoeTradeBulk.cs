@@ -1,15 +1,23 @@
-﻿using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI.Interactions;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI.Interactions;
 
 namespace PoeAcolyte.API.Interactions
 {
     public class PoeTradeBulk : PoeTradeInteraction
     {
         private readonly BulkTradeUI _ui;
+
+        public PoeTradeBulk(IPoeLogEntry entry) : base(entry)
+        {
+            _ui = new BulkTradeUI(this);
+
+            Update_UI();
+        }
+
         public override UserControl Interaction_UI => _ui;
-        
+
         public override bool PlayerInArea
         {
             get => base.PlayerInArea;
@@ -29,6 +37,7 @@ namespace PoeAcolyte.API.Interactions
                 _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"They {(value ? "joined" : "left")}");
             }
         }
+
         public override GameClientCommandTypeEnum LastChatConsoleCommand
         {
             get => base.LastChatConsoleCommand;
@@ -37,13 +46,6 @@ namespace PoeAcolyte.API.Interactions
                 base.LastChatConsoleCommand = value;
                 _ui.PerformSafely(() => _ui.LabelStatus.Text = value.ToString());
             }
-        }
-
-        public PoeTradeBulk(IPoeLogEntry entry) : base(entry)
-        {
-            _ui = new BulkTradeUI(this);
-
-            Update_UI();
         }
 
         public sealed override void Update_UI()
@@ -66,7 +68,6 @@ namespace PoeAcolyte.API.Interactions
             _ui.PriceOut.Text = $@"{Entry.BuyPriceAmount} {Entry.BuyPriceUnits}";
 
             _ui.ToolTipHistory.SetToolTip(_ui.QuickButton, MessageHistory);
-
         }
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)
@@ -79,7 +80,5 @@ namespace PoeAcolyte.API.Interactions
 
             // TODO add logic for duplicate trade requests
         }
-
-
     }
 }
