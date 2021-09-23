@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
 using PoeAcolyte.UI.Interactions;
 
 namespace PoeAcolyte.API.Interactions
@@ -8,12 +9,16 @@ namespace PoeAcolyte.API.Interactions
     public class PoeTradeSingle : PoeTradeInteraction
     {
         private readonly SingleTradeUI _ui;
+        private readonly CellHighlight _cell;
+        private readonly CellHighlight _cell24;
 
         public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
         {
             _ui = new SingleTradeUI(this);
 
             _ui.PerformSafely(Update_UI);
+
+
         }
 
         public override UserControl Interaction_UI => _ui;
@@ -85,6 +90,11 @@ namespace PoeAcolyte.API.Interactions
             return base.ShouldAdd(logEntry);
 
             // TODO add logic for duplicate trade requests
+        }
+
+        public override void Complete()
+        {
+            base.Complete();
         }
     }
 }

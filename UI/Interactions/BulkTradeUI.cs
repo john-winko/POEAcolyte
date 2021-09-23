@@ -34,5 +34,10 @@ namespace PoeAcolyte.UI.Interactions
         {
             _tradeInteraction.Complete();
         }
+
+        private void BulkTradeUI_Load(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

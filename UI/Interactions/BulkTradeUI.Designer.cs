@@ -41,15 +41,17 @@ namespace PoeAcolyte.UI.Interactions
             this.ToolTipHistory = new System.Windows.Forms.ToolTip(this.components);
             this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.LabelStatus = new System.Windows.Forms.Label();
+            this.HideoutButton = new System.Windows.Forms.Button();
+            this.SearchButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(5, 78);
+            this.CloseButton.Image = global::PoeAcolyte.UI.Icons.exit;
+            this.CloseButton.Location = new System.Drawing.Point(1, 78);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.Size = new System.Drawing.Size(32, 32);
             this.CloseButton.TabIndex = 1;
-            this.CloseButton.Text = "Exit";
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
@@ -91,9 +93,9 @@ namespace PoeAcolyte.UI.Interactions
             // 
             // QuickButton
             // 
-            this.QuickButton.Location = new System.Drawing.Point(86, 49);
+            this.QuickButton.Location = new System.Drawing.Point(100, 49);
             this.QuickButton.Name = "QuickButton";
-            this.QuickButton.Size = new System.Drawing.Size(108, 52);
+            this.QuickButton.Size = new System.Drawing.Size(94, 61);
             this.QuickButton.TabIndex = 7;
             this.QuickButton.Text = "Quick";
             this.QuickButton.UseVisualStyleBackColor = true;
@@ -111,15 +113,35 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.LabelStatus.Location = new System.Drawing.Point(3, 49);
             this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(77, 23);
+            this.LabelStatus.Size = new System.Drawing.Size(96, 23);
             this.LabelStatus.TabIndex = 8;
             this.LabelStatus.Text = "Status";
             this.LabelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // HideoutButton
+            // 
+            this.HideoutButton.Image = global::PoeAcolyte.UI.Icons.home;
+            this.HideoutButton.Location = new System.Drawing.Point(34, 78);
+            this.HideoutButton.Name = "HideoutButton";
+            this.HideoutButton.Size = new System.Drawing.Size(32, 32);
+            this.HideoutButton.TabIndex = 10;
+            this.HideoutButton.UseVisualStyleBackColor = true;
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.Image = global::PoeAcolyte.UI.Icons.search;
+            this.SearchButton.Location = new System.Drawing.Point(67, 78);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(32, 32);
+            this.SearchButton.TabIndex = 11;
+            this.SearchButton.UseVisualStyleBackColor = true;
             // 
             // BulkTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.SearchButton);
+            this.Controls.Add(this.HideoutButton);
             this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.QuickButton);
             this.Controls.Add(this.PriceIn);
@@ -129,6 +151,7 @@ namespace PoeAcolyte.UI.Interactions
             this.Controls.Add(this.CloseButton);
             this.Name = "BulkTradeUI";
             this.Size = new System.Drawing.Size(197, 107);
+            this.Load += new System.EventHandler(this.BulkTradeUI_Load);
             this.ResumeLayout(false);
 
         }
@@ -143,5 +166,7 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.ToolTip ToolTipHistory;
         public System.Windows.Forms.ContextMenuStrip MenuStrip;
         public System.Windows.Forms.Label LabelStatus;
+        private System.Windows.Forms.Button HideoutButton;
+        private System.Windows.Forms.Button SearchButton;
     }
 }

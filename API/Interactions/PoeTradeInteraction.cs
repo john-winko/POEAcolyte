@@ -121,6 +121,11 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="playerName"></param>
         /// <returns></returns>
         public bool HasPlayer(string playerName);
+        /// <summary>
+        ///     Toggles showing semi-transparent overlay of where item is located
+        /// </summary>
+        /// <returns></returns>
+        //public bool ShowItemOverlay();
     }
 
     public interface IPoeStatus

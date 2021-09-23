@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PoeAcolyte.API;
@@ -20,6 +21,7 @@ namespace PoeAcolyte.UI
         {
             InitializeComponent();
             Interactions = new List<IPoeTradeInteraction>();
+            LoadSettings();
         }
 
         protected List<IPoeTradeInteraction> Interactions { get; init; }
@@ -101,6 +103,42 @@ namespace PoeAcolyte.UI
                 PoeLogEntryTypeEnum.UnpricedTrade => new PoeTradeSingle(entry),
                 _ => null
             };
+        }
+
+        private readonly FrameControl _frameControl = new()
+        {
+            Description = @"Trade UI Panel",
+            Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop),
+            Size = GameClient.Default.TradeUISize
+        };
+        
+        public void EditSettings(ControlCollection owner)
+        {
+        
+            _frameControl.Resize += (o, args) =>
+            {
+                if (o?.GetType() != typeof(FrameControl)) return;
+                var frame = (FrameControl)o;
+                GameClient.Default.TradeUITop = frame.Top;
+                GameClient.Default.TradeUILeft = frame.Left;
+                GameClient.Default.TradeUISize = frame.Size;
+            };
+            owner.Add(_frameControl);
+            _frameControl.BringToFront();
+        }
+        
+        public void SaveSettings(ControlCollection owner)
+        {
+            GameClient.Default.Save();
+            LoadSettings();
+            owner.Remove(_frameControl);
+        }
+        
+        public void LoadSettings()
+        {
+            Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop);
+            Size = GameClient.Default.TradeUISize;
+            
         }
     }
 
