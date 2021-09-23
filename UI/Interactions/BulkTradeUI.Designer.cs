@@ -37,9 +37,10 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel = new System.Windows.Forms.Label();
             this.PriceOut = new System.Windows.Forms.Label();
             this.PriceIn = new System.Windows.Forms.Label();
-            this.ContextButton = new System.Windows.Forms.Button();
             this.QuickButton = new System.Windows.Forms.Button();
             this.ToolTipHistory = new System.Windows.Forms.ToolTip(this.components);
+            this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.LabelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CloseButton
@@ -67,7 +68,7 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel.Name = "PlayerLabel";
             this.PlayerLabel.Size = new System.Drawing.Size(130, 23);
             this.PlayerLabel.TabIndex = 3;
-            this.PlayerLabel.Text = "Interaction";
+            this.PlayerLabel.Text = "TradeInteraction";
             this.PlayerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PriceOut
@@ -88,15 +89,6 @@ namespace PoeAcolyte.UI.Interactions
             this.PriceIn.Text = "Price In";
             this.PriceIn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // ContextButton
-            // 
-            this.ContextButton.Location = new System.Drawing.Point(5, 49);
-            this.ContextButton.Name = "ContextButton";
-            this.ContextButton.Size = new System.Drawing.Size(75, 23);
-            this.ContextButton.TabIndex = 6;
-            this.ContextButton.Text = "Context";
-            this.ContextButton.UseVisualStyleBackColor = true;
-            // 
             // QuickButton
             // 
             this.QuickButton.Location = new System.Drawing.Point(86, 49);
@@ -110,12 +102,26 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.ToolTipHistory.ShowAlways = true;
             // 
+            // MenuStrip
+            // 
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(61, 4);
+            // 
+            // LabelStatus
+            // 
+            this.LabelStatus.Location = new System.Drawing.Point(3, 49);
+            this.LabelStatus.Name = "LabelStatus";
+            this.LabelStatus.Size = new System.Drawing.Size(77, 23);
+            this.LabelStatus.TabIndex = 8;
+            this.LabelStatus.Text = "Status";
+            this.LabelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // BulkTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.QuickButton);
-            this.Controls.Add(this.ContextButton);
             this.Controls.Add(this.PriceIn);
             this.Controls.Add(this.PriceOut);
             this.Controls.Add(this.PlayerLabel);
@@ -131,10 +137,11 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.Button CloseButton;
         public System.Windows.Forms.Label IncomingLabel;
         public System.Windows.Forms.Label PlayerLabel;
-        private System.Windows.Forms.Button ContextButton;
         public System.Windows.Forms.Label PriceOut;
         public System.Windows.Forms.Label PriceIn;
         public System.Windows.Forms.Button QuickButton;
         public System.Windows.Forms.ToolTip ToolTipHistory;
+        public System.Windows.Forms.ContextMenuStrip MenuStrip;
+        public System.Windows.Forms.Label LabelStatus;
     }
 }

@@ -28,7 +28,7 @@ namespace PoeAcolyte.API.Parsers
         public DateTime TimeStamp { get; set; }
         public string Raw { get; set; }
         public bool IsValid { get; set; }
-        public IPoeLogEntry.PoeLogEntryTypeEnum PoeLogEntryType { get; set; }
+        public PoeLogEntryTypeEnum PoeLogEntryType { get; set; }
 
         #endregion
 
@@ -60,20 +60,20 @@ namespace PoeAcolyte.API.Parsers
         {
             if (CheckWhisper())
             {
-                if (CheckPricedTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade;
+                if (CheckPricedTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.PricedTrade;
                 // only check if bulk if not priced trade
-                else if (CheckBulkTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade;
+                else if (CheckBulkTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.BulkTrade;
                 // only check if unpriced if not priced or bulk trade
-                else if (CheckUnpricedTrade()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade;
+                else if (CheckUnpricedTrade()) PoeLogEntryType = PoeLogEntryTypeEnum.UnpricedTrade;
                 // treat as general whisper if no trade information found
-                else PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.Whisper;
+                else PoeLogEntryType = PoeLogEntryTypeEnum.Whisper;
             }
             else // Some type of system message
             {
-                if (CheckAreaLeft()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft;
-                else if (CheckAreaJoin()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined;
-                else if (CheckYouJoin()) PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin;
-                else PoeLogEntryType = IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage;
+                if (CheckAreaLeft()) PoeLogEntryType = PoeLogEntryTypeEnum.AreaLeft;
+                else if (CheckAreaJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.AreaJoined;
+                else if (CheckYouJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.YouJoin;
+                else PoeLogEntryType = PoeLogEntryTypeEnum.SystemMessage;
                 Other = PoeRegex.SystemMessage.Match(Raw).Groups["Message"].Value;
             }
         }
@@ -89,13 +89,13 @@ namespace PoeAcolyte.API.Parsers
         {
             if (PoeRegex.WhisperFrom.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["Interaction"].Value;
+                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["TradeInteraction"].Value;
                 Other = PoeRegex.WhisperFrom.Match(Raw).Groups["Other"].Value;
                 Incoming = true;
             }
             else if (PoeRegex.WhisperTo.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperTo.Match(Raw).Groups["Interaction"].Value;
+                Player = PoeRegex.WhisperTo.Match(Raw).Groups["TradeInteraction"].Value;
                 Other = PoeRegex.WhisperTo.Match(Raw).Groups["Other"].Value;
                 Outgoing = true;
             }
@@ -104,7 +104,7 @@ namespace PoeAcolyte.API.Parsers
 
             // Override guild/player name if guild name is found
             Guild = PoeRegex.Guild.Match(Raw).Groups["Guild"].Value;
-            Player = PoeRegex.Guild.Match(Raw).Groups["Interaction"].Value;
+            Player = PoeRegex.Guild.Match(Raw).Groups["TradeInteraction"].Value;
 
             return (Incoming || Outgoing);
         }
@@ -206,7 +206,7 @@ namespace PoeAcolyte.API.Parsers
             foreach (Regex regex in PoeRegex.AreaJoinedList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Interaction"].Value;
+                Player = regex.Match(Raw).Groups["TradeInteraction"].Value;
                 return true;
             }
 
@@ -223,7 +223,7 @@ namespace PoeAcolyte.API.Parsers
             foreach (Regex regex in PoeRegex.AreaLeftList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                Player = regex.Match(Raw).Groups["Interaction"].Value;
+                Player = regex.Match(Raw).Groups["TradeInteraction"].Value;
                 return true;
             }
 
@@ -257,17 +257,17 @@ namespace PoeAcolyte.API.Parsers
         {
             return PoeLogEntryType switch
             {
-                IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade =>
+                PoeLogEntryTypeEnum.BulkTrade =>
                     $"{BuyPriceAmount} {BuyPriceUnits}\r\n {Player}\r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade =>
+                PoeLogEntryTypeEnum.PricedTrade =>
                     $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade =>
+                PoeLogEntryTypeEnum.UnpricedTrade =>
                     $"{Item}\r\n ({StashTab}) TL: {Top}, {Left}\r\n{Player} \r\n({League}) {PoeLogEntryType}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.Whisper => $"({Player} - {Other}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined => $"{Player} joined",
-                IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft => $"{Player} left",
-                IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin => $"You entered {Area}",
-                IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage => $"System Message - {Other}",
+                PoeLogEntryTypeEnum.Whisper => $"({Player} - {Other}",
+                PoeLogEntryTypeEnum.AreaJoined => $"{Player} joined",
+                PoeLogEntryTypeEnum.AreaLeft => $"{Player} left",
+                PoeLogEntryTypeEnum.YouJoin => $"You entered {Area}",
+                PoeLogEntryTypeEnum.SystemMessage => $"System Message - {Other}",
                 _ => ""
             };
         }

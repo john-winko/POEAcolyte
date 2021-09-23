@@ -33,6 +33,7 @@ namespace PoeAcolyte.API.Services
         {
             _fileChangeMonitor?.Dispose();
             _poeClient?.Dispose();
+            
         }
 
         private void OnGameClientClosed(object sender, EventArgs e)
@@ -60,9 +61,5 @@ namespace PoeAcolyte.API.Services
             _fileChangeMonitor.ManualFire();
         }
 
-        public void SendToGame(string message)
-        {
-            _poeClient.SendMessage(message);
-        }
     }
 }

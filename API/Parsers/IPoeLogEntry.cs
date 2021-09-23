@@ -7,21 +7,6 @@ namespace PoeAcolyte.API.Parsers
     public interface IPoeLogEntry 
     {
         /// <summary>
-        /// What type of log entry is detected in the client.txt
-        /// </summary>
-        public enum PoeLogEntryTypeEnum
-        {
-            Whisper,
-            PricedTrade,
-            UnpricedTrade,
-            BulkTrade,
-            AreaJoined,
-            AreaLeft,
-            YouJoin,
-            SystemMessage
-        }
-
-        /// <summary>
         /// Anything found after a standard trade message or any non trade message with @From:
         /// <seealso cref="PoeRegex"/>
         /// <seealso cref="PoeRegex.PricedTradeList"/>
@@ -32,7 +17,7 @@ namespace PoeAcolyte.API.Parsers
         /// </summary>
         public string Other { get; set; }
         /// <summary>
-        /// Interaction enters your area <br></br>
+        /// TradeInteraction enters your area <br></br>
         /// <seealso cref="PoeRegex"/>
         /// <seealso cref="PoeRegex.AreaJoinedList"/>
         /// </summary>
@@ -64,7 +49,7 @@ namespace PoeAcolyte.API.Parsers
         /// </summary>
         public string Guild { get; set; }
         /// <summary>
-        /// Interaction Name
+        /// TradeInteraction Name
         /// <seealso cref="PoeRegex"/>
         /// <seealso cref="PoeRegex.WhisperFrom"/>
         /// <seealso cref="PoeRegex.WhisperTo"/>
@@ -158,5 +143,20 @@ namespace PoeAcolyte.API.Parsers
                 .Cast<IPoeLogEntry>()
                 .ToList();
         }
+    }
+
+    /// <summary>
+    /// What type of log entry is detected in the client.txt
+    /// </summary>
+    public enum PoeLogEntryTypeEnum
+    {
+        Whisper,
+        PricedTrade,
+        UnpricedTrade,
+        BulkTrade,
+        AreaJoined,
+        AreaLeft,
+        YouJoin,
+        SystemMessage
     }
 }

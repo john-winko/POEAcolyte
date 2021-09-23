@@ -19,37 +19,37 @@ namespace PoeAcolyte.UI
         public InteractionPanel()
         {
             InitializeComponent();
-            Interactions = new List<IPoeInteraction>();
+            Interactions = new List<IPoeTradeInteraction>();
         }
 
-        protected List<IPoeInteraction> Interactions { get; init; }
+        protected List<IPoeTradeInteraction> Interactions { get; init; }
 
         public void HandleNewLogEntry(IPoeLogEntry entry)
         {
             switch (entry.PoeLogEntryType)
             {
-                case IPoeLogEntry.PoeLogEntryTypeEnum.Whisper:
-                    AddInteraction(new PoeWhisper(entry));
+                case PoeLogEntryTypeEnum.Whisper:
+                    Whisper(entry);
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade:
-                    AddInteraction(new PoeSingleTrade(entry));
+                case PoeLogEntryTypeEnum.PricedTrade:
+                    AddInteraction(new PoeTradeSingle(entry));
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade:
-                    AddInteraction(new PoeSingleTrade(entry));
+                case PoeLogEntryTypeEnum.UnpricedTrade:
+                    AddInteraction(new PoeTradeSingle(entry));
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.BulkTrade:
-                    AddInteraction(new PoeBulkTrade(entry));
+                case PoeLogEntryTypeEnum.BulkTrade:
+                    AddInteraction(new PoeTradeBulk(entry));
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.AreaJoined:
+                case PoeLogEntryTypeEnum.AreaJoined:
                     PlayerJoined(entry, true);
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.AreaLeft:
+                case PoeLogEntryTypeEnum.AreaLeft:
                     PlayerJoined(entry, false);
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.YouJoin:
+                case PoeLogEntryTypeEnum.YouJoin:
                     YouJoined(entry);
                     break;
-                case IPoeLogEntry.PoeLogEntryTypeEnum.SystemMessage:
+                case PoeLogEntryTypeEnum.SystemMessage:
                     // nothing yet
                     break;
                 default:
@@ -58,10 +58,10 @@ namespace PoeAcolyte.UI
             }
         }
 
-        public void RemoveInteraction(IPoeInteraction interaction)
+        public void RemoveInteraction(IPoeTradeInteraction tradeInteraction)
         {
-            this.PerformSafely(() => Controls.Remove(interaction.Interaction_UI));
-            Interactions.Remove(interaction);
+            this.PerformSafely(() => Controls.Remove(tradeInteraction.Interaction_UI));
+            Interactions.Remove(tradeInteraction);
             // TODO verify UI elements are being properly disposed
         }
 
@@ -73,29 +73,36 @@ namespace PoeAcolyte.UI
 
         private void YouJoined(IPoeLogEntry entry)
         {
-            // maybe this should be held more abstract or event driven?
-            // TODO needs to handle being in multiple trade-able areas
+            // TODO needs to handle being in multiple trade-able areas and tracked at a higher level abstraction
             if (!entry.Other.Contains("Hideout")) return;
             foreach (var poeInteraction in Interactions) poeInteraction.PlayerInArea = true;
         }
 
-        private void AddInteraction(IPoeInteraction interaction)
+        private void Whisper(IPoeLogEntry entry)
         {
-            // needs to parse if a new interaction as associated interface to be built or 
+            foreach (var poeInteraction in Interactions.Where(poeInteraction => poeInteraction.HasPlayer(entry.Player)))
+            {
+                poeInteraction.AddInteraction(entry);
+            }
+        }
+
+        private void AddInteraction(IPoeTradeInteraction tradeInteraction)
+        {
+            // needs to parse if a new tradeInteraction as associated interface to be built or 
             // update previous interface with new information
             var foundInteractions = Interactions
-                .Where(existingInteraction => existingInteraction.ShouldAdd(interaction))
+                .Where(existingInteraction => existingInteraction.ShouldAdd(tradeInteraction.Entry))
                 .ToList();
 
             if (foundInteractions.Any())
             {
-                foreach (var existingInteraction in foundInteractions) existingInteraction.AddInteraction(interaction);
+                foreach (var existingInteraction in foundInteractions) existingInteraction.AddInteraction(tradeInteraction.Entry);
             }
             else
             {
-                Interactions.Add(interaction);
-                interaction.InteractionContainer = this;
-                this.PerformSafely(() => Controls.Add(interaction.Interaction_UI));
+                Interactions.Add(tradeInteraction);
+                tradeInteraction.InteractionContainer = this;
+                this.PerformSafely(() => Controls.Add(tradeInteraction.Interaction_UI));
             }
         }
     }
@@ -111,7 +118,7 @@ namespace PoeAcolyte.UI
         /// <summary>
         ///     Removes element from the <see cref="IInteractionContainer" />
         /// </summary>
-        /// <param name="interaction">Interaction to be removed</param>
-        public void RemoveInteraction(IPoeInteraction interaction);
+        /// <param name="tradeInteraction">TradeInteraction to be removed</param>
+        public void RemoveInteraction(IPoeTradeInteraction tradeInteraction);
     }
 }

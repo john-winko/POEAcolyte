@@ -5,32 +5,42 @@ using System.Windows.Forms;
 
 namespace PoeAcolyte.API.Interactions
 {
-    public class PoeSingleTrade : PoeWhisper
+    public class PoeTradeSingle : PoeTradeInteraction
     {
         private readonly SingleTradeUI _ui;
         public override UserControl Interaction_UI => _ui;
-        private bool _playerInArea;
+
         public override bool PlayerInArea
         {
-            get => _playerInArea;
+            get => base.PlayerInArea;
             set
             {
-                _playerInArea = value;
-                _ui.PlayerLabel.BackColor = _playerInArea ? Color.Aqua : SystemColors.Control;
+                base.PlayerInArea = value;
+                _ui.PerformSafely(()=> _ui.LabelStatus.Text = $@"I {(value  ? "joined" : "left")}");
             }
         }
-        private bool _traderInArea;
         public override bool TraderInArea
         {
-            get => _traderInArea;
+            get => base.TraderInArea;
             set
             {
-                _traderInArea = value;
-                _ui.LocationLabel.BackColor = _traderInArea ? Color.Aqua : SystemColors.Control;
+                base.TraderInArea = value;
+                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"They {(value ? "joined" : "left")}");
             }
         }
 
-        public PoeSingleTrade(IPoeLogEntry entry) : base(entry)
+        public override GameClientCommandTypeEnum LastChatConsoleCommand
+        {
+            get => base.LastChatConsoleCommand;
+            set
+            {
+                // TODO update quick action button for what will occur next
+                base.LastChatConsoleCommand = value;
+                _ui.PerformSafely(() => _ui.LabelStatus.Text = value.ToString());
+            }
+        }
+
+        public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
         {
             _ui = new SingleTradeUI(this);
 
@@ -54,7 +64,7 @@ namespace PoeAcolyte.API.Interactions
 
             _ui.PlayerLabel.Text = Entry.Player;
 
-            _ui.PriceLabel.Text = Entry.PoeLogEntryType == IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade ? 
+            _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade ? 
                 "Unpriced" : $"{Entry.PriceAmount} {Entry.PriceUnits}";
 
             _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left}) {Entry.StashTab}";
@@ -62,14 +72,14 @@ namespace PoeAcolyte.API.Interactions
             _ui.ToolTipHistory.SetToolTip(_ui.QuickButton, MessageHistory);
         }
 
-        public override bool ShouldAdd(IPoeInteraction interaction)
+        public override bool ShouldAdd(IPoeLogEntry logEntry)
         {
             // correct type
-            if (interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.Whisper && 
-                interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.PricedTrade &&
-                interaction.Entry.PoeLogEntryType != IPoeLogEntry.PoeLogEntryTypeEnum.UnpricedTrade) return false;
+            if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper &&
+                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.PricedTrade &&
+                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.UnpricedTrade) return false;
 
-            return base.ShouldAdd(interaction);
+            return base.ShouldAdd(logEntry);
 
             // TODO add logic for duplicate trade requests
         }

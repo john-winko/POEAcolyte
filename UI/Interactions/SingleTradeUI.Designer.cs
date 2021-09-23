@@ -69,7 +69,7 @@ namespace PoeAcolyte.UI.Interactions
             this.PlayerLabel.Name = "PlayerLabel";
             this.PlayerLabel.Size = new System.Drawing.Size(130, 23);
             this.PlayerLabel.TabIndex = 3;
-            this.PlayerLabel.Text = "Interaction";
+            this.PlayerLabel.Text = "TradeInteraction";
             this.PlayerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LocationLabel
@@ -99,11 +99,12 @@ namespace PoeAcolyte.UI.Interactions
             this.QuickButton.TabIndex = 7;
             this.QuickButton.Text = "Quick";
             this.QuickButton.UseVisualStyleBackColor = true;
+            this.QuickButton.Click += new System.EventHandler(this.QuickButton_Click);
             // 
             // MenuStrip
             // 
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(181, 26);
+            this.MenuStrip.Size = new System.Drawing.Size(61, 4);
             // 
             // ToolTipHistory
             // 
@@ -144,6 +145,6 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.Button QuickButton;
         public System.Windows.Forms.ToolTip ToolTipHistory;
         public System.Windows.Forms.ContextMenuStrip MenuStrip;
-        private System.Windows.Forms.Label LabelStatus;
+        public System.Windows.Forms.Label LabelStatus;
     }
 }

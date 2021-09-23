@@ -114,7 +114,7 @@ namespace PoeAcolyte.API.Services
         /// <param name="message">Message to be sent</param>
         /// <param name="holdSend">Do not press enter at end (useful for appending manually in game)</param>
         /// <returns></returns>
-        public bool SendMessage(string message, bool holdSend = false)
+        public bool SendChatMessage(string message, bool holdSend = false)
         {
             if (!SetFocus()) return false;
 
@@ -123,6 +123,29 @@ namespace PoeAcolyte.API.Services
             Clipboard.SetText(message);
             SendKeys.Send("^V");
             if (!holdSend) SendKeys.Send("{Enter}");
+
+            return true;
+            // TODO add code to replace clipboard contents
+        }
+
+        /// <summary>
+        ///     Sends string of text to game client
+        /// by setting string to clipboard then {Enter} [CTRL+V] {Enter}
+        /// </summary>
+        /// <param name="messages">Message to be sent</param>
+        /// <returns></returns>
+        public bool SendChatMessages(string[] messages)
+        {
+            if (!SetFocus()) return false;
+            foreach (var message in messages)
+            {
+                 SendKeys.Flush();
+                SendKeys.Send("{Enter}");
+                Clipboard.SetText(message);
+                SendKeys.Send("^V");
+                SendKeys.Send("{Enter}");
+            }
+           
 
             return true;
             // TODO add code to replace clipboard contents
