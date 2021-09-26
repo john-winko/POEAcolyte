@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using PoeAcolyte.API.Parsers;
 using PoeAcolyte.UI;
@@ -27,7 +28,11 @@ namespace PoeAcolyte.API.Interactions
             set
             {
                 base.PlayerInArea = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"I {(value ? "joined" : "left")}");
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine}I {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                });
             }
         }
 
@@ -37,7 +42,11 @@ namespace PoeAcolyte.API.Interactions
             set
             {
                 base.TraderInArea = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"They {(value ? "joined" : "left")}");
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine}They {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                });
             }
         }
 
@@ -48,7 +57,11 @@ namespace PoeAcolyte.API.Interactions
             {
                 // TODO update quick action button for what will occur next
                 base.LastChatConsoleCommand = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = value.ToString());
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine} {value.ToString()}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                });
             }
         }
 
@@ -56,26 +69,24 @@ namespace PoeAcolyte.API.Interactions
         {
             if (Entry.Incoming)
             {
-                _ui.IncomingLabel.Text = @"Incoming";
-                _ui.IncomingLabel.BackColor = Color.LightBlue;
+                _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, @"Incoming");
                 _ui.BackColor = Color.Pink;
             }
             else
             {
-                _ui.IncomingLabel.Text = @"Outgoing";
-                _ui.IncomingLabel.BackColor = Color.LightYellow;
+                _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, @"Outgoing");
                 _ui.BackColor = Color.LightGreen;
             }
+            var info =  $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab} {Environment.NewLine}({Entry.Top}, {Entry.Left})";
 
-            _ui.PlayerLabel.Text = Entry.Player;
+            _ui.LabelInfo.Text = info;
+            _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, info);
 
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
-                ? "Unpriced"
-                : $"{Entry.PriceAmount} {Entry.PriceUnits}";
+                ? ""
+                : $"{Entry.PriceAmount}";
 
-            _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left}) {Entry.StashTab}";
-
-            _ui.ToolTipHistory.SetToolTip(_ui.QuickButton, MessageHistory);
+            _ui.ToolTipHistory.SetToolTip(_ui.InviteButton, MessageHistory);
         }
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)
