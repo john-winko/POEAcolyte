@@ -31,7 +31,7 @@ namespace PoeAcolyte.API.Services
 
         public IInteractionContainer InteractionContainer { get; init; }
         public string PlayerArea { get; set; }
-        
+        public bool PlayerBusy => !PlayerArea.Contains("Hideout");
         public bool Running
         {
             get => _fileChangeMonitor.Running;

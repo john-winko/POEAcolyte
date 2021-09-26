@@ -49,22 +49,24 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="tradeInteraction">Associated trade interaction</param>
         public static void QuickAction(IPoeTradeInteraction tradeInteraction)
         {
-            // TODO add state based actions (player in map etc)
-            switch (tradeInteraction.LastChatConsoleCommand, tradeInteraction.Entry.Incoming)
+            switch (tradeInteraction.LastChatConsoleCommand, tradeInteraction.Entry.Incoming, PoeBroker.Instance.PlayerBusy)
             {
-                case (GameClientCommandTypeEnum.None, true):
+                case (GameClientCommandTypeEnum.None, true, true):
+                    Wait(tradeInteraction);
+                    break;
+                case (GameClientCommandTypeEnum.None, true, false):
                     Invite(tradeInteraction);
                     break;
-                case (GameClientCommandTypeEnum.None, false):
+                case (GameClientCommandTypeEnum.None, false, _):
                     Hideout(tradeInteraction);
                     break;
-                case (GameClientCommandTypeEnum.Wait, _):
+                case (GameClientCommandTypeEnum.Wait, _, _):
                     Invite(tradeInteraction);
                     break;
-                case (GameClientCommandTypeEnum.Invite, _):
+                case (GameClientCommandTypeEnum.Invite, _, _):
                     Trade(tradeInteraction);
                     break;
-                case (GameClientCommandTypeEnum.Trade, _):
+                case (GameClientCommandTypeEnum.Trade, _, _):
                     Tygl(tradeInteraction);
                     tradeInteraction.Complete();
                     break;
