@@ -20,5 +20,8 @@
     <Setting Name="StashUISize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">500, 500</Value>
     </Setting>
+    <Setting Name="ClientLogPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

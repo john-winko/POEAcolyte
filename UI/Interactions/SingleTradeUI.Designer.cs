@@ -129,6 +129,7 @@ namespace PoeAcolyte.UI.Interactions
             this.HideoutButton.Size = new System.Drawing.Size(32, 32);
             this.HideoutButton.TabIndex = 9;
             this.HideoutButton.UseVisualStyleBackColor = true;
+            this.HideoutButton.Click += new System.EventHandler(this.HideoutButton_Click);
             // 
             // SearchButton
             // 

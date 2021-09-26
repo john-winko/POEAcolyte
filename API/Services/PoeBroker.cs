@@ -8,23 +8,30 @@ namespace PoeAcolyte.API.Services
 {
     public class PoeBroker : IDisposable
     {
-        private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
+        //private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         private readonly FileChangeMonitor _fileChangeMonitor;
         private readonly PoeClient _poeClient;
-        private string _currentArea;
+        public static PoeBroker Instance { get; set; }
 
-        public PoeBroker(IInteractionContainer interactionContainer, string clientLogPath = POEPATH)
+        private PoeBroker(IInteractionContainer interactionContainer)//, string clientLogPath = POEPATH)
         {
             InteractionContainer = interactionContainer;
-            _fileChangeMonitor = new FileChangeMonitor(clientLogPath);
+            _fileChangeMonitor = new FileChangeMonitor(GameClient.Default.ClientLogPath);
             _fileChangeMonitor.FileChanged += ClientLogFileChanged;
             _poeClient = PoeClient.GetInstance();
             _poeClient.GameClientOpened += OnGameClientOpened;
             _poeClient.GameClientClosed += OnGameClientClosed;
         }
 
-        public IInteractionContainer InteractionContainer { get; init; }
+        public static PoeBroker Start(IInteractionContainer interactionContainer)
+        {
+            Instance = new PoeBroker(interactionContainer);
+            return Instance ;
+        }
 
+        public IInteractionContainer InteractionContainer { get; init; }
+        public string PlayerArea { get; set; }
+        
         public bool Running
         {
             get => _fileChangeMonitor.Running;
@@ -76,7 +83,7 @@ namespace PoeAcolyte.API.Services
                         InteractionContainer.TraderInArea(entry, false);
                         break;
                     case PoeLogEntryTypeEnum.YouJoin:
-                        _currentArea = entry.Area;
+                        PlayerArea = entry.Area;
                         InteractionContainer.YouJoined(entry);
                         break;
                     case PoeLogEntryTypeEnum.SystemMessage:

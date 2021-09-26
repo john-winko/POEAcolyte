@@ -93,5 +93,17 @@ namespace PoeAcolyte {
                 this["StashUISize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt")]
+        public string ClientLogPath {
+            get {
+                return ((string)(this["ClientLogPath"]));
+            }
+            set {
+                this["ClientLogPath"] = value;
+            }
+        }
     }
 }

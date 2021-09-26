@@ -18,7 +18,7 @@ namespace PoeAcolyte.UI
             HideOnClick = true;
         }
 
-        private void OnMouseClick(object? sender, MouseEventArgs e)
+        private void OnMouseClick(object sender, MouseEventArgs e)
         {
             if (!HideOnClick && Visible) return;
 

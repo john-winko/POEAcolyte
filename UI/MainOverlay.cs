@@ -23,7 +23,8 @@ namespace PoeAcolyte.UI
         private void InitCustom()
         {
             Controls.Add(_interactionPanel);
-            _broker = new PoeBroker(_interactionPanel);
+            _broker = PoeBroker.Start(_interactionPanel);
+            
         }
 
         private void btnExit_Click(object sender, EventArgs e)
