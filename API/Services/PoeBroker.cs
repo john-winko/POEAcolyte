@@ -11,9 +11,8 @@ namespace PoeAcolyte.API.Services
         //private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         private readonly FileChangeMonitor _fileChangeMonitor;
         private readonly PoeClient _poeClient;
-        public static PoeBroker Instance { get; set; }
 
-        private PoeBroker(IInteractionContainer interactionContainer)//, string clientLogPath = POEPATH)
+        private PoeBroker(IInteractionContainer interactionContainer) //, string clientLogPath = POEPATH)
         {
             InteractionContainer = interactionContainer;
             _fileChangeMonitor = new FileChangeMonitor(GameClient.Default.ClientLogPath);
@@ -23,15 +22,12 @@ namespace PoeAcolyte.API.Services
             _poeClient.GameClientClosed += OnGameClientClosed;
         }
 
-        public static PoeBroker Start(IInteractionContainer interactionContainer)
-        {
-            Instance = new PoeBroker(interactionContainer);
-            return Instance ;
-        }
+        public static PoeBroker Instance { get; set; }
 
         public IInteractionContainer InteractionContainer { get; init; }
         public string PlayerArea { get; set; }
         public bool PlayerBusy => !PlayerArea.Contains("Hideout");
+
         public bool Running
         {
             get => _fileChangeMonitor.Running;
@@ -42,6 +38,12 @@ namespace PoeAcolyte.API.Services
         {
             _fileChangeMonitor?.Dispose();
             _poeClient?.Dispose();
+        }
+
+        public static PoeBroker Start(IInteractionContainer interactionContainer)
+        {
+            Instance = new PoeBroker(interactionContainer);
+            return Instance;
         }
 
         private void OnGameClientClosed(object sender, EventArgs e)
@@ -57,7 +59,8 @@ namespace PoeAcolyte.API.Services
         }
 
         /// <summary>
-        ///     Parses changes to the client log file arrayed by new lines. Pushes those entries to <see cref="InteractionContainer"/> based on log entry type
+        ///     Parses changes to the client log file arrayed by new lines. Pushes those entries to
+        ///     <see cref="InteractionContainer" /> based on log entry type
         /// </summary>
         /// <param name="sender">Unused</param>
         /// <param name="e">Changes captured</param>
@@ -65,7 +68,6 @@ namespace PoeAcolyte.API.Services
         {
             //var logEntries = IPoeLogEntry.ParseStrings(e.Changes);
             foreach (var entry in IPoeLogEntry.ParseStrings(e.Changes).Where(log => log.IsValid)) //logEntries)
-            {
                 switch (entry.PoeLogEntryType)
                 {
                     case PoeLogEntryTypeEnum.Whisper:
@@ -92,7 +94,6 @@ namespace PoeAcolyte.API.Services
                         Debug.Print("out of bounds");
                         break;
                 }
-            }
         }
 
         public void ManualFire()

@@ -49,7 +49,7 @@ namespace PoeAcolyte.UI.Interactions
 
         private void HideoutButton_Click(object sender, System.EventArgs e)
         {
-
+            GameClientCommand.Hideout(_tradeInteraction);
         }
     }
 }

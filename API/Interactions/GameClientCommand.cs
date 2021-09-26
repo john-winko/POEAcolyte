@@ -49,7 +49,7 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="tradeInteraction">Associated trade interaction</param>
         public static void QuickAction(IPoeTradeInteraction tradeInteraction)
         {
-            switch (tradeInteraction.LastChatConsoleCommand, tradeInteraction.Entry.Incoming, PoeBroker.Instance.PlayerBusy)
+            switch (tradeInteraction.LastChatConsoleCommand, tradeInteraction.Entry.Incoming, PoeBroker.Instance?.PlayerBusy)
             {
                 case (GameClientCommandTypeEnum.None, true, true):
                     Wait(tradeInteraction);

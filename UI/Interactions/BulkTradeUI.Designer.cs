@@ -99,6 +99,7 @@ namespace PoeAcolyte.UI.Interactions
             this.QuickButton.TabIndex = 7;
             this.QuickButton.Text = "Quick";
             this.QuickButton.UseVisualStyleBackColor = true;
+            this.QuickButton.Click += new System.EventHandler(this.QuickButton_Click);
             // 
             // ToolTipHistory
             // 
@@ -126,6 +127,7 @@ namespace PoeAcolyte.UI.Interactions
             this.HideoutButton.Size = new System.Drawing.Size(32, 32);
             this.HideoutButton.TabIndex = 10;
             this.HideoutButton.UseVisualStyleBackColor = true;
+            this.HideoutButton.Click += new System.EventHandler(this.HideoutButton_Click);
             // 
             // SearchButton
             // 
@@ -151,7 +153,6 @@ namespace PoeAcolyte.UI.Interactions
             this.Controls.Add(this.CloseButton);
             this.Name = "BulkTradeUI";
             this.Size = new System.Drawing.Size(197, 107);
-            this.Load += new System.EventHandler(this.BulkTradeUI_Load);
             this.ResumeLayout(false);
 
         }

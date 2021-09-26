@@ -35,9 +35,14 @@ namespace PoeAcolyte.UI.Interactions
             _tradeInteraction.Complete();
         }
 
-        private void BulkTradeUI_Load(object sender, System.EventArgs e)
+        private void HideoutButton_Click(object sender, System.EventArgs e)
         {
+            GameClientCommand.Hideout(_tradeInteraction);
+        }
 
+        private void QuickButton_Click(object sender, System.EventArgs e)
+        {
+            GameClientCommand.QuickAction(_tradeInteraction);
         }
     }
 }
