@@ -40,11 +40,6 @@ namespace PoeAcolyte.UI.Interactions
             _tradeInteraction.Complete();
         }
 
-        private void SearchButton_Click(object sender, System.EventArgs e)
-        {
-            _tradeInteraction.ShowItemOverlay();
-        }
-
         private void HideoutButton_Click(object sender, System.EventArgs e)
         {
             GameClientCommand.Hideout(_tradeInteraction);

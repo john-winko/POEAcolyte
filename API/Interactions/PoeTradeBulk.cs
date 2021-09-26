@@ -74,13 +74,11 @@ namespace PoeAcolyte.API.Interactions
                 _ui.BackColor = Color.Beige;
             }
 
-            var info = $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab} {Environment.NewLine}({Entry.Top}, {Entry.Left})";
+            _ui.InfoLabel.Text = $@"{Entry.Player}";
 
-            _ui.InfoLabel.Text = info;
-            _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, info);
-
-            // TODO add picture dictionary
+            _ui.PriceInPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceInLabel.Text = $@"{Entry.PriceAmount}";
+            _ui.PriceOutPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.BuyPriceUnits);
             _ui.PriceOutLabel.Text = $@"{Entry.BuyPriceAmount}";
 
             _ui.ToolTipHistory.SetToolTip(_ui.PriceInLabel, MessageHistory);

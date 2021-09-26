@@ -77,11 +77,9 @@ namespace PoeAcolyte.API.Interactions
                 _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, @"Outgoing");
                 _ui.BackColor = Color.Beige;
             }
-            var info =  $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab} {Environment.NewLine}({Entry.Top}, {Entry.Left})";
 
-            _ui.InfoLabel.Text = info;
-            _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, info);
-
+            _ui.InfoLabel.Text = $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}"; ;
+            _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left})";
             _ui.CurrencyPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
                 ? ""
@@ -104,7 +102,7 @@ namespace PoeAcolyte.API.Interactions
 
         public override void Complete()
         {
-            _gridOverlay.Dispose();
+            _gridOverlay?.Dispose();
             base.Complete();
         }
 

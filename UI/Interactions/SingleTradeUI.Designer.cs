@@ -43,6 +43,7 @@ namespace PoeAcolyte.UI.Interactions
             this.TradeButton = new System.Windows.Forms.Button();
             this.KickButton = new System.Windows.Forms.Button();
             this.CurrencyPicture = new System.Windows.Forms.PictureBox();
+            this.LocationLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CurrencyPicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.CloseButton.BackgroundImage = global::PoeAcolyte.UI.Icons.exit;
             this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.CloseButton.Location = new System.Drawing.Point(49, 50);
+            this.CloseButton.Location = new System.Drawing.Point(49, 63);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(32, 32);
             this.CloseButton.TabIndex = 1;
@@ -63,7 +64,7 @@ namespace PoeAcolyte.UI.Interactions
             this.InfoLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.InfoLabel.Location = new System.Drawing.Point(49, 1);
             this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(185, 48);
+            this.InfoLabel.Size = new System.Drawing.Size(185, 59);
             this.InfoLabel.TabIndex = 3;
             this.InfoLabel.Text = "Information";
             this.InfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -88,7 +89,7 @@ namespace PoeAcolyte.UI.Interactions
             this.InviteButton.BackgroundImage = global::PoeAcolyte.UI.Icons.add;
             this.InviteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.InviteButton.ContextMenuStrip = this.MenuStrip;
-            this.InviteButton.Location = new System.Drawing.Point(142, 50);
+            this.InviteButton.Location = new System.Drawing.Point(142, 63);
             this.InviteButton.Name = "InviteButton";
             this.InviteButton.Size = new System.Drawing.Size(32, 32);
             this.InviteButton.TabIndex = 7;
@@ -104,7 +105,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.HideoutButton.BackgroundImage = global::PoeAcolyte.UI.Icons.home;
             this.HideoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.HideoutButton.Location = new System.Drawing.Point(80, 50);
+            this.HideoutButton.Location = new System.Drawing.Point(80, 63);
             this.HideoutButton.Name = "HideoutButton";
             this.HideoutButton.Size = new System.Drawing.Size(32, 32);
             this.HideoutButton.TabIndex = 9;
@@ -116,7 +117,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.SearchButton.BackgroundImage = global::PoeAcolyte.UI.Icons.search;
             this.SearchButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.SearchButton.Location = new System.Drawing.Point(111, 50);
+            this.SearchButton.Location = new System.Drawing.Point(111, 63);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(32, 32);
             this.SearchButton.TabIndex = 10;
@@ -129,7 +130,7 @@ namespace PoeAcolyte.UI.Interactions
             this.TradeButton.BackgroundImage = global::PoeAcolyte.UI.Icons.money_turnover;
             this.TradeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.TradeButton.ContextMenuStrip = this.MenuStrip;
-            this.TradeButton.Location = new System.Drawing.Point(173, 50);
+            this.TradeButton.Location = new System.Drawing.Point(173, 63);
             this.TradeButton.Name = "TradeButton";
             this.TradeButton.Size = new System.Drawing.Size(32, 32);
             this.TradeButton.TabIndex = 11;
@@ -142,7 +143,7 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.BackgroundImage = global::PoeAcolyte.UI.Icons.tick;
             this.KickButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.KickButton.ContextMenuStrip = this.MenuStrip;
-            this.KickButton.Location = new System.Drawing.Point(204, 50);
+            this.KickButton.Location = new System.Drawing.Point(204, 63);
             this.KickButton.Name = "KickButton";
             this.KickButton.Size = new System.Drawing.Size(32, 32);
             this.KickButton.TabIndex = 12;
@@ -160,10 +161,21 @@ namespace PoeAcolyte.UI.Interactions
             this.CurrencyPicture.TabIndex = 15;
             this.CurrencyPicture.TabStop = false;
             // 
+            // LocationLabel
+            // 
+            this.LocationLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LocationLabel.Location = new System.Drawing.Point(0, 76);
+            this.LocationLabel.Name = "LocationLabel";
+            this.LocationLabel.Size = new System.Drawing.Size(48, 16);
+            this.LocationLabel.TabIndex = 16;
+            this.LocationLabel.Text = "Price";
+            this.LocationLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // SingleTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LocationLabel);
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.KickButton);
             this.Controls.Add(this.TradeButton);
@@ -174,7 +186,7 @@ namespace PoeAcolyte.UI.Interactions
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.CurrencyPicture);
             this.Name = "SingleTradeUI";
-            this.Size = new System.Drawing.Size(236, 84);
+            this.Size = new System.Drawing.Size(236, 96);
             this.ToolTipHistory.SetToolTip(this, "Test");
             ((System.ComponentModel.ISupportInitialize)(this.CurrencyPicture)).EndInit();
             this.ResumeLayout(false);
@@ -193,5 +205,6 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.Button TradeButton;
         public System.Windows.Forms.Button KickButton;
         public System.Windows.Forms.PictureBox CurrencyPicture;
+        public System.Windows.Forms.Label LocationLabel;
     }
 }

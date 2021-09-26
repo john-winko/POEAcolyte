@@ -3,25 +3,34 @@
   <Profiles />
   <Settings>
     <Setting Name="TradeUILeft" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">400</Value>
     </Setting>
     <Setting Name="TradeUITop" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">400</Value>
     </Setting>
     <Setting Name="TradeUISize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">500, 500</Value>
+      <Value Profile="(Default)">100, 100</Value>
     </Setting>
     <Setting Name="StashUILeft" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="StashUITop" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="StashUISize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">500, 500</Value>
+      <Value Profile="(Default)">100, 100</Value>
     </Setting>
     <Setting Name="ClientLogPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt</Value>
+    </Setting>
+    <Setting Name="HomeUILeft" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="HomeUITop" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="HomeUISize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">50, 50</Value>
     </Setting>
   </Settings>
 </SettingsFile>

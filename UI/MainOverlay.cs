@@ -16,6 +16,7 @@ namespace PoeAcolyte.UI
         private readonly InteractionPanel _interactionPanel=new();
         private readonly StashPanel _stashPanel = new();
 
+
         public MainOverlay()
         {
             InitializeComponent();
@@ -45,6 +46,7 @@ namespace PoeAcolyte.UI
         {
             _interactionPanel.EditSettings(Controls);
             _stashPanel.EditSettings(Controls);
+            
         }
 
         private void saveBoundsToolStripMenuItem_Click(object sender, EventArgs e)
