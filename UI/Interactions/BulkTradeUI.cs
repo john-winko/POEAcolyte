@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.CodeDom;
+using System.Windows.Forms;
 using PoeAcolyte.API.Interactions;
 // ReSharper disable InconsistentNaming
 
@@ -29,6 +30,9 @@ namespace PoeAcolyte.UI.Interactions
             foreach (Control control in this.Controls)
             {
                 control.ContextMenuStrip = MenuStrip;
+                if (control.GetType() == typeof(Button)) continue;
+
+                control.Click += (sender, args) => { GameClientCommand.QuickAction(_tradeInteraction); };
             }
         }
         private void CloseButton_Click(object sender, System.EventArgs e)
