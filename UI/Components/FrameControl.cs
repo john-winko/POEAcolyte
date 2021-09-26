@@ -29,7 +29,9 @@ namespace PoeAcolyte.UI.Components
             };
             Resize += OnResize;
             Controls.Add(_lblDescription);
-
+            _lblDescription.MouseDown += (sender, args) => { };
+            _lblDescription.MouseDown += (sender, args) => { };
+            _lblDescription.MouseDown += (sender, args) => { };
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -45,6 +47,21 @@ namespace PoeAcolyte.UI.Components
             var x = w > h ? h : w;
             _lblDescription.Font = new Font("Calibri", x, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)
