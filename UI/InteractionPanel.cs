@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using PoeAcolyte.API;
 using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI.Components;
 
 namespace PoeAcolyte.UI
 {

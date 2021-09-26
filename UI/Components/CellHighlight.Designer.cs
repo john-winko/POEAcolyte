@@ -1,7 +1,5 @@
 ﻿
-using Gma.System.MouseKeyHook;
-
-namespace PoeAcolyte.UI
+namespace PoeAcolyte.UI.Components
 {
     partial class CellHighlight
     {

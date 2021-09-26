@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace PoeAcolyte.UI
+namespace PoeAcolyte.UI.Components
 {
     public class StashPanel
     {

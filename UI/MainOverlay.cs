@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using PoeAcolyte.API;
+using PoeAcolyte.UI.Components;
 
 namespace PoeAcolyte.UI
 {

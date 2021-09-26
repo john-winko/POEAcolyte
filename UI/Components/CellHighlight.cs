@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using PoeAcolyte.API;
 using PoeAcolyte.API.Parsers;
 
-namespace PoeAcolyte.UI
+namespace PoeAcolyte.UI.Components
 {
     public partial class CellHighlight : Form
     {
@@ -51,7 +50,7 @@ namespace PoeAcolyte.UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.MakeFormTransparent();
+            this.MakeFormTransparent(); // WIN 32 extension
         }
     }
 }
