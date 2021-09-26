@@ -192,6 +192,14 @@ namespace PoeAcolyte.API.Interactions
             interaction.LastChatConsoleCommand = GameClientCommandTypeEnum.Hideout;
         };
 
+        public static Action MyHideout => () =>
+        {
+            PoeClient.GetInstance().SendChatMessages(new[]
+            {
+                $@"/hideout"
+            });
+        };
+
         public static Action<IPoeTradeInteraction> Wait => interaction =>
         {
             PoeClient.GetInstance().SendChatMessages(new[]

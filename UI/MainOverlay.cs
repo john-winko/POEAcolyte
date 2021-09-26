@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using PoeAcolyte.API;
+using PoeAcolyte.API.Interactions;
 using PoeAcolyte.UI.Components;
 
 namespace PoeAcolyte.UI
@@ -57,6 +58,11 @@ namespace PoeAcolyte.UI
             _ribbon.SaveSettings(Controls);
             HomePanel.Location = new Point(GameClient.Default.HomeUILeft, GameClient.Default.HomeUITop);
             HomePanel.Size = GameClient.Default.HomeUISize;
+        }
+
+        private void HideoutButton_Click(object sender, EventArgs e)
+        {
+            GameClientCommand.MyHideout();
         }
     }
 }
