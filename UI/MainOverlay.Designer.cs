@@ -91,6 +91,7 @@ namespace PoeAcolyte.UI
             this.labelTest.Size = new System.Drawing.Size(178, 95);
             this.labelTest.TabIndex = 5;
             this.labelTest.Text = "label1";
+            this.labelTest.Visible = false;
             // 
             // MainOverlay
             // 

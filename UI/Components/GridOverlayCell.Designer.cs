@@ -1,7 +1,7 @@
 ﻿
 namespace PoeAcolyte.UI.Components
 {
-    partial class CellHighlight
+    partial class GridOverlayCell
     {
         /// <summary>
         /// Required designer variable.
@@ -14,8 +14,6 @@ namespace PoeAcolyte.UI.Components
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            _mouseEvents.Dispose();
-            
             if (disposing && (components != null))
             {
                
@@ -34,18 +32,18 @@ namespace PoeAcolyte.UI.Components
         {
             this.SuspendLayout();
             // 
-            // CellHighlight
+            // GridOverlayCell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(164, 82);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "CellHighlight";
+            this.Name = "GridOverlayCell";
             this.Opacity = 0.5D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "CellHighlight";
+            this.Text = "GridOverlayCell";
             this.TopMost = true;
             this.ResumeLayout(false);
 
