@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
 using PoeAcolyte.API;
 using PoeAcolyte.API.Parsers;
 
@@ -9,9 +10,20 @@ namespace PoeAcolyte.UI
 {
     public partial class CellHighlight : Form
     {
+        public bool HideOnClick { get; init; }
         public CellHighlight()
         {
             InitializeComponent();
+            Hook.GlobalEvents().MouseClick += OnMouseClick;
+            HideOnClick = true;
+        }
+
+        private void OnMouseClick(object? sender, MouseEventArgs e)
+        {
+            if (!HideOnClick && Visible) return;
+
+            // hide if clicked inside bounds
+            if (new Rectangle(Location, Size).Contains(e.Location)) Visible = false;
         }
 
         public CellHighlight(float left, float top, float gridX = 24, float gridY = 24) : this()

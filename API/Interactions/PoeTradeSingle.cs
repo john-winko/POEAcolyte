@@ -104,6 +104,8 @@ namespace PoeAcolyte.API.Interactions
             // only init if none exists
             _cell ??= CellHighlight.GetCellHighlight(Entry, 12);
             _cell24 ??= CellHighlight.GetCellHighlight(Entry, 24);
+            _cell?.Show();
+            _cell24?.Show();
             return _cell == null && _cell24 == null;
         }
     }

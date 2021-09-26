@@ -70,14 +70,14 @@ namespace PoeAcolyte.UI
             // editBoundsToolStripMenuItem
             // 
             this.editBoundsToolStripMenuItem.Name = "editBoundsToolStripMenuItem";
-            this.editBoundsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.editBoundsToolStripMenuItem.Text = "Edit Bounds";
             this.editBoundsToolStripMenuItem.Click += new System.EventHandler(this.editBoundsToolStripMenuItem_Click);
             // 
             // saveBoundsToolStripMenuItem
             // 
             this.saveBoundsToolStripMenuItem.Name = "saveBoundsToolStripMenuItem";
-            this.saveBoundsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.saveBoundsToolStripMenuItem.Text = "Save Bounds";
             this.saveBoundsToolStripMenuItem.Click += new System.EventHandler(this.saveBoundsToolStripMenuItem_Click);
             // 
@@ -99,6 +99,7 @@ namespace PoeAcolyte.UI
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Click += new System.EventHandler(this.MainOverlay_Click);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 

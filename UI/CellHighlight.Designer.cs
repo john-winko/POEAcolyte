@@ -1,4 +1,6 @@
 ﻿
+using Gma.System.MouseKeyHook;
+
 namespace PoeAcolyte.UI
 {
     partial class CellHighlight
@@ -14,6 +16,7 @@ namespace PoeAcolyte.UI
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            Hook.GlobalEvents().MouseClick -= OnMouseClick;
             if (disposing && (components != null))
             {
                 components.Dispose();
