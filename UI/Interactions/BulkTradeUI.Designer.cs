@@ -82,6 +82,7 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.TabIndex = 18;
             this.ToolTipHistory.SetToolTip(this.KickButton, "Kick");
             this.KickButton.UseVisualStyleBackColor = true;
+            this.KickButton.Click += new System.EventHandler(this.KickButton_Click);
             // 
             // MenuStrip
             // 
@@ -99,6 +100,7 @@ namespace PoeAcolyte.UI.Interactions
             this.TradeButton.TabIndex = 17;
             this.ToolTipHistory.SetToolTip(this.TradeButton, "Trade with player");
             this.TradeButton.UseVisualStyleBackColor = true;
+            this.TradeButton.Click += new System.EventHandler(this.TradeButton_Click);
             // 
             // SearchButton
             // 
@@ -110,6 +112,7 @@ namespace PoeAcolyte.UI.Interactions
             this.SearchButton.TabIndex = 16;
             this.ToolTipHistory.SetToolTip(this.SearchButton, "Show item location overlay");
             this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // HideoutButton
             // 
@@ -121,6 +124,7 @@ namespace PoeAcolyte.UI.Interactions
             this.HideoutButton.TabIndex = 15;
             this.ToolTipHistory.SetToolTip(this.HideoutButton, "Go to their hideout");
             this.HideoutButton.UseVisualStyleBackColor = true;
+            this.HideoutButton.Click += new System.EventHandler(this.HideoutButton_Click);
             // 
             // InviteButton
             // 
@@ -133,6 +137,7 @@ namespace PoeAcolyte.UI.Interactions
             this.InviteButton.TabIndex = 14;
             this.ToolTipHistory.SetToolTip(this.InviteButton, "Invite Player");
             this.InviteButton.UseVisualStyleBackColor = true;
+            this.InviteButton.Click += new System.EventHandler(this.InviteButton_Click);
             // 
             // CloseButton
             // 
@@ -144,6 +149,7 @@ namespace PoeAcolyte.UI.Interactions
             this.CloseButton.TabIndex = 13;
             this.ToolTipHistory.SetToolTip(this.CloseButton, "Exit (Close)");
             this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // PriceInPicture
             // 

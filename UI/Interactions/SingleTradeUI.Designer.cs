@@ -34,9 +34,9 @@ namespace PoeAcolyte.UI.Interactions
             this.components = new System.ComponentModel.Container();
             this.CloseButton = new System.Windows.Forms.Button();
             this.InfoLabel = new System.Windows.Forms.Label();
+            this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PriceLabel = new System.Windows.Forms.Label();
             this.InviteButton = new System.Windows.Forms.Button();
-            this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolTipHistory = new System.Windows.Forms.ToolTip(this.components);
             this.HideoutButton = new System.Windows.Forms.Button();
             this.SearchButton = new System.Windows.Forms.Button();
@@ -67,6 +67,11 @@ namespace PoeAcolyte.UI.Interactions
             this.InfoLabel.Text = "Information";
             this.InfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // MenuStrip
+            // 
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(61, 4);
+            // 
             // PriceLabel
             // 
             this.PriceLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -87,11 +92,7 @@ namespace PoeAcolyte.UI.Interactions
             this.InviteButton.TabIndex = 7;
             this.ToolTipHistory.SetToolTip(this.InviteButton, "Invite Player");
             this.InviteButton.UseVisualStyleBackColor = true;
-            // 
-            // MenuStrip
-            // 
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(61, 4);
+            this.InviteButton.Click += new System.EventHandler(this.InviteButton_Click);
             // 
             // ToolTipHistory
             // 
@@ -132,6 +133,7 @@ namespace PoeAcolyte.UI.Interactions
             this.TradeButton.TabIndex = 11;
             this.ToolTipHistory.SetToolTip(this.TradeButton, "Trade with player");
             this.TradeButton.UseVisualStyleBackColor = true;
+            this.TradeButton.Click += new System.EventHandler(this.TradeButton_Click);
             // 
             // KickButton
             // 
@@ -144,6 +146,7 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.TabIndex = 12;
             this.ToolTipHistory.SetToolTip(this.KickButton, "Kick");
             this.KickButton.UseVisualStyleBackColor = true;
+            this.KickButton.Click += new System.EventHandler(this.KickButton_Click);
             // 
             // CurrencyPicture
             // 

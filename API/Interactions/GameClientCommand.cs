@@ -208,7 +208,7 @@ namespace PoeAcolyte.API.Interactions
                 $@"@{interaction.Entry.Player} Thank you, good luck!",
                 $@"/kick {interaction.Entry.Player}"
             });
-            interaction.LastChatConsoleCommand = GameClientCommandTypeEnum.TYGL;
+            interaction.Complete();
         };
 
         #endregion

@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Parsers;
+// ReSharper disable InconsistentNaming
 
 namespace PoeAcolyte.UI.Interactions
 {
@@ -28,6 +29,7 @@ namespace PoeAcolyte.UI.Interactions
                  MenuStrip.Items.Add(toolStripMenuItem);
             }
 
+            // Make all controls use same context menu
             foreach (Control control in this.Controls)
             {
                 control.ContextMenuStrip = MenuStrip;
@@ -39,11 +41,6 @@ namespace PoeAcolyte.UI.Interactions
             _tradeInteraction.Complete();
         }
 
-        private void QuickButton_Click(object sender, System.EventArgs e)
-        {
-            GameClientCommand.QuickAction(_tradeInteraction);
-        }
-
         private void SearchButton_Click(object sender, System.EventArgs e)
         {
             _tradeInteraction.ShowItemOverlay();
@@ -52,6 +49,21 @@ namespace PoeAcolyte.UI.Interactions
         private void HideoutButton_Click(object sender, System.EventArgs e)
         {
             GameClientCommand.Hideout(_tradeInteraction);
+        }
+
+        private void InviteButton_Click(object sender, System.EventArgs e)
+        {
+            GameClientCommand.Invite(_tradeInteraction);
+        }
+
+        private void TradeButton_Click(object sender, System.EventArgs e)
+        {
+            GameClientCommand.Trade(_tradeInteraction);
+        }
+
+        private void KickButton_Click(object sender, System.EventArgs e)
+        {
+            GameClientCommand.Tygl(_tradeInteraction);
         }
     }
 }
