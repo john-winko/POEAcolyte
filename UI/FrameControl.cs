@@ -50,12 +50,9 @@ namespace PoeAcolyte.UI
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            using (var p = new Pen(Color.Red, 5))
-            {
-                //p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                e.Graphics.DrawRectangle(p, 0, 0, Width - 1, Height - 1);
-
-            }
+            using var p = new Pen(Color.Red, 5);
+            //p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            e.Graphics.DrawRectangle(p, 0, 0, Width - 1, Height - 1);
         }
 
         const int WM_NCHITTEST = 0x84;

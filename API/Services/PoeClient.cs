@@ -23,7 +23,7 @@ namespace PoeAcolyte.API.Services
         private PoeClient(bool autoStart = true)
         {
             _searchTimer = new Timer(5000);
-            _searchTimer.Elapsed += _searchTimer_Elapsed;
+            _searchTimer.Elapsed += SearchTimer_Elapsed;
             _searchTimer.Enabled = autoStart;
             _poeProcess = GetPoeProcess();
         }
@@ -56,7 +56,7 @@ namespace PoeAcolyte.API.Services
         public event EventHandler GameClientOpened;
         public event EventHandler GameClientClosed;
 
-        private void _searchTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void SearchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _poeProcess = GetPoeProcess();
             if (_poeProcess == null) return;
@@ -158,11 +158,6 @@ namespace PoeAcolyte.API.Services
 
             return true;
             // TODO add code to replace clipboard contents
-        }
-
-        public Process GetProcess()
-        {
-            return _poeProcess;
         }
     }
 }

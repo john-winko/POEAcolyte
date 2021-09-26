@@ -42,12 +42,12 @@ namespace PoeAcolyte.API
         {
             var style = GetWindowLong(form.Handle, GWL_EXSTYLE);
             var change = SetWindowLong(form.Handle, GWL_EXSTYLE, style | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+            Debug.Print($"Transparent vale: {change}");
         }
 
         public static (Point, Size) GetBounds(this Process process)
         {
-            RECT rect;
-            if (!GetWindowRect(new HandleRef(process, process.MainWindowHandle), out rect))
+            if (!GetWindowRect(new HandleRef(process, process.MainWindowHandle), out var rect))
                 return (new Point(0, 0), new Size(0, 0));
             return (new Point(rect.Left + 7, rect.Top),  new Size(rect.Right - rect.Left - 14, rect.Bottom - rect.Top - 7));
 

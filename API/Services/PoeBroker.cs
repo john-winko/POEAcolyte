@@ -8,11 +8,10 @@ namespace PoeAcolyte.API.Services
 {
     public class PoeBroker : IDisposable
     {
-        //private const string POEPATH = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         private readonly FileChangeMonitor _fileChangeMonitor;
         private readonly PoeClient _poeClient;
 
-        private PoeBroker(IInteractionContainer interactionContainer) //, string clientLogPath = POEPATH)
+        private PoeBroker(IInteractionContainer interactionContainer) 
         {
             InteractionContainer = interactionContainer;
             _fileChangeMonitor = new FileChangeMonitor(GameClient.Default.ClientLogPath);
@@ -103,10 +102,6 @@ namespace PoeAcolyte.API.Services
                 }
         }
 
-        public Process GetProcess()
-        {
-            return _poeClient.GetProcess();
-        }
         public void ManualFire()
         {
             _fileChangeMonitor.ManualFire();
