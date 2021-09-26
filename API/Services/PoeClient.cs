@@ -25,6 +25,7 @@ namespace PoeAcolyte.API.Services
             _searchTimer = new Timer(5000);
             _searchTimer.Elapsed += _searchTimer_Elapsed;
             _searchTimer.Enabled = autoStart;
+            _poeProcess = GetPoeProcess();
         }
 
         public bool IsGameClientOpen => _poeProcess == null;
@@ -150,6 +151,11 @@ namespace PoeAcolyte.API.Services
 
             return true;
             // TODO add code to replace clipboard contents
+        }
+
+        public Process GetProcess()
+        {
+            return _poeProcess;
         }
     }
 }

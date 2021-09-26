@@ -96,6 +96,10 @@ namespace PoeAcolyte.API.Services
                 }
         }
 
+        public Process GetProcess()
+        {
+            return _poeClient.GetProcess();
+        }
         public void ManualFire()
         {
             _fileChangeMonitor.ManualFire();

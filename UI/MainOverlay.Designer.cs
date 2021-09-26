@@ -35,6 +35,7 @@ namespace PoeAcolyte.UI
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelTest = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,12 +82,23 @@ namespace PoeAcolyte.UI
             this.saveBoundsToolStripMenuItem.Text = "Save Bounds";
             this.saveBoundsToolStripMenuItem.Click += new System.EventHandler(this.saveBoundsToolStripMenuItem_Click);
             // 
+            // labelTest
+            // 
+            this.labelTest.BackColor = System.Drawing.Color.Lime;
+            this.labelTest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelTest.Location = new System.Drawing.Point(305, 394);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(178, 95);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "label1";
+            // 
             // MainOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(1546, 914);
+            this.Controls.Add(this.labelTest);
             this.Controls.Add(this.buttonTest3);
             this.Controls.Add(this.btnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -111,5 +123,6 @@ namespace PoeAcolyte.UI
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editBoundsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveBoundsToolStripMenuItem;
+        private System.Windows.Forms.Label labelTest;
     }
 }
