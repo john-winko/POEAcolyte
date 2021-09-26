@@ -103,7 +103,8 @@ namespace PoeAcolyte.API.Services
         public bool SetFocus()
         {
             if (_poeProcess is null) return false;
-            WIN32.SetForegroundWindow(_poeProcess.MainWindowHandle);
+            //WIN32.SetForegroundWindow(_poeProcess.MainWindowHandle);
+            _poeProcess.SetFocus();
             return true;
         }
 

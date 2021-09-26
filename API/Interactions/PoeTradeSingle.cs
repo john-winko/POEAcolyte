@@ -9,16 +9,14 @@ namespace PoeAcolyte.API.Interactions
     public class PoeTradeSingle : PoeTradeInteraction
     {
         private readonly SingleTradeUI _ui;
-        private readonly CellHighlight _cell;
-        private readonly CellHighlight _cell24;
+        private CellHighlight _cell;
+        private CellHighlight _cell24;
 
         public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
         {
             _ui = new SingleTradeUI(this);
 
             _ui.PerformSafely(Update_UI);
-
-
         }
 
         public override UserControl Interaction_UI => _ui;
@@ -94,7 +92,19 @@ namespace PoeAcolyte.API.Interactions
 
         public override void Complete()
         {
+            _cell?.Dispose();
+            _cell24?.Dispose();
+            _cell = null;
+            _cell24 = null;
             base.Complete();
+        }
+
+        public override bool ShowItemOverlay()
+        {
+            // only init if none exists
+            _cell ??= CellHighlight.GetCellHighlight(Entry, 12);
+            _cell24 ??= CellHighlight.GetCellHighlight(Entry, 24);
+            return _cell == null && _cell24 == null;
         }
     }
 }

@@ -80,5 +80,12 @@ namespace PoeAcolyte.API.Interactions
 
             // TODO add logic for duplicate trade requests
         }
+
+        public override bool ShowItemOverlay()
+        {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            return false;
+            // TODO get dictionary/lookup of bulk trade locations
+        }
     }
 }

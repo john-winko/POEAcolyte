@@ -33,8 +33,7 @@ namespace PoeAcolyte.UI
         private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-            CellHighlight cell = new(24,24);
-            cell.Show();
+
         }
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)

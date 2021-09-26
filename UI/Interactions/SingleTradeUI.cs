@@ -44,7 +44,7 @@ namespace PoeAcolyte.UI.Interactions
 
         private void SearchButton_Click(object sender, System.EventArgs e)
         {
-            
+            _tradeInteraction.ShowItemOverlay();
         }
     }
 }
