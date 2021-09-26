@@ -29,9 +29,14 @@ namespace PoeAcolyte.UI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnExit = new System.Windows.Forms.Button();
-            this._interactionPanel = new PoeAcolyte.UI.InteractionPanel();
-            this._btnTest = new System.Windows.Forms.Button();
+            this.buttonTest3 = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelTest = new System.Windows.Forms.Label();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
@@ -44,22 +49,48 @@ namespace PoeAcolyte.UI
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // _interactionPanel
+            // buttonTest3
             // 
-            this._interactionPanel.Location = new System.Drawing.Point(348, 196);
-            this._interactionPanel.Name = "_interactionPanel";
-            this._interactionPanel.Size = new System.Drawing.Size(1108, 490);
-            this._interactionPanel.TabIndex = 1;
+            this.buttonTest3.ContextMenuStrip = this.contextMenuStrip1;
+            this.buttonTest3.Location = new System.Drawing.Point(81, 152);
+            this.buttonTest3.Name = "buttonTest3";
+            this.buttonTest3.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest3.TabIndex = 4;
+            this.buttonTest3.Text = "Test";
+            this.buttonTest3.UseVisualStyleBackColor = true;
+            this.buttonTest3.Click += new System.EventHandler(this.buttonTest3_Click);
             // 
-            // _btnTest
+            // contextMenuStrip1
             // 
-            this._btnTest.Location = new System.Drawing.Point(96, 185);
-            this._btnTest.Name = "_btnTest";
-            this._btnTest.Size = new System.Drawing.Size(75, 23);
-            this._btnTest.TabIndex = 2;
-            this._btnTest.Text = "Test";
-            this._btnTest.UseVisualStyleBackColor = true;
-            this._btnTest.Click += new System.EventHandler(this._btnTest_Click);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editBoundsToolStripMenuItem,
+            this.saveBoundsToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(142, 48);
+            // 
+            // editBoundsToolStripMenuItem
+            // 
+            this.editBoundsToolStripMenuItem.Name = "editBoundsToolStripMenuItem";
+            this.editBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.editBoundsToolStripMenuItem.Text = "Edit Bounds";
+            this.editBoundsToolStripMenuItem.Click += new System.EventHandler(this.editBoundsToolStripMenuItem_Click);
+            // 
+            // saveBoundsToolStripMenuItem
+            // 
+            this.saveBoundsToolStripMenuItem.Name = "saveBoundsToolStripMenuItem";
+            this.saveBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.saveBoundsToolStripMenuItem.Text = "Save Bounds";
+            this.saveBoundsToolStripMenuItem.Click += new System.EventHandler(this.saveBoundsToolStripMenuItem_Click);
+            // 
+            // labelTest
+            // 
+            this.labelTest.BackColor = System.Drawing.Color.Lime;
+            this.labelTest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelTest.Location = new System.Drawing.Point(305, 394);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(178, 95);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "label1";
             // 
             // MainOverlay
             // 
@@ -67,8 +98,8 @@ namespace PoeAcolyte.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(1546, 914);
-            this.Controls.Add(this._btnTest);
-            this.Controls.Add(this._interactionPanel);
+            this.Controls.Add(this.labelTest);
+            this.Controls.Add(this.buttonTest3);
             this.Controls.Add(this.btnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
@@ -80,6 +111,7 @@ namespace PoeAcolyte.UI
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -87,7 +119,10 @@ namespace PoeAcolyte.UI
         #endregion
 
         private System.Windows.Forms.Button btnExit;
-        private InteractionPanel _interactionPanel;
-        private System.Windows.Forms.Button _btnTest;
+        private System.Windows.Forms.Button buttonTest3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem editBoundsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveBoundsToolStripMenuItem;
+        private System.Windows.Forms.Label labelTest;
     }
 }

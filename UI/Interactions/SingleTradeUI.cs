@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Parsers;
 
@@ -39,6 +40,16 @@ namespace PoeAcolyte.UI.Interactions
         private void QuickButton_Click(object sender, System.EventArgs e)
         {
             GameClientCommand.QuickAction(_tradeInteraction);
+        }
+
+        private void SearchButton_Click(object sender, System.EventArgs e)
+        {
+            _tradeInteraction.ShowItemOverlay();
+        }
+
+        private void HideoutButton_Click(object sender, System.EventArgs e)
+        {
+            GameClientCommand.Hideout(_tradeInteraction);
         }
     }
 }

@@ -1,19 +1,32 @@
 ﻿using PoeAcolyte.API.Services;
 using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
+using PoeAcolyte.API;
 
 namespace PoeAcolyte.UI
 {
     public partial class MainOverlay : Form
     {
         private PoeBroker _broker;
+        private readonly InteractionPanel _interactionPanel=new();
+        private readonly StashPanel _stashPanel = new();
+
         public MainOverlay()
         {
             InitializeComponent();
             Show();
-            _broker = new PoeBroker(_interactionPanel);
+            InitCustom();
+        }
 
-            
+        private void InitCustom()
+        {
+            Controls.Add(_interactionPanel);
+            _broker = PoeBroker.Start(_interactionPanel);
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -21,11 +34,22 @@ namespace PoeAcolyte.UI
             Application.Exit();
         }
 
-        private void _btnTest_Click(object sender, EventArgs e)
+        private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-            //_broker.SendToGame("this is a test message");
 
+        }
+
+        private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _interactionPanel.EditSettings(Controls);
+            _stashPanel.EditSettings(Controls);
+        }
+
+        private void saveBoundsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _interactionPanel.SaveSettings(Controls);
+            _stashPanel.SaveSettings(Controls);
         }
     }
 }

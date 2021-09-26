@@ -7,6 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MouseKeyHook" Version="5.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="GameClient.Designer.cs">
+        <DesignTimeSharedInput>True</DesignTimeSharedInput>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>GameClient.settings</DependentUpon>
+      </Compile>
+      <Compile Update="UI\Icons.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Icons.resx</DependentUpon>
+      </Compile>
       <Compile Update="UI\InteractionPanel.cs">
         <SubType>UserControl</SubType>
       </Compile>
@@ -19,8 +33,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="C:\Users\Work\.nuget\packages\autoitx.dotnet\3.3.14.5\build\AutoItX3.dll">
-        <CustomToolNamespace>PoeAcolyte</CustomToolNamespace>
+      <EmbeddedResource Update="UI\Icons.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+	    <None Update="GameClient.settings">
+        <Generator>PublicSettingsSingleFileGenerator</Generator>
+        <LastGenOutput>GameClient.Designer.cs</LastGenOutput>
       </None>
     </ItemGroup>
 

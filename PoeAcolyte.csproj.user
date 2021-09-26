@@ -4,6 +4,12 @@
     <Compile Update="API\Interactions\GameClientCommand.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="UI\CellHighlight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\FrameControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="UI\InteractionPanel.cs">
       <SubType>Component</SubType>
     </Compile>

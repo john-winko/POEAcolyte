@@ -23,8 +23,9 @@ namespace PoeAcolyte.API.Services
         private PoeClient(bool autoStart = true)
         {
             _searchTimer = new Timer(5000);
-            _searchTimer.Elapsed += _searchTimer_Elapsed;
+            _searchTimer.Elapsed += SearchTimer_Elapsed;
             _searchTimer.Enabled = autoStart;
+            _poeProcess = GetPoeProcess();
         }
 
         public bool IsGameClientOpen => _poeProcess == null;
@@ -32,6 +33,13 @@ namespace PoeAcolyte.API.Services
 
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)return;
             _poeProcess?.Dispose();
             _searchTimer?.Dispose();
         }
@@ -48,7 +56,7 @@ namespace PoeAcolyte.API.Services
         public event EventHandler GameClientOpened;
         public event EventHandler GameClientClosed;
 
-        private void _searchTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void SearchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _poeProcess = GetPoeProcess();
             if (_poeProcess == null) return;
@@ -103,7 +111,8 @@ namespace PoeAcolyte.API.Services
         public bool SetFocus()
         {
             if (_poeProcess is null) return false;
-            WIN32.SetForegroundWindow(_poeProcess.MainWindowHandle);
+            //WIN32.SetForegroundWindow(_poeProcess.MainWindowHandle);
+            _poeProcess.SetFocus();
             return true;
         }
 

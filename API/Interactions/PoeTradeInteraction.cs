@@ -1,9 +1,9 @@
-﻿using System;
+﻿using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI;
 
 // ReSharper disable InconsistentNaming
 
@@ -77,6 +77,11 @@ namespace PoeAcolyte.API.Interactions
                    string.Equals(Entry.Player, playerName, StringComparison.CurrentCultureIgnoreCase);
         }
 
+        public virtual bool ShowItemOverlay() {
+            // By default, the overlay is not shown... this is adjusted in child overrides
+            return false;
+        }
+
         #endregion
     }
 
@@ -121,6 +126,11 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="playerName"></param>
         /// <returns></returns>
         public bool HasPlayer(string playerName);
+        /// <summary>
+        ///     Toggles showing semi-transparent overlay of where item is located
+        /// </summary>
+        /// <returns></returns>
+        public bool ShowItemOverlay();
     }
 
     public interface IPoeStatus
