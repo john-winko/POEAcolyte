@@ -25,8 +25,8 @@ namespace PoeAcolyte.API.Services
         public static PoeBroker Instance { get; set; }
 
         public IInteractionContainer InteractionContainer { get; init; }
-        public string PlayerArea { get; set; }
-        public bool PlayerBusy => !PlayerArea.Contains("Hideout");
+        public string PlayerArea { get; set; } = "";
+        public bool PlayerBusy => PlayerArea.Contains("Hideout") ;
 
         public bool Running
         {

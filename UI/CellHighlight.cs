@@ -10,11 +10,12 @@ namespace PoeAcolyte.UI
 {
     public partial class CellHighlight : Form
     {
+        private readonly IKeyboardMouseEvents _mouseEvents = Hook.GlobalEvents();
         public bool HideOnClick { get; init; }
         public CellHighlight()
         {
             InitializeComponent();
-            Hook.GlobalEvents().MouseClick += OnMouseClick;
+           _mouseEvents.MouseClick += OnMouseClick;
             HideOnClick = true;
         }
 
