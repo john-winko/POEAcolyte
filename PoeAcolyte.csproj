@@ -40,10 +40,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="C:\Users\Work\.nuget\packages\autoitx.dotnet\3.3.14.5\build\AutoItX3.dll">
-        <CustomToolNamespace>PoeAcolyte</CustomToolNamespace>
-      </None>
-      <None Update="GameClient.settings">
+	    <None Update="GameClient.settings">
         <Generator>PublicSettingsSingleFileGenerator</Generator>
         <LastGenOutput>GameClient.Designer.cs</LastGenOutput>
       </None>
