@@ -30,8 +30,8 @@ namespace PoeAcolyte.API.Interactions
                 base.PlayerInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine}I {(value ? "joined" : "left")}";
-                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
         }
@@ -44,8 +44,8 @@ namespace PoeAcolyte.API.Interactions
                 base.TraderInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine}They {(value ? "joined" : "left")}";
-                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
         }
@@ -59,8 +59,8 @@ namespace PoeAcolyte.API.Interactions
                 base.LastChatConsoleCommand = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.LabelInfo)} {Environment.NewLine} {value.ToString()}";
-                    _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, newTooltip);
+                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
         }
@@ -69,24 +69,25 @@ namespace PoeAcolyte.API.Interactions
         {
             if (Entry.Incoming)
             {
-                _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, @"Incoming");
-                _ui.BackColor = Color.Pink;
+                _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, @"Incoming");
+                _ui.BackColor = Color.LightSteelBlue;
             }
             else
             {
-                _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, @"Outgoing");
-                _ui.BackColor = Color.LightGreen;
+                _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, @"Outgoing");
+                _ui.BackColor = Color.Beige;
             }
             var info =  $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab} {Environment.NewLine}({Entry.Top}, {Entry.Left})";
 
-            _ui.LabelInfo.Text = info;
-            _ui.ToolTipHistory.SetToolTip(_ui.LabelInfo, info);
+            _ui.InfoLabel.Text = info;
+            _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, info);
 
+            // TODO add picture dictionary
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
                 ? ""
                 : $"{Entry.PriceAmount}";
 
-            _ui.ToolTipHistory.SetToolTip(_ui.InviteButton, MessageHistory);
+            _ui.ToolTipHistory.SetToolTip(_ui.PriceLabel, MessageHistory);
         }
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)

@@ -33,7 +33,7 @@ namespace PoeAcolyte.UI.Interactions
         {
             this.components = new System.ComponentModel.Container();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.LabelInfo = new System.Windows.Forms.Label();
+            this.InfoLabel = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
             this.InviteButton = new System.Windows.Forms.Button();
             this.MenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -58,14 +58,14 @@ namespace PoeAcolyte.UI.Interactions
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // LabelInfo
+            // InfoLabel
             // 
-            this.LabelInfo.Location = new System.Drawing.Point(47, 0);
-            this.LabelInfo.Name = "LabelInfo";
-            this.LabelInfo.Size = new System.Drawing.Size(142, 48);
-            this.LabelInfo.TabIndex = 3;
-            this.LabelInfo.Text = "Information";
-            this.LabelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.InfoLabel.Location = new System.Drawing.Point(47, 0);
+            this.InfoLabel.Name = "InfoLabel";
+            this.InfoLabel.Size = new System.Drawing.Size(142, 48);
+            this.InfoLabel.TabIndex = 3;
+            this.InfoLabel.Text = "Information";
+            this.InfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PriceLabel
             // 
@@ -165,7 +165,7 @@ namespace PoeAcolyte.UI.Interactions
             this.Controls.Add(this.HideoutButton);
             this.Controls.Add(this.InviteButton);
             this.Controls.Add(this.PriceLabel);
-            this.Controls.Add(this.LabelInfo);
+            this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.CurrencyPicture);
             this.Name = "SingleTradeUI";
@@ -178,7 +178,7 @@ namespace PoeAcolyte.UI.Interactions
 
         #endregion
         public System.Windows.Forms.Button CloseButton;
-        public System.Windows.Forms.Label LabelInfo;
+        public System.Windows.Forms.Label InfoLabel;
         public System.Windows.Forms.Label PriceLabel;
         public System.Windows.Forms.Button InviteButton;
         public System.Windows.Forms.ToolTip ToolTipHistory;
