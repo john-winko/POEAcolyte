@@ -29,9 +29,28 @@ namespace PoeAcolyte.UI.Components
             };
             Resize += OnResize;
             Controls.Add(_lblDescription);
-            _lblDescription.MouseDown += (sender, args) => { };
-            _lblDescription.MouseDown += (sender, args) => { };
-            _lblDescription.MouseDown += (sender, args) => { };
+            EnableDragging();
+        }
+
+        private bool _dragging;
+        private Point _dragCursorPoint;
+        private Point _dragFormPoint;
+
+        private void EnableDragging()
+        {
+            _lblDescription.MouseDown += (sender, args) => 
+            {
+                _dragging = true;
+                _dragCursorPoint = Cursor.Position;
+                _dragFormPoint = this.Location;
+            };
+            _lblDescription.MouseMove += (sender, args) =>
+            {
+                if (!_dragging) return;
+                var dif = Point.Subtract(Cursor.Position, new Size(_dragCursorPoint));
+                this.Location = Point.Add(_dragFormPoint, new Size(dif));
+            };
+            _lblDescription.MouseUp += (sender, args) => { _dragging = false;};
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -47,21 +66,6 @@ namespace PoeAcolyte.UI.Components
             var x = w > h ? h : w;
             _lblDescription.Font = new Font("Calibri", x, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)
