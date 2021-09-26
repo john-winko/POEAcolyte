@@ -99,7 +99,6 @@ namespace PoeAcolyte.UI
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Click += new System.EventHandler(this.MainOverlay_Click);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 

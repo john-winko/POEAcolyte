@@ -18,12 +18,6 @@ namespace PoeAcolyte.UI
             InitializeComponent();
             Show();
             InitCustom();
-            Hook.GlobalEvents().MouseClick += MainOverlay_MouseClick;
-        }
-
-        private void MainOverlay_MouseClick(object sender, MouseEventArgs e)
-        {
-            Debug.Print(e.ToString());
         }
 
         private void InitCustom()
@@ -53,11 +47,6 @@ namespace PoeAcolyte.UI
         {
             _interactionPanel.SaveSettings(Controls);
             _stashPanel.SaveSettings(Controls);
-        }
-
-        private void MainOverlay_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

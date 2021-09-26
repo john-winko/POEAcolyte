@@ -26,31 +26,33 @@ namespace PoeAcolyte.UI
 
         protected List<IPoeTradeInteraction> Interactions { get; init; }
 
-        public void HandleNewLogEntry(IPoeLogEntry entry)
+        public void NewTradeRequest(IPoeLogEntry entry)
         {
-            // needs to parse if a new tradeInteraction as associated interface to be built or 
-            // update previous interface with new information
-            var foundInteractions = Interactions
-                .Where(existingInteraction => existingInteraction.ShouldAdd(entry))
-                .ToList();
+            // TODO check for duplicate trade requests
+            var interaction = MakeTradeInteraction(entry);
+            Interactions.Add(interaction);
+            interaction.InteractionContainer = this;
+            this.PerformSafely(() => Controls.Add(interaction.Interaction_UI));
+        }
 
-            if (foundInteractions.Any())
-            {
-                foreach (var existingInteraction in foundInteractions) existingInteraction.AddInteraction(entry);
-            }
-            else
-            {
-                var interaction = MakeTradeInteraction(entry);
-                if (interaction is null)
-                {
-                    NonTradeInteraction(entry);
-                    return;
-                }
+        public void NewWhisper(IPoeLogEntry entry)
+        {
+            // TODO try to handle linq query without using a method call
+            foreach (var interaction in Interactions.Where(interaction => interaction.HasPlayer(entry.Player))) 
+                interaction.AddInteraction(entry);
+        }
 
-                Interactions.Add(interaction);
-                interaction.InteractionContainer = this;
-                this.PerformSafely(() => Controls.Add(interaction.Interaction_UI));
-            }
+        public void TraderInArea(IPoeLogEntry entry, bool inArea)
+        {
+            foreach (var interaction in Interactions.Where(interaction => interaction.HasPlayer(entry.Player)))
+                interaction.TraderInArea = inArea;
+        }
+
+        public void YouJoined(IPoeLogEntry entry)
+        {
+            // TODO needs to handle being in multiple trade-able areas and tracked at a higher level abstraction
+            if (!entry.Other.Contains("Hideout")) return;
+            foreach (var poeInteraction in Interactions) poeInteraction.PlayerInArea = true;
         }
 
         public void RemoveInteraction(IPoeTradeInteraction tradeInteraction)
@@ -61,40 +63,11 @@ namespace PoeAcolyte.UI
         }
 
         /// <summary>
-        ///     Non-whisper log entries that gets pushed to applicable existing <see cref="IPoeTradeInteraction" />
-        /// </summary>
-        /// <param name="entry"><see cref="IPoeLogEntry" /> entry</param>
-        private void NonTradeInteraction(IPoeLogEntry entry)
-        {
-            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player));
-            switch (entry.PoeLogEntryType)
-            {
-                case PoeLogEntryTypeEnum.Whisper:
-                    foreach (var poeInteraction in matches) poeInteraction.AddInteraction(entry);
-                    break;
-                case PoeLogEntryTypeEnum.AreaJoined:
-                    foreach (var poeInteraction in matches) poeInteraction.TraderInArea = true;
-                    break;
-                case PoeLogEntryTypeEnum.AreaLeft:
-                    foreach (var poeInteraction in matches) poeInteraction.TraderInArea = false;
-                    break;
-                case PoeLogEntryTypeEnum.YouJoin:
-                    // TODO needs to handle being in multiple trade-able areas and tracked at a higher level abstraction
-                    if (!entry.Other.Contains("Hideout")) return;
-                    foreach (var poeInteraction in Interactions) poeInteraction.PlayerInArea = true;
-                    break;
-                default:
-                    Debug.Print("Unexpected value in POEBroker");
-                    break;
-            }
-        }
-
-        /// <summary>
         ///     Makes a new <see cref="IPoeTradeInteraction" /> if entry is valid, null if not
         /// </summary>
         /// <param name="entry"><see cref="IPoeLogEntry" /> to use</param>
         /// <returns><see cref="IPoeTradeInteraction" /> if valid, null if not</returns>
-        private IPoeTradeInteraction MakeTradeInteraction(IPoeLogEntry entry)
+        private static IPoeTradeInteraction MakeTradeInteraction(IPoeLogEntry entry)
         {
             return entry.PoeLogEntryType switch
             {
@@ -105,13 +78,16 @@ namespace PoeAcolyte.UI
             };
         }
 
+        #region Edit bounds
+
+
         private readonly FrameControl _frameControl = new()
         {
             Description = @"Trade UI Panel",
             Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop),
             Size = GameClient.Default.TradeUISize
         };
-        
+
         public void EditSettings(ControlCollection owner)
         {
         
@@ -140,20 +116,22 @@ namespace PoeAcolyte.UI
             Size = GameClient.Default.TradeUISize;
             
         }
+
+
+        #endregion
     }
 
     public interface IInteractionContainer
     {
         /// <summary>
-        ///     Creates a new UI element or pushes the <see cref="IPoeLogEntry" /> information to an existing UI element
-        /// </summary>
-        /// <param name="entry">Log entry to be managed</param>
-        public void HandleNewLogEntry(IPoeLogEntry entry);
-
-        /// <summary>
         ///     Removes element from the <see cref="IInteractionContainer" />
         /// </summary>
         /// <param name="tradeInteraction">TradeInteraction to be removed</param>
         public void RemoveInteraction(IPoeTradeInteraction tradeInteraction);
+
+        public void NewTradeRequest(IPoeLogEntry entry);
+        public void NewWhisper(IPoeLogEntry entry);
+        public void TraderInArea(IPoeLogEntry entry, bool inArea);
+        public void YouJoined(IPoeLogEntry entry);
     }
 }
