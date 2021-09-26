@@ -16,6 +16,11 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>GameClient.settings</DependentUpon>
       </Compile>
+      <Compile Update="UI\CurrencyImages.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>CurrencyImages.resx</DependentUpon>
+      </Compile>
       <Compile Update="UI\Icons.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
@@ -33,6 +38,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Update="UI\CurrencyImages.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>CurrencyImages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
       <EmbeddedResource Update="UI\Icons.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Icons.Designer.cs</LastGenOutput>
