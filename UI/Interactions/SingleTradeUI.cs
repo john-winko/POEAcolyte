@@ -19,8 +19,8 @@ namespace PoeAcolyte.UI.Interactions
         public SingleTradeUI(IPoeTradeInteraction tradeInteraction) : this()
         {
             _tradeInteraction = tradeInteraction;
-            PriceLabel.Parent = CurrencyPicture;
-            PriceLabel.BackColor = Color.Transparent;
+            //PriceLabel.Parent = CurrencyPicture;
+            //PriceLabel.BackColor = Color.Transparent;
             
             // adding ToolStripMenuItem[] was giving co-variant error when writing... using a for loop for now
             var collection = GameClientCommand.CreateMenuItems(_tradeInteraction);

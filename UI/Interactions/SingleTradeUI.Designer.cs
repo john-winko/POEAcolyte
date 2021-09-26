@@ -50,7 +50,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.CloseButton.BackgroundImage = global::PoeAcolyte.UI.Icons.exit;
             this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.CloseButton.Location = new System.Drawing.Point(1, 50);
+            this.CloseButton.Location = new System.Drawing.Point(49, 50);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(32, 32);
             this.CloseButton.TabIndex = 1;
@@ -60,9 +60,10 @@ namespace PoeAcolyte.UI.Interactions
             // 
             // InfoLabel
             // 
-            this.InfoLabel.Location = new System.Drawing.Point(47, 0);
+            this.InfoLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.InfoLabel.Location = new System.Drawing.Point(49, 1);
             this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(142, 48);
+            this.InfoLabel.Size = new System.Drawing.Size(185, 48);
             this.InfoLabel.TabIndex = 3;
             this.InfoLabel.Text = "Information";
             this.InfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -74,19 +75,20 @@ namespace PoeAcolyte.UI.Interactions
             // 
             // PriceLabel
             // 
-            this.PriceLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.PriceLabel.Location = new System.Drawing.Point(0, 0);
+            this.PriceLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.PriceLabel.Location = new System.Drawing.Point(0, 50);
             this.PriceLabel.Name = "PriceLabel";
             this.PriceLabel.Size = new System.Drawing.Size(48, 30);
             this.PriceLabel.TabIndex = 5;
             this.PriceLabel.Text = "Price";
+            this.PriceLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // InviteButton
             // 
             this.InviteButton.BackgroundImage = global::PoeAcolyte.UI.Icons.add;
             this.InviteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.InviteButton.ContextMenuStrip = this.MenuStrip;
-            this.InviteButton.Location = new System.Drawing.Point(94, 50);
+            this.InviteButton.Location = new System.Drawing.Point(142, 50);
             this.InviteButton.Name = "InviteButton";
             this.InviteButton.Size = new System.Drawing.Size(32, 32);
             this.InviteButton.TabIndex = 7;
@@ -102,7 +104,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.HideoutButton.BackgroundImage = global::PoeAcolyte.UI.Icons.home;
             this.HideoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.HideoutButton.Location = new System.Drawing.Point(32, 50);
+            this.HideoutButton.Location = new System.Drawing.Point(80, 50);
             this.HideoutButton.Name = "HideoutButton";
             this.HideoutButton.Size = new System.Drawing.Size(32, 32);
             this.HideoutButton.TabIndex = 9;
@@ -114,7 +116,7 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.SearchButton.BackgroundImage = global::PoeAcolyte.UI.Icons.search;
             this.SearchButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.SearchButton.Location = new System.Drawing.Point(63, 50);
+            this.SearchButton.Location = new System.Drawing.Point(111, 50);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(32, 32);
             this.SearchButton.TabIndex = 10;
@@ -127,7 +129,7 @@ namespace PoeAcolyte.UI.Interactions
             this.TradeButton.BackgroundImage = global::PoeAcolyte.UI.Icons.money_turnover;
             this.TradeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.TradeButton.ContextMenuStrip = this.MenuStrip;
-            this.TradeButton.Location = new System.Drawing.Point(125, 50);
+            this.TradeButton.Location = new System.Drawing.Point(173, 50);
             this.TradeButton.Name = "TradeButton";
             this.TradeButton.Size = new System.Drawing.Size(32, 32);
             this.TradeButton.TabIndex = 11;
@@ -140,7 +142,7 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.BackgroundImage = global::PoeAcolyte.UI.Icons.tick;
             this.KickButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.KickButton.ContextMenuStrip = this.MenuStrip;
-            this.KickButton.Location = new System.Drawing.Point(156, 50);
+            this.KickButton.Location = new System.Drawing.Point(204, 50);
             this.KickButton.Name = "KickButton";
             this.KickButton.Size = new System.Drawing.Size(32, 32);
             this.KickButton.TabIndex = 12;
@@ -150,8 +152,8 @@ namespace PoeAcolyte.UI.Interactions
             // 
             // CurrencyPicture
             // 
-            this.CurrencyPicture.Image = global::PoeAcolyte.UI.Icons.home;
-            this.CurrencyPicture.Location = new System.Drawing.Point(0, 0);
+            this.CurrencyPicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CurrencyPicture.Location = new System.Drawing.Point(0, 1);
             this.CurrencyPicture.Name = "CurrencyPicture";
             this.CurrencyPicture.Size = new System.Drawing.Size(48, 48);
             this.CurrencyPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -162,17 +164,17 @@ namespace PoeAcolyte.UI.Interactions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.KickButton);
             this.Controls.Add(this.TradeButton);
             this.Controls.Add(this.SearchButton);
             this.Controls.Add(this.HideoutButton);
             this.Controls.Add(this.InviteButton);
-            this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.CurrencyPicture);
             this.Name = "SingleTradeUI";
-            this.Size = new System.Drawing.Size(189, 84);
+            this.Size = new System.Drawing.Size(236, 84);
             this.ToolTipHistory.SetToolTip(this, "Test");
             ((System.ComponentModel.ISupportInitialize)(this.CurrencyPicture)).EndInit();
             this.ResumeLayout(false);

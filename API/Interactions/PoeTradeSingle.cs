@@ -82,7 +82,7 @@ namespace PoeAcolyte.API.Interactions
             _ui.InfoLabel.Text = info;
             _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, info);
 
-            // TODO add picture dictionary
+            _ui.CurrencyPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
                 ? ""
                 : $"{Entry.PriceAmount}";
