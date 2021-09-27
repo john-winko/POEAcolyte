@@ -106,13 +106,10 @@ namespace PoeAcolyte.API.Interactions
                 default:
                     return false;
             }
+            // search entire history for duplicates
+            //if (Entry.IsDuplicate(logEntry)) return false;
 
-            if (Entry.IsSameItem(logEntry) && !Entry.IsDuplicate(logEntry))
-            {
-                return true;
-            }
-
-            return base.ShouldAdd(logEntry);
+            return Entry.IsSameItem(logEntry) || base.ShouldAdd(logEntry);
         }
 
         public override void Complete()

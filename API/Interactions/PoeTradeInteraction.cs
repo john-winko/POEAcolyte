@@ -126,6 +126,11 @@ namespace PoeAcolyte.API.Interactions
             // TODO need to add some guard statements and logic checks
             if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper)
             {
+                var matches = History.Where(p => p.PoeLogEntryType == Entry.PoeLogEntryType).ToArray();
+                if (matches.Any(match => match.IsDuplicate(logEntry)))
+                {
+                    return;
+                }
                 AddPlayer(logEntry.Player);
             }
             History.Add(logEntry);

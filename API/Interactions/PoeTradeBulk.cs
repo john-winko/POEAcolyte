@@ -103,6 +103,8 @@ namespace PoeAcolyte.API.Interactions
                     return false;
             }
 
+            if (Entry.IsDuplicate(logEntry)) return false;
+
             // TODO extend IPoeLogEntry to use an equals operator with an array
             // of comparison fields
             if (Entry.PriceUnits == logEntry.PriceUnits &&

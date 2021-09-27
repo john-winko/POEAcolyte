@@ -20,11 +20,12 @@ namespace PoeAcolyte.UI.Interactions
             _tradeInteraction = tradeInteraction;
 
             // adding ToolStripMenuItem[] was giving co-variant error when writing... using a for loop for now
-            var collection = GameClientCommand.CreateMenuItems(_tradeInteraction);
-            foreach (var toolStripMenuItem in collection)
-            {
-                MenuStrip.Items.Add(toolStripMenuItem);
-            }
+            // var collection = GameClientCommand.CreateMenuItems(_tradeInteraction);
+            // foreach (var toolStripMenuItem in collection)
+            // {
+            //     MenuStrip.Items.Add(toolStripMenuItem);
+            // }
+            _tradeInteraction.BuildContextMenu(MenuStrip);
 
             // Make all controls use same context menu
             foreach (Control control in this.Controls)
