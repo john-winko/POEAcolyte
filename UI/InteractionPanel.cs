@@ -29,7 +29,8 @@ namespace PoeAcolyte.UI
 
         public void NewTradeRequest(IPoeLogEntry entry)
         {
-            foreach (var tradeInteraction in Interactions.Where(tradeInteraction => tradeInteraction.ShouldAdd(entry)))
+            // add to existing control if item request already exists (only works for single trades)
+            foreach (var tradeInteraction in Interactions.Where(p => p.Entry.IsSameItem(entry)))
             {
                 tradeInteraction.AddInteraction(entry);
                 return;

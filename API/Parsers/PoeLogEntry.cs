@@ -291,6 +291,10 @@ namespace PoeAcolyte.API.Parsers
             test &= Left == entry.Left;
             test &= Item == entry.Item;
             test &= StashTab == entry.StashTab;
+            test &= Incoming == entry.Incoming;
+            test &= Outgoing == entry.Outgoing;
+            test &= PoeLogEntryType == entry.PoeLogEntryType;
+            
             return test;
         }
         #endregion

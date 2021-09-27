@@ -78,7 +78,7 @@ namespace PoeAcolyte.API.Interactions
                 _ui.BackColor = Color.Beige;
             }
 
-            _ui.InfoLabel.Text = $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}"; ;
+            _ui.InfoLabel.Text = $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}{Environment.NewLine}{Entry.Item}"; ;
             _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left})";
             _ui.CurrencyPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade

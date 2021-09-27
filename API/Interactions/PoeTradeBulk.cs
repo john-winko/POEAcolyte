@@ -74,7 +74,7 @@ namespace PoeAcolyte.API.Interactions
                 _ui.BackColor = Color.Beige;
             }
 
-            _ui.InfoLabel.Text = $@"{Entry.Player}";
+            _ui.InfoLabel.Text = $@"{Entry.Player}{Environment.NewLine}{Entry.PriceAmount} {Entry.PriceUnits} -> {Entry.BuyPriceAmount} {Entry.BuyPriceUnits}";
 
             _ui.PriceInPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceInLabel.Text = $@"{Entry.PriceAmount}";
