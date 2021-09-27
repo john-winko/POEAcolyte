@@ -63,13 +63,6 @@ namespace PoeAcolyte.API.Interactions
                 case (GameClientCommandTypeEnum.Wait, _, _):
                     Invite(tradeInteraction);
                     break;
-                case (GameClientCommandTypeEnum.Invite, _, _):
-                    Trade(tradeInteraction);
-                    break;
-                case (GameClientCommandTypeEnum.Trade, _, _):
-                    Tygl(tradeInteraction);
-                    tradeInteraction.Complete();
-                    break;
                 default:
                     Invite(tradeInteraction);
                     break;
