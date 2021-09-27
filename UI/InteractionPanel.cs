@@ -31,8 +31,9 @@ namespace PoeAcolyte.UI
         {
             // TODO check for duplicate trade requests
             var interaction = MakeTradeInteraction(entry);
-            Interactions.Add(interaction);
+            
             interaction.InteractionContainer = this;
+            Interactions.Add(interaction);
             this.PerformSafely(() => Controls.Add(interaction.Interaction_UI));
         }
 

@@ -95,6 +95,7 @@ namespace PoeAcolyte.API.Interactions
                 logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.PricedTrade &&
                 logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.UnpricedTrade) return false;
 
+
             return base.ShouldAdd(logEntry);
 
             // TODO add logic for duplicate trade requests

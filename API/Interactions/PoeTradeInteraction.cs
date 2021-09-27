@@ -2,6 +2,7 @@
 using PoeAcolyte.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -36,6 +37,73 @@ namespace PoeAcolyte.API.Interactions
         ///     Mediator pattern to update the associated UI
         /// </summary>
         public abstract void Update_UI();
+        
+
+
+        public ContextMenuStrip ContextMenu { get; set; }
+        protected ToolStripMenuItem playersToolStripMenuItems = new ("Players");
+        public bool BuildContextMenu(ContextMenuStrip menuStrip)
+        {
+            // Interaction_UI.PerformSafely(() =>
+            // {
+                menuStrip.Items.Add(playersToolStripMenuItems);
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Wait, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Invite, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Trade, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.TYGL, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.NoStock, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Decline, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Kick, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Whois, this));
+                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Hideout, this));
+           // });
+           AddPlayer(Entry.Player);
+            return true;
+        }
+
+        protected void AddPlayer(string player)
+        {
+            var menuItem = new ToolStripMenuItem(player){Name = player};
+            menuItem.Click += (sender, args) =>
+            {
+                SetActivePlayer(player);
+                Interaction_UI.PerformSafely(Update_UI);
+            };
+            playersToolStripMenuItems.DropDownItems.Add(menuItem);
+           
+        }
+        
+        protected void RemovePlayer(string player)
+        {
+            // var menuItems = playersToolStripMenuItems.DropDownItems.Find(player, false);
+            // if (menuItems.Any())
+            // {
+            //     playersToolStripMenuItems.DropDownItems.Remove(menuItems.First());
+            //     
+            // }
+            playersToolStripMenuItems.DropDownItems.RemoveByKey(player);
+            if (playersToolStripMenuItems.DropDownItems.Count < 1)
+            {
+                Complete();
+                return;
+            }
+            Interaction_UI.PerformSafely(Update_UI);
+        }
+
+        public void SetActivePlayer(string player)
+        {
+            var result = History.Where(p => p.PoeLogEntryType == Entry.PoeLogEntryType && p.Player == player).ToArray();
+            if (result.Any())
+            {
+                Entry = result.First();
+                Interaction_UI.PerformSafely(Update_UI);
+            }
+            else
+            {
+                Debug.Print("Could not find");
+            }
+        }
+
 
 
         #region IPoeStatus
@@ -51,7 +119,7 @@ namespace PoeAcolyte.API.Interactions
         public IInteractionContainer InteractionContainer { get; set; }
         public virtual UserControl Interaction_UI { get; set; }
 
-        public IPoeLogEntry Entry { get; init; }
+        public IPoeLogEntry Entry { get; set; }
 
         public virtual void AddInteraction(IPoeLogEntry logEntry)
         {
@@ -100,7 +168,7 @@ namespace PoeAcolyte.API.Interactions
         /// <summary>
         ///     Log entry that triggered this TradeInteraction
         /// </summary>
-        public IPoeLogEntry Entry { get; }
+        public IPoeLogEntry Entry { get; set; }
 
         /// <summary>
         ///     Add <see cref="IPoeTradeInteraction" /> (most often a whisper)
@@ -131,6 +199,8 @@ namespace PoeAcolyte.API.Interactions
         /// </summary>
         /// <returns></returns>
         public bool ShowItemOverlay();
+
+        public bool BuildContextMenu(ContextMenuStrip menuStrip);
     }
 
     public interface IPoeStatus
