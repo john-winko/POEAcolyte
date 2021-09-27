@@ -86,13 +86,30 @@ namespace PoeAcolyte.API.Interactions
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)
         {
-            // correct type
-            if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper &&
-                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.BulkTrade) return false;
+            // Only proceed if logEntry is correct type
+            switch (logEntry.PoeLogEntryType)
+            {
+                case PoeLogEntryTypeEnum.Whisper:
+                case PoeLogEntryTypeEnum.BulkTrade:
+                    break;
+                case PoeLogEntryTypeEnum.PricedTrade:
+                case PoeLogEntryTypeEnum.UnpricedTrade:
+                case PoeLogEntryTypeEnum.AreaJoined:
+                case PoeLogEntryTypeEnum.AreaLeft:
+                case PoeLogEntryTypeEnum.YouJoin:
+                case PoeLogEntryTypeEnum.SystemMessage:
+                    return false;
+                default:
+                    return false;
+            }
+
+            // TODO extend IPoeLogEntry to use an equals operator with an array
+            // of comparison fields
+            if (Entry.PriceUnits == logEntry.PriceUnits &&
+                Entry.BuyPriceUnits == logEntry.BuyPriceUnits)
+                return true;
 
             return base.ShouldAdd(logEntry);
-
-            // TODO add logic for duplicate trade requests
         }
 
         public override bool ShowItemOverlay()

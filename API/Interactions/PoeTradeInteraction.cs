@@ -123,6 +123,11 @@ namespace PoeAcolyte.API.Interactions
 
         public virtual void AddInteraction(IPoeLogEntry logEntry)
         {
+            // TODO need to add some guard statements and logic checks
+            if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper)
+            {
+                AddPlayer(logEntry.Player);
+            }
             History.Add(logEntry);
             Interaction_UI.PerformSafely(Update_UI);
         }

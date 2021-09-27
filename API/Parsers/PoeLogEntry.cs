@@ -277,6 +277,22 @@ namespace PoeAcolyte.API.Parsers
             return false;
         }
 
+        public bool IsDuplicate(IPoeLogEntry entry)
+        {
+            var test = IsSameItem(entry);
+            test &= Player == entry.Player;
+            return test;
+        }
+
+        public bool IsSameItem(IPoeLogEntry entry)
+        {
+            var test = true;
+            test &= Top == entry.Top;
+            test &= Left == entry.Left;
+            test &= Item == entry.Item;
+            test &= StashTab == entry.StashTab;
+            return test;
+        }
         #endregion
     }
 }

@@ -29,7 +29,11 @@ namespace PoeAcolyte.UI
 
         public void NewTradeRequest(IPoeLogEntry entry)
         {
-            // TODO check for duplicate trade requests
+            foreach (var tradeInteraction in Interactions.Where(tradeInteraction => tradeInteraction.ShouldAdd(entry)))
+            {
+                tradeInteraction.AddInteraction(entry);
+                return;
+            }
             var interaction = MakeTradeInteraction(entry);
             
             interaction.InteractionContainer = this;

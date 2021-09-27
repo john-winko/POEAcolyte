@@ -90,15 +90,29 @@ namespace PoeAcolyte.API.Interactions
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)
         {
-            // correct type
-            if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper &&
-                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.PricedTrade &&
-                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.UnpricedTrade) return false;
+            // Only proceed if logEntry is correct type
+            switch (logEntry.PoeLogEntryType)
+            {
+                case PoeLogEntryTypeEnum.Whisper:
+                case PoeLogEntryTypeEnum.PricedTrade:
+                case PoeLogEntryTypeEnum.UnpricedTrade:
+                    break;
+                case PoeLogEntryTypeEnum.BulkTrade:
+                case PoeLogEntryTypeEnum.AreaJoined:
+                case PoeLogEntryTypeEnum.AreaLeft:
+                case PoeLogEntryTypeEnum.YouJoin:
+                case PoeLogEntryTypeEnum.SystemMessage:
+                    return false;
+                default:
+                    return false;
+            }
 
+            if (Entry.IsSameItem(logEntry) && !Entry.IsDuplicate(logEntry))
+            {
+                return true;
+            }
 
             return base.ShouldAdd(logEntry);
-
-            // TODO add logic for duplicate trade requests
         }
 
         public override void Complete()

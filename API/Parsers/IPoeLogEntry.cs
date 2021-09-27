@@ -161,6 +161,9 @@ namespace PoeAcolyte.API.Parsers
                 .Cast<IPoeLogEntry>()
                 .ToList();
         }
+
+        public bool IsDuplicate(IPoeLogEntry entry);
+        public bool IsSameItem(IPoeLogEntry entry);
     }
 
     /// <summary>
