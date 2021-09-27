@@ -5,10 +5,18 @@ using PoeAcolyte.API.Services;
 
 namespace PoeAcolyte.API.Interactions
 {
+    /// <summary>
+    ///     Container for actions to send chat messages to the POE client and 
+    /// </summary>
     public class GameClientCommand : ToolStripMenuItem
     {
         private Action<IPoeTradeInteraction> _action;
 
+        /// <summary>
+        ///     Default constructor
+        /// </summary>
+        /// <param name="commandTypeEnum">Default command (action)</param>
+        /// <param name="tradeInteraction">Owning interaction sending the message</param>
         public GameClientCommand(GameClientCommandTypeEnum commandTypeEnum, IPoeTradeInteraction tradeInteraction)
         {
             CommandTypeEnum = commandTypeEnum;
@@ -27,7 +35,7 @@ namespace PoeAcolyte.API.Interactions
         /// <returns></returns>
         public static ToolStripMenuItem[] CreateMenuItems(IPoeTradeInteraction tradeInteraction)
         {
-            var temp = new List<ToolStripMenuItem>
+            return new List<ToolStripMenuItem>()
             {
                 new GameClientCommand(GameClientCommandTypeEnum.Wait, tradeInteraction),
                 new GameClientCommand(GameClientCommandTypeEnum.Invite, tradeInteraction),
@@ -38,9 +46,7 @@ namespace PoeAcolyte.API.Interactions
                 new GameClientCommand(GameClientCommandTypeEnum.Kick, tradeInteraction),
                 new GameClientCommand(GameClientCommandTypeEnum.Whois, tradeInteraction),
                 new GameClientCommand(GameClientCommandTypeEnum.Hideout, tradeInteraction)
-            };
-
-            return temp.ToArray();
+            }.ToArray();
         }
 
         /// <summary>
@@ -127,6 +133,7 @@ namespace PoeAcolyte.API.Interactions
                 $@"/invite {interaction.Entry.Player}"
             });
             interaction.LastChatConsoleCommand = GameClientCommandTypeEnum.Invite;
+            interaction.ShowItemOverlay();
         };
 
         public static Action<IPoeTradeInteraction> Trade => interaction =>

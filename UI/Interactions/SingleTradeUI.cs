@@ -1,7 +1,5 @@
-﻿using System.Drawing;
+﻿using PoeAcolyte.API.Interactions;
 using System.Windows.Forms;
-using PoeAcolyte.API.Interactions;
-using PoeAcolyte.API.Parsers;
 // ReSharper disable InconsistentNaming
 
 namespace PoeAcolyte.UI.Interactions
@@ -19,16 +17,7 @@ namespace PoeAcolyte.UI.Interactions
         public SingleTradeUI(IPoeTradeInteraction tradeInteraction) : this()
         {
             _tradeInteraction = tradeInteraction;
-            //PriceLabel.Parent = CurrencyPicture;
-            //PriceLabel.BackColor = Color.Transparent;
-            
-            // adding ToolStripMenuItem[] was giving co-variant error when writing... using a for loop for now
             _tradeInteraction.BuildContextMenu(MenuStrip);
-            // var collection = GameClientCommand.CreateMenuItems(_tradeInteraction);
-            // foreach (var toolStripMenuItem in _tradeInteraction.GetContextMenu())
-            // {
-            //      MenuStrip.Items.Add(toolStripMenuItem);
-            // }
 
             // Make all controls use same context menu
             foreach (Control control in this.Controls)

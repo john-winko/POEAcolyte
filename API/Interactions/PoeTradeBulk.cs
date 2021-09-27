@@ -27,7 +27,8 @@ namespace PoeAcolyte.API.Interactions
                 base.PlayerInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -41,7 +42,8 @@ namespace PoeAcolyte.API.Interactions
                 base.TraderInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -55,7 +57,8 @@ namespace PoeAcolyte.API.Interactions
                 base.LastChatConsoleCommand = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -74,7 +77,8 @@ namespace PoeAcolyte.API.Interactions
                 _ui.BackColor = Color.Beige;
             }
 
-            _ui.InfoLabel.Text = $@"{Entry.Player}{Environment.NewLine}{Entry.PriceAmount} {Entry.PriceUnits} -> {Entry.BuyPriceAmount} {Entry.BuyPriceUnits}";
+            _ui.InfoLabel.Text =
+                $@"{Entry.Player}{Environment.NewLine}{Entry.PriceAmount} {Entry.PriceUnits} -> {Entry.BuyPriceAmount} {Entry.BuyPriceUnits}";
 
             _ui.PriceInPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceInLabel.Text = $@"{Entry.PriceAmount}";

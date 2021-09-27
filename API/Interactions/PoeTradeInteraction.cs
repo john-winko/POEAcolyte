@@ -1,17 +1,18 @@
-﻿using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using PoeAcolyte.API.Parsers;
+using PoeAcolyte.UI;
 
 // ReSharper disable InconsistentNaming
 
 namespace PoeAcolyte.API.Interactions
 {
-    public abstract class PoeTradeInteraction : IPoeTradeInteraction /*PoeLogMessage,*/
+    public abstract class PoeTradeInteraction : IPoeTradeInteraction
     {
+        protected ToolStripMenuItem playersToolStripMenuItems = new("Players");
+
         /// <summary>
         ///     Constructor, set our first <see cref="History" /> item as the incoming parameter
         /// </summary>
@@ -35,29 +36,27 @@ namespace PoeAcolyte.API.Interactions
         /// </summary>
         public List<IPoeLogEntry> History { get; }
 
+        public bool BuildContextMenu(ContextMenuStrip menuStrip)
+        {
+            menuStrip.Items.Add(playersToolStripMenuItems);
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Wait, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Invite, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Trade, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.TYGL, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.NoStock, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Decline, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Kick, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Whois, this));
+            menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Hideout, this));
+
+            //AddPlayer(Entry.Player);
+            return true;
+        }
+
         /// <summary>
         ///     Mediator pattern to update the associated UI
         /// </summary>
         public abstract void Update_UI();
-
-        protected ToolStripMenuItem playersToolStripMenuItems = new ("Players");
-        public bool BuildContextMenu(ContextMenuStrip menuStrip)
-        {
-   
-                menuStrip.Items.Add(playersToolStripMenuItems);
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Wait, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Invite, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Trade, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.TYGL, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.NoStock, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Decline, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Kick, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Whois, this));
-                menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Hideout, this));
-     
-           //AddPlayer(Entry.Player);
-            return true;
-        }
 
         /// <summary>
         ///     Add player name to context menu
@@ -65,7 +64,7 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="player"></param>
         protected void AddPlayer(string player)
         {
-            var menuItem = new ToolStripMenuItem(player){Name = player};
+            var menuItem = new ToolStripMenuItem(player) {Name = player};
             menuItem.Click += (sender, args) =>
             {
                 SetActivePlayer(player);
@@ -104,17 +103,20 @@ namespace PoeAcolyte.API.Interactions
             Entry = result.First();
             Interaction_UI.PerformSafely(Update_UI);
             return true;
-
         }
 
+        /// <summary>
+        ///     Add a whisper (Custom from LogEntry) to the player showing it in the context menu
+        /// </summary>
+        /// <param name="logEntry">logEntry.Custom</param>
         protected void AddWhisper(IPoeLogEntry logEntry)
         {
             if (logEntry.Other == "") return;
-            
+
             var found = playersToolStripMenuItems.DropDownItems.Find(logEntry.Player, false);
             if (found.Any())
             {
-                var test = (ToolStripMenuItem)found.First();
+                var test = (ToolStripMenuItem) found.First();
                 test.DropDownItems.Add(logEntry.Other);
             }
             else
@@ -140,22 +142,18 @@ namespace PoeAcolyte.API.Interactions
 
         public void AddInteraction(IPoeLogEntry logEntry)
         {
-
             // TODO need to add some guard statements and logic checks
             if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper)
             {
                 var matches = History.Where(p => p.PoeLogEntryType == Entry.PoeLogEntryType).ToArray();
-                if (matches.Any(match => match.IsDuplicate(logEntry)))
-                {
-                    return;
-                }
+                if (matches.Any(match => match.IsDuplicate(logEntry))) return;
 
-                AddPlayer(logEntry.Player);
+                Interaction_UI.PerformSafely(() => AddPlayer(logEntry.Player));
             }
 
-            AddWhisper(logEntry);
-            
-            
+            Interaction_UI.PerformSafely(() => AddWhisper(logEntry));
+
+
             History.Add(logEntry);
             Interaction_UI.PerformSafely(Update_UI);
         }
@@ -169,7 +167,7 @@ namespace PoeAcolyte.API.Interactions
         public virtual void Complete()
         {
             // Remove active entry
-            playersToolStripMenuItems.DropDownItems.RemoveByKey(Entry.Player);
+            Interaction_UI.PerformSafely(() => playersToolStripMenuItems.DropDownItems.RemoveByKey(Entry.Player));
             History.Remove(Entry);
 
             // Try to set a new one
@@ -184,11 +182,10 @@ namespace PoeAcolyte.API.Interactions
         {
             var test = History.Where(p => p.Player == playerName);
             return test.Any();
-            // return Entry.Player != null &&
-            //        string.Equals(Entry.Player, playerName, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public virtual bool ShowItemOverlay() {
+        public virtual bool ShowItemOverlay()
+        {
             // By default, the overlay is not shown... this is adjusted in child overrides
             return false;
         }
@@ -237,12 +234,18 @@ namespace PoeAcolyte.API.Interactions
         /// <param name="playerName"></param>
         /// <returns></returns>
         public bool HasPlayer(string playerName);
+
         /// <summary>
         ///     Toggles showing semi-transparent overlay of where item is located
         /// </summary>
         /// <returns></returns>
         public bool ShowItemOverlay();
 
+        /// <summary>
+        ///     Builds a context menu of actions to be performed in game (invite/trade/kick etc)
+        /// </summary>
+        /// <param name="menuStrip">The menustrip to build</param>
+        /// <returns>true if successful, false if not</returns>
         public bool BuildContextMenu(ContextMenuStrip menuStrip);
     }
 

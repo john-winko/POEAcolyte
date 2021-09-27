@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -35,8 +34,9 @@ namespace PoeAcolyte.UI
                 tradeInteraction.AddInteraction(entry);
                 return;
             }
+
             var interaction = MakeTradeInteraction(entry);
-            
+
             interaction.InteractionContainer = this;
             Interactions.Add(interaction);
             this.PerformSafely(() => Controls.Add(interaction.Interaction_UI));
@@ -46,7 +46,7 @@ namespace PoeAcolyte.UI
         {
             // TODO try to handle linq query without using a method call
             var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player));
-            foreach (var interaction in matches) 
+            foreach (var interaction in matches)
                 interaction.AddInteraction(entry);
         }
 
@@ -88,7 +88,6 @@ namespace PoeAcolyte.UI
 
         #region Edit bounds
 
-
         private readonly FrameControl _frameControl = new()
         {
             Description = @"Trade UI Panel",
@@ -98,11 +97,10 @@ namespace PoeAcolyte.UI
 
         public void EditSettings(ControlCollection owner)
         {
-        
             _frameControl.Resize += (o, args) =>
             {
                 if (o?.GetType() != typeof(FrameControl)) return;
-                var frame = (FrameControl)o;
+                var frame = (FrameControl) o;
                 GameClient.Default.TradeUITop = frame.Top;
                 GameClient.Default.TradeUILeft = frame.Left;
                 GameClient.Default.TradeUISize = frame.Size;
@@ -110,21 +108,19 @@ namespace PoeAcolyte.UI
             owner.Add(_frameControl);
             _frameControl.BringToFront();
         }
-        
+
         public void SaveSettings(ControlCollection owner)
         {
             GameClient.Default.Save();
             LoadSettings();
             owner.Remove(_frameControl);
         }
-        
+
         public void LoadSettings()
         {
             Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop);
             Size = GameClient.Default.TradeUISize;
-            
         }
-
 
         #endregion
     }
@@ -137,9 +133,29 @@ namespace PoeAcolyte.UI
         /// <param name="tradeInteraction">TradeInteraction to be removed</param>
         public void RemoveInteraction(IPoeTradeInteraction tradeInteraction);
 
+        /// <summary>
+        ///     New trade request
+        /// </summary>
+        /// <param name="entry">entry to add</param>
         public void NewTradeRequest(IPoeLogEntry entry);
+
+        /// <summary>
+        ///     Searches through all open trade requests for a matching player then pushes the whisper to that interaction
+        /// </summary>
+        /// <param name="entry">LogEntry containing whisper (Custom)</param>
         public void NewWhisper(IPoeLogEntry entry);
+
+        /// <summary>
+        ///     Pushes whether a player has joined the area to all trade requests containing that player
+        /// </summary>
+        /// <param name="entry">entry specifying the player name</param>
+        /// <param name="inArea">bool if they are in the area</param>
         public void TraderInArea(IPoeLogEntry entry, bool inArea);
+
+        /// <summary>
+        ///     The user has joined an area
+        /// </summary>
+        /// <param name="entry">entry containing the area which they joined</param>
         public void YouJoined(IPoeLogEntry entry);
     }
 }

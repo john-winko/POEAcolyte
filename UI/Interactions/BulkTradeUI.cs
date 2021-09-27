@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using PoeAcolyte.API.Interactions;
 // ReSharper disable InconsistentNaming
 
@@ -18,13 +17,6 @@ namespace PoeAcolyte.UI.Interactions
         public BulkTradeUI(IPoeTradeInteraction tradeInteraction) : this()
         {
             _tradeInteraction = tradeInteraction;
-
-            // adding ToolStripMenuItem[] was giving co-variant error when writing... using a for loop for now
-            // var collection = GameClientCommand.CreateMenuItems(_tradeInteraction);
-            // foreach (var toolStripMenuItem in collection)
-            // {
-            //     MenuStrip.Items.Add(toolStripMenuItem);
-            // }
             _tradeInteraction.BuildContextMenu(MenuStrip);
 
             // Make all controls use same context menu

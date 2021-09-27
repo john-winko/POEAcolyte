@@ -277,6 +277,11 @@ namespace PoeAcolyte.API.Parsers
             return false;
         }
 
+        /// <summary>
+        ///     Comparison if is <see cref="IsSameItem"/> and same <see cref="IPoeLogEntry"/>.Player
+        /// </summary>
+        /// <param name="entry">entry to compare</param>
+        /// <returns>true if player and item are same, false otherwise</returns>
         public bool IsDuplicate(IPoeLogEntry entry)
         {
             var test = IsSameItem(entry);
@@ -284,6 +289,11 @@ namespace PoeAcolyte.API.Parsers
             return test;
         }
 
+        /// <summary>
+        ///     Simplified equality operator, comparing multiple fields for similarity
+        /// </summary>
+        /// <param name="entry">entry to compare</param>
+        /// <returns>true if all fields match, false otherwise</returns>
         public bool IsSameItem(IPoeLogEntry entry)
         {
             var test = true;
@@ -300,13 +310,3 @@ namespace PoeAcolyte.API.Parsers
         #endregion
     }
 }
-
-
-// public class PoeLogEntryEventArgs : EventArgs
-// {
-//     public IPoeLogEntry PoeLogEntry;
-//     public PoeLogEntryEventArgs(IPoeLogEntry poeLogEntry)
-//     {
-//         PoeLogEntry = poeLogEntry;
-//     }
-// }

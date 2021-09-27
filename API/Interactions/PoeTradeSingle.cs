@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI;
 using PoeAcolyte.UI.Components;
 using PoeAcolyte.UI.Interactions;
 
@@ -18,7 +17,6 @@ namespace PoeAcolyte.API.Interactions
             _ui = new SingleTradeUI(this);
 
             _ui.PerformSafely(Update_UI);
-            
         }
 
         public override UserControl Interaction_UI => _ui;
@@ -31,7 +29,8 @@ namespace PoeAcolyte.API.Interactions
                 base.PlayerInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -45,7 +44,8 @@ namespace PoeAcolyte.API.Interactions
                 base.TraderInArea = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -60,7 +60,8 @@ namespace PoeAcolyte.API.Interactions
                 base.LastChatConsoleCommand = value;
                 _ui.PerformSafely(() =>
                 {
-                    var newTooltip = $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
                     _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
                 });
             }
@@ -79,7 +80,9 @@ namespace PoeAcolyte.API.Interactions
                 _ui.BackColor = Color.Beige;
             }
 
-            _ui.InfoLabel.Text = $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}{Environment.NewLine}{Entry.Item}"; ;
+            _ui.InfoLabel.Text =
+                $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}{Environment.NewLine}{Entry.Item}";
+            ;
             _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left})";
             _ui.CurrencyPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
@@ -107,8 +110,6 @@ namespace PoeAcolyte.API.Interactions
                 default:
                     return false;
             }
-            // search entire history for duplicates
-            //if (Entry.IsDuplicate(logEntry)) return false;
 
             return Entry.IsSameItem(logEntry) || base.ShouldAdd(logEntry);
         }
