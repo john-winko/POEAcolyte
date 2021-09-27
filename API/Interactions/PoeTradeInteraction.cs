@@ -20,6 +20,8 @@ namespace PoeAcolyte.API.Interactions
         {
             Entry = entry;
             History = new List<IPoeLogEntry> {entry};
+            AddPlayer(entry.Player);
+            AddWhisper(entry);
         }
 
         /// <summary>
@@ -37,15 +39,11 @@ namespace PoeAcolyte.API.Interactions
         ///     Mediator pattern to update the associated UI
         /// </summary>
         public abstract void Update_UI();
-        
 
-
-        public ContextMenuStrip ContextMenu { get; set; }
         protected ToolStripMenuItem playersToolStripMenuItems = new ("Players");
         public bool BuildContextMenu(ContextMenuStrip menuStrip)
         {
-            // Interaction_UI.PerformSafely(() =>
-            // {
+   
                 menuStrip.Items.Add(playersToolStripMenuItems);
                 menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Wait, this));
                 menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Invite, this));
@@ -56,11 +54,15 @@ namespace PoeAcolyte.API.Interactions
                 menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Kick, this));
                 menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Whois, this));
                 menuStrip.Items.Add(new GameClientCommand(GameClientCommandTypeEnum.Hideout, this));
-           // });
-           AddPlayer(Entry.Player);
+     
+           //AddPlayer(Entry.Player);
             return true;
         }
 
+        /// <summary>
+        ///     Add player name to context menu
+        /// </summary>
+        /// <param name="player"></param>
         protected void AddPlayer(string player)
         {
             var menuItem = new ToolStripMenuItem(player){Name = player};
@@ -70,27 +72,13 @@ namespace PoeAcolyte.API.Interactions
                 Interaction_UI.PerformSafely(Update_UI);
             };
             playersToolStripMenuItems.DropDownItems.Add(menuItem);
-           
-        }
-        
-        protected void RemovePlayer(string player)
-        {
-            // var menuItems = playersToolStripMenuItems.DropDownItems.Find(player, false);
-            // if (menuItems.Any())
-            // {
-            //     playersToolStripMenuItems.DropDownItems.Remove(menuItems.First());
-            //     
-            // }
-            playersToolStripMenuItems.DropDownItems.RemoveByKey(player);
-            if (playersToolStripMenuItems.DropDownItems.Count < 1)
-            {
-                Complete();
-                return;
-            }
-            Interaction_UI.PerformSafely(Update_UI);
         }
 
-        public void SetActivePlayer(string player)
+        /// <summary>
+        ///     Change the active entry
+        /// </summary>
+        /// <param name="player">Player name of the trade request</param>
+        protected void SetActivePlayer(string player)
         {
             var result = History.Where(p => p.PoeLogEntryType == Entry.PoeLogEntryType && p.Player == player).ToArray();
             if (result.Any())
@@ -104,7 +92,36 @@ namespace PoeAcolyte.API.Interactions
             }
         }
 
+        /// <summary>
+        ///     Try to set a new active entry
+        /// </summary>
+        /// <returns>true if another trade request is available, false if not</returns>
+        protected bool SetActivePlayer()
+        {
+            var result = History.Where(p => p.PoeLogEntryType == Entry.PoeLogEntryType).ToArray();
+            if (!result.Any()) return false;
 
+            Entry = result.First();
+            Interaction_UI.PerformSafely(Update_UI);
+            return true;
+
+        }
+
+        protected void AddWhisper(IPoeLogEntry logEntry)
+        {
+            if (logEntry.Other == "") return;
+            
+            var found = playersToolStripMenuItems.DropDownItems.Find(logEntry.Player, false);
+            if (found.Any())
+            {
+                var test = (ToolStripMenuItem)found.First();
+                test.DropDownItems.Add(logEntry.Other);
+            }
+            else
+            {
+                Debug.Print("Could not find whisper");
+            }
+        }
 
         #region IPoeStatus
 
@@ -121,8 +138,9 @@ namespace PoeAcolyte.API.Interactions
 
         public IPoeLogEntry Entry { get; set; }
 
-        public virtual void AddInteraction(IPoeLogEntry logEntry)
+        public void AddInteraction(IPoeLogEntry logEntry)
         {
+
             // TODO need to add some guard statements and logic checks
             if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper)
             {
@@ -131,8 +149,13 @@ namespace PoeAcolyte.API.Interactions
                 {
                     return;
                 }
+
                 AddPlayer(logEntry.Player);
             }
+
+            AddWhisper(logEntry);
+            
+            
             History.Add(logEntry);
             Interaction_UI.PerformSafely(Update_UI);
         }
@@ -145,14 +168,24 @@ namespace PoeAcolyte.API.Interactions
 
         public virtual void Complete()
         {
-            InteractionContainer.RemoveInteraction(this);
+            // Remove active entry
+            playersToolStripMenuItems.DropDownItems.RemoveByKey(Entry.Player);
+            History.Remove(Entry);
+
+            // Try to set a new one
+            if (SetActivePlayer()) return;
+
             // TODO disposal pattern needed?
+            // Dispose if nothing left
+            InteractionContainer.RemoveInteraction(this);
         }
 
         public bool HasPlayer(string playerName)
         {
-            return Entry.Player != null &&
-                   string.Equals(Entry.Player, playerName, StringComparison.CurrentCultureIgnoreCase);
+            var test = History.Where(p => p.Player == playerName);
+            return test.Any();
+            // return Entry.Player != null &&
+            //        string.Equals(Entry.Player, playerName, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public virtual bool ShowItemOverlay() {

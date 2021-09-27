@@ -18,6 +18,7 @@ namespace PoeAcolyte.API.Interactions
             _ui = new SingleTradeUI(this);
 
             _ui.PerformSafely(Update_UI);
+            
         }
 
         public override UserControl Interaction_UI => _ui;

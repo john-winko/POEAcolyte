@@ -45,7 +45,8 @@ namespace PoeAcolyte.UI
         public void NewWhisper(IPoeLogEntry entry)
         {
             // TODO try to handle linq query without using a method call
-            foreach (var interaction in Interactions.Where(interaction => interaction.HasPlayer(entry.Player))) 
+            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player));
+            foreach (var interaction in matches) 
                 interaction.AddInteraction(entry);
         }
 
