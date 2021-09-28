@@ -1,7 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI;
+using PoeAcolyte.UI.Components;
 using PoeAcolyte.UI.Interactions;
 
 namespace PoeAcolyte.API.Interactions
@@ -9,8 +10,7 @@ namespace PoeAcolyte.API.Interactions
     public class PoeTradeSingle : PoeTradeInteraction
     {
         private readonly SingleTradeUI _ui;
-        private CellHighlight _cell;
-        private CellHighlight _cell24;
+        private GridOverlay _gridOverlay;
 
         public PoeTradeSingle(IPoeLogEntry entry) : base(entry)
         {
@@ -27,7 +27,12 @@ namespace PoeAcolyte.API.Interactions
             set
             {
                 base.PlayerInArea = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"I {(value ? "joined" : "left")}");
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}I {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
+                });
             }
         }
 
@@ -37,7 +42,12 @@ namespace PoeAcolyte.API.Interactions
             set
             {
                 base.TraderInArea = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = $@"They {(value ? "joined" : "left")}");
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine}They {(value ? "joined" : "left")}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
+                });
             }
         }
 
@@ -48,7 +58,12 @@ namespace PoeAcolyte.API.Interactions
             {
                 // TODO update quick action button for what will occur next
                 base.LastChatConsoleCommand = value;
-                _ui.PerformSafely(() => _ui.LabelStatus.Text = value.ToString());
+                _ui.PerformSafely(() =>
+                {
+                    var newTooltip =
+                        $@"{_ui.ToolTipHistory.GetToolTip(_ui.InfoLabel)} {Environment.NewLine} {value.ToString()}";
+                    _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, newTooltip);
+                });
             }
         }
 
@@ -56,57 +71,61 @@ namespace PoeAcolyte.API.Interactions
         {
             if (Entry.Incoming)
             {
-                _ui.IncomingLabel.Text = @"Incoming";
-                _ui.IncomingLabel.BackColor = Color.LightBlue;
-                _ui.BackColor = Color.Pink;
+                _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, @"Incoming");
+                _ui.BackColor = Color.LightSteelBlue;
             }
             else
             {
-                _ui.IncomingLabel.Text = @"Outgoing";
-                _ui.IncomingLabel.BackColor = Color.LightYellow;
-                _ui.BackColor = Color.LightGreen;
+                _ui.ToolTipHistory.SetToolTip(_ui.InfoLabel, @"Outgoing");
+                _ui.BackColor = Color.Beige;
             }
 
-            _ui.PlayerLabel.Text = Entry.Player;
-
+            _ui.InfoLabel.Text =
+                $@"{Entry.Player} {Environment.NewLine}{Entry.StashTab}{Environment.NewLine}{Entry.Item}";
+            ;
+            _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left})";
+            _ui.CurrencyPicture.BackgroundImage = CurrencyConverter.GetFromString(Entry.PriceUnits);
             _ui.PriceLabel.Text = Entry.PoeLogEntryType == PoeLogEntryTypeEnum.UnpricedTrade
-                ? "Unpriced"
-                : $"{Entry.PriceAmount} {Entry.PriceUnits}";
+                ? ""
+                : $"{Entry.PriceAmount}";
 
-            _ui.LocationLabel.Text = $@"({Entry.Top}, {Entry.Left}) {Entry.StashTab}";
-
-            _ui.ToolTipHistory.SetToolTip(_ui.QuickButton, MessageHistory);
+            _ui.ToolTipHistory.SetToolTip(_ui.PriceLabel, MessageHistory);
         }
 
         public override bool ShouldAdd(IPoeLogEntry logEntry)
         {
-            // correct type
-            if (logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.Whisper &&
-                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.PricedTrade &&
-                logEntry.PoeLogEntryType != PoeLogEntryTypeEnum.UnpricedTrade) return false;
+            // Only proceed if logEntry is correct type
+            switch (logEntry.PoeLogEntryType)
+            {
+                case PoeLogEntryTypeEnum.Whisper:
+                case PoeLogEntryTypeEnum.PricedTrade:
+                case PoeLogEntryTypeEnum.UnpricedTrade:
+                    break;
+                case PoeLogEntryTypeEnum.BulkTrade:
+                case PoeLogEntryTypeEnum.AreaJoined:
+                case PoeLogEntryTypeEnum.AreaLeft:
+                case PoeLogEntryTypeEnum.YouJoin:
+                case PoeLogEntryTypeEnum.SystemMessage:
+                    return false;
+                default:
+                    return false;
+            }
 
-            return base.ShouldAdd(logEntry);
-
-            // TODO add logic for duplicate trade requests
+            return Entry.IsSameItem(logEntry) || base.ShouldAdd(logEntry);
         }
 
         public override void Complete()
         {
-            _cell?.Dispose();
-            _cell24?.Dispose();
-            _cell = null;
-            _cell24 = null;
+            _gridOverlay?.Dispose();
             base.Complete();
         }
 
         public override bool ShowItemOverlay()
         {
             // only init if none exists
-            _cell ??= CellHighlight.GetCellHighlight(Entry, 12);
-            _cell24 ??= CellHighlight.GetCellHighlight(Entry, 24);
-            _cell?.Show();
-            _cell24?.Show();
-            return _cell == null && _cell24 == null;
+            _gridOverlay ??= new GridOverlay(Entry);
+            _gridOverlay.Show();
+            return true;
         }
     }
 }

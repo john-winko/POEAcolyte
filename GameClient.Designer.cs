@@ -25,7 +25,7 @@ namespace PoeAcolyte {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
         public int TradeUILeft {
             get {
                 return ((int)(this["TradeUILeft"]));
@@ -48,7 +48,7 @@ namespace PoeAcolyte {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500, 500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 100")]
         public global::System.Drawing.Size TradeUISize {
             get {
                 return ((global::System.Drawing.Size)(this["TradeUISize"]));
@@ -60,7 +60,7 @@ namespace PoeAcolyte {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public int StashUILeft {
             get {
                 return ((int)(this["StashUILeft"]));
@@ -72,7 +72,7 @@ namespace PoeAcolyte {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public int StashUITop {
             get {
                 return ((int)(this["StashUITop"]));
@@ -84,7 +84,7 @@ namespace PoeAcolyte {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500, 500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 100")]
         public global::System.Drawing.Size StashUISize {
             get {
                 return ((global::System.Drawing.Size)(this["StashUISize"]));
@@ -103,6 +103,42 @@ namespace PoeAcolyte {
             }
             set {
                 this["ClientLogPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int HomeUILeft {
+            get {
+                return ((int)(this["HomeUILeft"]));
+            }
+            set {
+                this["HomeUILeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int HomeUITop {
+            get {
+                return ((int)(this["HomeUITop"]));
+            }
+            set {
+                this["HomeUITop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50, 50")]
+        public global::System.Drawing.Size HomeUISize {
+            get {
+                return ((global::System.Drawing.Size)(this["HomeUISize"]));
+            }
+            set {
+                this["HomeUISize"] = value;
             }
         }
     }

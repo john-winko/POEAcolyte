@@ -36,27 +36,32 @@ namespace PoeAcolyte.UI
             this.editBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelTest = new System.Windows.Forms.Label();
+            this.HomePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.HideoutButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
+            this.HomePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(81, 123);
+            this.btnExit.BackgroundImage = global::PoeAcolyte.UI.Icons.exit;
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExit.Location = new System.Drawing.Point(41, 3);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.Size = new System.Drawing.Size(32, 32);
             this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // buttonTest3
             // 
+            this.buttonTest3.BackgroundImage = global::PoeAcolyte.UI.Icons.question_mark;
+            this.buttonTest3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonTest3.ContextMenuStrip = this.contextMenuStrip1;
-            this.buttonTest3.Location = new System.Drawing.Point(81, 152);
+            this.buttonTest3.Location = new System.Drawing.Point(3, 3);
             this.buttonTest3.Name = "buttonTest3";
-            this.buttonTest3.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest3.Size = new System.Drawing.Size(32, 32);
             this.buttonTest3.TabIndex = 4;
-            this.buttonTest3.Text = "Test";
             this.buttonTest3.UseVisualStyleBackColor = true;
             this.buttonTest3.Click += new System.EventHandler(this.buttonTest3_Click);
             // 
@@ -91,6 +96,29 @@ namespace PoeAcolyte.UI
             this.labelTest.Size = new System.Drawing.Size(178, 95);
             this.labelTest.TabIndex = 5;
             this.labelTest.Text = "label1";
+            this.labelTest.Visible = false;
+            // 
+            // HomePanel
+            // 
+            this.HomePanel.Controls.Add(this.buttonTest3);
+            this.HomePanel.Controls.Add(this.btnExit);
+            this.HomePanel.Controls.Add(this.HideoutButton);
+            this.HomePanel.Location = new System.Drawing.Point(1061, 616);
+            this.HomePanel.Margin = new System.Windows.Forms.Padding(1);
+            this.HomePanel.Name = "HomePanel";
+            this.HomePanel.Size = new System.Drawing.Size(148, 150);
+            this.HomePanel.TabIndex = 6;
+            // 
+            // HideoutButton
+            // 
+            this.HideoutButton.BackgroundImage = global::PoeAcolyte.UI.Icons.home;
+            this.HideoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.HideoutButton.Location = new System.Drawing.Point(79, 3);
+            this.HideoutButton.Name = "HideoutButton";
+            this.HideoutButton.Size = new System.Drawing.Size(32, 32);
+            this.HideoutButton.TabIndex = 5;
+            this.HideoutButton.UseVisualStyleBackColor = true;
+            this.HideoutButton.Click += new System.EventHandler(this.HideoutButton_Click);
             // 
             // MainOverlay
             // 
@@ -98,9 +126,8 @@ namespace PoeAcolyte.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(1546, 914);
+            this.Controls.Add(this.HomePanel);
             this.Controls.Add(this.labelTest);
-            this.Controls.Add(this.buttonTest3);
-            this.Controls.Add(this.btnExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -112,6 +139,7 @@ namespace PoeAcolyte.UI
             this.TransparencyKey = System.Drawing.Color.Lime;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.contextMenuStrip1.ResumeLayout(false);
+            this.HomePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -124,5 +152,7 @@ namespace PoeAcolyte.UI
         private System.Windows.Forms.ToolStripMenuItem editBoundsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveBoundsToolStripMenuItem;
         private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.FlowLayoutPanel HomePanel;
+        private System.Windows.Forms.Button HideoutButton;
     }
 }

@@ -86,9 +86,9 @@ namespace PoeAcolyte.API.Parsers
         public string Guild { get; set; }
         public string Player { get; set; }
         public string StashTab { get; set; }
-        public int PriceAmount { get; set; }
+        public decimal PriceAmount { get; set; }
         public string PriceUnits { get; set; }
-        public int BuyPriceAmount { get; set; }
+        public decimal BuyPriceAmount { get; set; }
         public string BuyPriceUnits { get; set; }
         public string League { get; set; }
         public bool Incoming { get; set; }
@@ -163,7 +163,7 @@ namespace PoeAcolyte.API.Parsers
                 if (!regex.IsMatch(Raw)) continue;
 
                 Item = regex.Match(Raw).Groups["Item"].Value;
-                PriceAmount = int.Parse(regex.Match(Raw).Groups["PriceAmount"].Value);
+                PriceAmount = decimal.Parse(regex.Match(Raw).Groups["PriceAmount"].Value);
                 PriceUnits = regex.Match(Raw).Groups["PriceUnit"].Value;
                 League = regex.Match(Raw).Groups["League"].Value;
 
@@ -208,15 +208,15 @@ namespace PoeAcolyte.API.Parsers
             foreach (var regex in PoeRegex.BulkTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
-                PriceAmount = int.Parse(regex.Match(Raw).Groups["SellAmount"].Value);
+                PriceAmount = decimal.Parse(regex.Match(Raw).Groups["SellAmount"].Value);
                 PriceUnits = regex.Match(Raw).Groups["SellUnits"].Value;
-                BuyPriceAmount = int.Parse(regex.Match(Raw).Groups["BuyAmount"].Value);
+                BuyPriceAmount = decimal.Parse(regex.Match(Raw).Groups["BuyAmount"].Value);
                 BuyPriceUnits = regex.Match(Raw).Groups["BuyUnits"].Value;
                 League = regex.Match(Raw).Groups["League"].Value;
                 Other = regex.Match(Raw).Groups["Other"].Value;
                 return true;
             }
-
+            
             return false;
         }
 
@@ -277,16 +277,36 @@ namespace PoeAcolyte.API.Parsers
             return false;
         }
 
+        /// <summary>
+        ///     Comparison if is <see cref="IsSameItem"/> and same <see cref="IPoeLogEntry"/>.Player
+        /// </summary>
+        /// <param name="entry">entry to compare</param>
+        /// <returns>true if player and item are same, false otherwise</returns>
+        public bool IsDuplicate(IPoeLogEntry entry)
+        {
+            var test = IsSameItem(entry);
+            test &= Player == entry.Player;
+            return test;
+        }
+
+        /// <summary>
+        ///     Simplified equality operator, comparing multiple fields for similarity
+        /// </summary>
+        /// <param name="entry">entry to compare</param>
+        /// <returns>true if all fields match, false otherwise</returns>
+        public bool IsSameItem(IPoeLogEntry entry)
+        {
+            var test = true;
+            test &= Top == entry.Top;
+            test &= Left == entry.Left;
+            test &= Item == entry.Item;
+            test &= StashTab == entry.StashTab;
+            test &= Incoming == entry.Incoming;
+            test &= Outgoing == entry.Outgoing;
+            test &= PoeLogEntryType == entry.PoeLogEntryType;
+            
+            return test;
+        }
         #endregion
     }
 }
-
-
-// public class PoeLogEntryEventArgs : EventArgs
-// {
-//     public IPoeLogEntry PoeLogEntry;
-//     public PoeLogEntryEventArgs(IPoeLogEntry poeLogEntry)
-//     {
-//         PoeLogEntry = poeLogEntry;
-//     }
-// }

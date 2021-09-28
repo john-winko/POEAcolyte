@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace PoeAcolyte.UI
+namespace PoeAcolyte.UI.Components
 {
     public sealed class FrameControl : Control
     {
@@ -29,7 +29,28 @@ namespace PoeAcolyte.UI
             };
             Resize += OnResize;
             Controls.Add(_lblDescription);
+            EnableDragging();
+        }
 
+        private bool _dragging;
+        private Point _dragCursorPoint;
+        private Point _dragFormPoint;
+
+        private void EnableDragging()
+        {
+            _lblDescription.MouseDown += (sender, args) => 
+            {
+                _dragging = true;
+                _dragCursorPoint = Cursor.Position;
+                _dragFormPoint = this.Location;
+            };
+            _lblDescription.MouseMove += (sender, args) =>
+            {
+                if (!_dragging) return;
+                var dif = Point.Subtract(Cursor.Position, new Size(_dragCursorPoint));
+                this.Location = Point.Add(_dragFormPoint, new Size(dif));
+            };
+            _lblDescription.MouseUp += (sender, args) => { _dragging = false;};
         }
 
         private void OnResize(object sender, EventArgs e)
