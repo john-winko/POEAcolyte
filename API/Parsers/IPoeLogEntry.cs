@@ -79,7 +79,7 @@ namespace PoeAcolyte.API.Parsers
         ///     <seealso cref="PoeRegex.UnpricedTradeList" />
         ///     <seealso cref="PoeRegex.BulkTradeList" />
         /// </summary>
-        public int PriceAmount { get; set; }
+        public decimal PriceAmount { get; set; }
 
         /// <summary>
         ///     Unit of currency <see cref="PriceUnits" />player is paying
@@ -95,7 +95,7 @@ namespace PoeAcolyte.API.Parsers
         ///     <seealso cref="PoeRegex" />
         ///     <seealso cref="PoeRegex.BulkTradeList" />
         /// </summary>
-        public int BuyPriceAmount { get; set; }
+        public decimal BuyPriceAmount { get; set; }
 
         /// <summary>
         ///     Bulk trade - Unit of currency <see cref="BuyPriceAmount" /> that player wants
