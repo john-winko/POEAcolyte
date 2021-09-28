@@ -44,6 +44,7 @@ namespace PoeAcolyte.UI.Interactions
             this.PriceInPicture = new System.Windows.Forms.PictureBox();
             this.PriceOutPicture = new System.Windows.Forms.PictureBox();
             this.PriceOutLabel = new System.Windows.Forms.Label();
+            this.LookupButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PriceInPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PriceOutPicture)).BeginInit();
             this.SuspendLayout();
@@ -76,11 +77,11 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.BackgroundImage = global::PoeAcolyte.UI.Icons.tick;
             this.KickButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.KickButton.ContextMenuStrip = this.MenuStrip;
-            this.KickButton.Location = new System.Drawing.Point(130, 1);
+            this.KickButton.Location = new System.Drawing.Point(130, 63);
             this.KickButton.Name = "KickButton";
             this.KickButton.Size = new System.Drawing.Size(32, 32);
             this.KickButton.TabIndex = 18;
-            this.ToolTipHistory.SetToolTip(this.KickButton, "Kick");
+            this.ToolTipHistory.SetToolTip(this.KickButton, "TY GL");
             this.KickButton.UseVisualStyleBackColor = true;
             this.KickButton.Click += new System.EventHandler(this.KickButton_Click);
             // 
@@ -169,10 +170,23 @@ namespace PoeAcolyte.UI.Interactions
             this.PriceOutLabel.Text = "Price Out";
             this.PriceOutLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // LookupButton
+            // 
+            this.LookupButton.BackgroundImage = global::PoeAcolyte.UI.Icons.question_mark;
+            this.LookupButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.LookupButton.ContextMenuStrip = this.MenuStrip;
+            this.LookupButton.Location = new System.Drawing.Point(130, 1);
+            this.LookupButton.Name = "LookupButton";
+            this.LookupButton.Size = new System.Drawing.Size(32, 32);
+            this.LookupButton.TabIndex = 22;
+            this.ToolTipHistory.SetToolTip(this.LookupButton, "Not Implemented yet");
+            this.LookupButton.UseVisualStyleBackColor = true;
+            // 
             // BulkTradeUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LookupButton);
             this.Controls.Add(this.PriceOutLabel);
             this.Controls.Add(this.PriceOutPicture);
             this.Controls.Add(this.KickButton);
@@ -204,5 +218,6 @@ namespace PoeAcolyte.UI.Interactions
         public System.Windows.Forms.Label PriceOutLabel;
         public System.Windows.Forms.PictureBox PriceInPicture;
         public System.Windows.Forms.PictureBox PriceOutPicture;
+        public System.Windows.Forms.Button LookupButton;
     }
 }

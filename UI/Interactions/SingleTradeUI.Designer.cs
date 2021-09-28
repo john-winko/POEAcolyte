@@ -147,7 +147,7 @@ namespace PoeAcolyte.UI.Interactions
             this.KickButton.Name = "KickButton";
             this.KickButton.Size = new System.Drawing.Size(32, 32);
             this.KickButton.TabIndex = 12;
-            this.ToolTipHistory.SetToolTip(this.KickButton, "Kick");
+            this.ToolTipHistory.SetToolTip(this.KickButton, "TY GL");
             this.KickButton.UseVisualStyleBackColor = true;
             this.KickButton.Click += new System.EventHandler(this.KickButton_Click);
             // 
