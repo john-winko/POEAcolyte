@@ -216,7 +216,7 @@ namespace PoeAcolyte.API.Parsers
                 Other = regex.Match(Raw).Groups["Other"].Value;
                 return true;
             }
-
+            
             return false;
         }
 
