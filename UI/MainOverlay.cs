@@ -48,16 +48,16 @@ namespace PoeAcolyte.UI
         {
             _interactionPanel.EditSettings(Controls);
             _stashPanel.EditSettings(Controls);
-            _ribbon.EditSettings(Controls);
+            //_ribbon.EditSettings(Controls);
         }
 
         private void saveBoundsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _interactionPanel.SaveSettings(Controls);
             _stashPanel.SaveSettings(Controls);
-            _ribbon.SaveSettings(Controls);
-            HomePanel.Location = new Point(GameClient.Default.HomeUILeft, GameClient.Default.HomeUITop);
-            HomePanel.Size = GameClient.Default.HomeUISize;
+           // _ribbon.SaveSettings(Controls);
+            //HomePanel.Location = new Point(GameClient.Default.HomeUILeft, GameClient.Default.HomeUITop);
+            //HomePanel.Size = GameClient.Default.HomeUISize;
         }
 
         private void HideoutButton_Click(object sender, EventArgs e)

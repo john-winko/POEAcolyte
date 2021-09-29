@@ -44,8 +44,12 @@ namespace PoeAcolyte.UI
 
         public void NewWhisper(IPoeLogEntry entry)
         {
+            
             // TODO try to handle linq query without using a method call
-            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player));
+            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player)).ToList();
+
+            // TODO collection modified error... have to null check or adding to tolist() enough?
+            if (!matches.Any()) return;
             foreach (var interaction in matches)
                 interaction.AddInteraction(entry);
         }
