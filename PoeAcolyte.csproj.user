@@ -4,10 +4,13 @@
     <Compile Update="API\Interactions\GameClientCommand.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="UI\Components\FrameControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="UI\Components\GridOverlayCell.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\Components\FrameControl.cs">
+    <Compile Update="UI\Components\StashPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="UI\InteractionPanel.cs">

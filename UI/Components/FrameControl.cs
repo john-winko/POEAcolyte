@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 
 namespace PoeAcolyte.UI.Components
 {
     public sealed class FrameControl : Control
     {
+        public EventHandler ClickHandler;
+
         public string Description
         {
             get => _lblDescription.Text;
@@ -30,6 +34,10 @@ namespace PoeAcolyte.UI.Components
             Resize += OnResize;
             Controls.Add(_lblDescription);
             EnableDragging();
+            _lblDescription.Click += (sender, args) =>
+            {
+                ClickHandler?.Invoke(sender, args);
+            };
         }
 
         private bool _dragging;

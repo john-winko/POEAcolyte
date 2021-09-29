@@ -1,9 +1,10 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PoeAcolyte.UI.Components
 {
-    public class StashPanel
+    public class StashPanel : FlowLayoutPanel
     {
         private readonly FrameControl _frameControl = new()
         {
@@ -22,6 +23,14 @@ namespace PoeAcolyte.UI.Components
                 GameClient.Default.StashUITop = frame.Top;
                 GameClient.Default.StashUILeft = frame.Left;
                 GameClient.Default.StashUISize = frame.Size;
+            };
+            _frameControl.ClickHandler += (sender, args) =>
+            {
+                var ev = (MouseEventArgs) args;
+                if (ev.Button == MouseButtons.Right)
+                {
+                    SaveSettings(owner);
+                }
             };
             owner.Add(_frameControl);
             _frameControl.BringToFront();

@@ -1,28 +1,29 @@
-﻿using PoeAcolyte.API.Services;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
-using PoeAcolyte.API;
-using PoeAcolyte.API.Interactions;
+﻿using PoeAcolyte.API.Interactions;
+using PoeAcolyte.API.Services;
 using PoeAcolyte.UI.Components;
+using System;
+using System.Configuration;
+using System.Drawing;
+using System.IO;
+using System.Text.Json;
+using System.Windows.Forms;
 
 namespace PoeAcolyte.UI
 {
     public partial class MainOverlay : Form
     {
         private PoeBroker _broker;
-        private readonly InteractionPanel _interactionPanel=new();
+        private readonly InteractionPanel _interactionPanel = new();
         private readonly StashPanel _stashPanel = new();
         private readonly HomeRibbon _ribbon = new();
 
         public MainOverlay()
         {
+            
             InitializeComponent();
             Show();
             InitCustom();
+            
         }
 
         private void InitCustom()
@@ -41,7 +42,7 @@ namespace PoeAcolyte.UI
         private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-
+            
         }
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -65,4 +66,5 @@ namespace PoeAcolyte.UI
             GameClientCommand.MyHideout();
         }
     }
+
 }
