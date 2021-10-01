@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
@@ -175,7 +176,11 @@ namespace PoeAcolyte.API.Interactions
 
             // TODO disposal pattern needed?
             // Dispose if nothing left
+            playersToolStripMenuItems = null;
+            
             InteractionContainer.RemoveInteraction(this);
+            Interaction_UI.Dispose();
+            GC.Collect();
         }
 
         public bool HasPlayer(string playerName)
@@ -191,9 +196,22 @@ namespace PoeAcolyte.API.Interactions
         }
 
         #endregion
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+            playersToolStripMenuItems?.Dispose();
+            Interaction_UI?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 
-    public interface IPoeTradeInteraction : IPoeStatus //IPoeLogMessage,
+    public interface IPoeTradeInteraction : IPoeStatus, IDisposable //IPoeLogMessage,
     {
         /// <summary>
         ///     Container that holds this object

@@ -35,7 +35,7 @@ namespace PoeAcolyte.UI
         private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-            GC.Collect();
+           // GC.Collect();
         }
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,7 +51,8 @@ namespace PoeAcolyte.UI
 
         private void HideoutButton_Click(object sender, EventArgs e)
         {
-            GameClientCommand.MyHideout();
+            //GameClientCommand.MyHideout();
+            
         }
     }
 

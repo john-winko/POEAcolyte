@@ -67,8 +67,13 @@ namespace PoeAcolyte.UI
 
         public void RemoveInteraction(IPoeTradeInteraction tradeInteraction)
         {
-            this.PerformSafely(() => Controls.Remove(tradeInteraction.Interaction_UI));
-            Interactions.Remove(tradeInteraction);
+            this.PerformSafely(() =>
+            {
+                Controls.Remove(tradeInteraction.Interaction_UI);
+                Interactions.Remove(tradeInteraction);
+                
+            });
+            
             // TODO verify UI elements are being properly disposed
         }
 
