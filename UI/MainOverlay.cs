@@ -1,11 +1,6 @@
 ﻿using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Services;
-using PoeAcolyte.UI.Components;
 using System;
-using System.Configuration;
-using System.Drawing;
-using System.IO;
-using System.Text.Json;
 using System.Windows.Forms;
 
 namespace PoeAcolyte.UI
@@ -13,9 +8,7 @@ namespace PoeAcolyte.UI
     public partial class MainOverlay : Form
     {
         private PoeBroker _broker;
-        private readonly InteractionPanel _interactionPanel = new();
-        private readonly StashPanel _stashPanel = new();
-        private readonly HomeRibbon _ribbon = new();
+        private readonly InteractionPanel _interactionPanel = new(){Name = "TradePanel"};
 
         public MainOverlay()
         {
@@ -30,8 +23,11 @@ namespace PoeAcolyte.UI
         {
             Controls.Add(_interactionPanel);
             _broker = PoeBroker.Start(_interactionPanel);
-            HomePanel.Location = new Point(GameClient.Default.HomeUILeft, GameClient.Default.HomeUITop);
-            HomePanel.Size = GameClient.Default.HomeUISize;
+
+            AppSettings.UpdateControlLocation(new Control[]{HomePanel, StashPanel, _interactionPanel});
+            // AppSettings.UpdateControlLocation(HomePanel);// HomePanel.LoadUiBounds("HomeRibbon");
+            // AppSettings.UpdateControlLocation(StashPanel);//StashPanel.LoadUiBounds("StashTab");
+            // AppSettings.UpdateControlLocation(_interactionPanel);//_interactionPanel.LoadUiBounds("TradeInterface");
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -47,18 +43,23 @@ namespace PoeAcolyte.UI
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _interactionPanel.EditSettings(Controls);
-            _stashPanel.EditSettings(Controls);
-            //_ribbon.EditSettings(Controls);
+            // AppSettings.Instance.GetUiSettings("TradeInterface").Edit(Controls);
+            // AppSettings.Instance.GetUiSettings("StashTab").Edit(Controls);
+            AppSettings.StartEdit(Controls, new Control[]{HomePanel, StashPanel, _interactionPanel});
         }
 
         private void saveBoundsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _interactionPanel.SaveSettings(Controls);
-            _stashPanel.SaveSettings(Controls);
-           // _ribbon.SaveSettings(Controls);
-            //HomePanel.Location = new Point(GameClient.Default.HomeUILeft, GameClient.Default.HomeUITop);
-            //HomePanel.Size = GameClient.Default.HomeUISize;
+            // AppSettings.Instance.GetUiSettings("TradeInterface").StopEdit(Controls);
+            // AppSettings.Instance.GetUiSettings("StashTab").StopEdit(Controls);
+            //
+            // HomePanel.LoadUiBounds("HomeRibbon");
+            // StashPanel.LoadUiBounds("StashTab");
+            AppSettings.StopEdit(Controls, new Control[] { HomePanel, StashPanel, _interactionPanel });
+            // AppSettings.StopEdit(Controls, HomePanel);
+            // AppSettings.StopEdit(Controls, StashPanel);
+            // AppSettings.StopEdit(Controls, _interactionPanel);
+            AppSettings.Instance.Save();
         }
 
         private void HideoutButton_Click(object sender, EventArgs e)

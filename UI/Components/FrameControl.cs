@@ -10,34 +10,39 @@ namespace PoeAcolyte.UI.Components
     {
         public EventHandler ClickHandler;
 
-        public string Description
-        {
-            get => _lblDescription.Text;
-            set => _lblDescription.Text = value;
-        }
+        // public string Description
+        // {
+        //     get => _lblDescription.Text;
+        //     set => _lblDescription.Text = value;
+        // }
 
         private Label _lblDescription;
-        public FrameControl()
+
+        public FrameControl(string description, Point location, Size size)
         {
+
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             DoubleBuffered = true;
             ResizeRedraw = true;
             BackColor = Color.Transparent;
+
+            Resize += OnResize;
             _lblDescription = new Label()
             {
                 Size = new Size(50, 20),
                 Location = new Point(15, 15),
-                Text = "Description",
+                Text = description,
                 BackColor = Color.White,
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            Resize += OnResize;
-            Controls.Add(_lblDescription);
-            EnableDragging();
             _lblDescription.Click += (sender, args) =>
             {
                 ClickHandler?.Invoke(sender, args);
             };
+            Controls.Add(_lblDescription);
+            Location = location;
+            Size = size;
+            EnableDragging();
         }
 
         private bool _dragging;

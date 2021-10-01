@@ -10,9 +10,6 @@
     <Compile Update="UI\Components\GridOverlayCell.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\Components\StashPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Update="UI\InteractionPanel.cs">
       <SubType>Component</SubType>
     </Compile>

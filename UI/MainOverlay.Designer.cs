@@ -38,6 +38,7 @@ namespace PoeAcolyte.UI
             this.labelTest = new System.Windows.Forms.Label();
             this.HomePanel = new System.Windows.Forms.FlowLayoutPanel();
             this.HideoutButton = new System.Windows.Forms.Button();
+            this.StashPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.HomePanel.SuspendLayout();
             this.SuspendLayout();
@@ -120,12 +121,20 @@ namespace PoeAcolyte.UI
             this.HideoutButton.UseVisualStyleBackColor = true;
             this.HideoutButton.Click += new System.EventHandler(this.HideoutButton_Click);
             // 
+            // StashPanel
+            // 
+            this.StashPanel.Location = new System.Drawing.Point(732, 262);
+            this.StashPanel.Name = "StashPanel";
+            this.StashPanel.Size = new System.Drawing.Size(200, 100);
+            this.StashPanel.TabIndex = 7;
+            // 
             // MainOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lime;
             this.ClientSize = new System.Drawing.Size(1546, 914);
+            this.Controls.Add(this.StashPanel);
             this.Controls.Add(this.HomePanel);
             this.Controls.Add(this.labelTest);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -154,5 +163,6 @@ namespace PoeAcolyte.UI
         private System.Windows.Forms.Label labelTest;
         private System.Windows.Forms.FlowLayoutPanel HomePanel;
         private System.Windows.Forms.Button HideoutButton;
+        public System.Windows.Forms.FlowLayoutPanel StashPanel;
     }
 }
