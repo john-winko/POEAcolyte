@@ -14,10 +14,12 @@ namespace PoeAcolyte.UI.Components
 
         public GridOverlayCell(float left, float top, float gridX = 24, float gridY = 24) : this()
         {
-            float widthPerCell = GameClient.Default.StashUISize.Width / gridX;
-            float heightPerCell = GameClient.Default.StashUISize.Height / gridY;
-            float x = GameClient.Default.StashUILeft + ((left - 1) * widthPerCell);
-            float y = GameClient.Default.StashUITop + ((top - 1) * heightPerCell);
+            var result = AppSettings.Instance.GetUiSettings("StashPanel");
+            
+            float widthPerCell = result.Size.Width / gridX;
+            float heightPerCell = result.Size.Height / gridY;
+            float x = result.Location.X + ((left - 1) * widthPerCell);
+            float y = result.Location.Y + ((top - 1) * heightPerCell);
             Show();
             Location = new Point((int)x, (int)y);
             Size = new Size((int)widthPerCell, (int)heightPerCell);

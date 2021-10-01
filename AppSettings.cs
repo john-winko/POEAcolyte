@@ -14,6 +14,8 @@ namespace PoeAcolyte
     public class AppSettings
     {
         public List<UiSettings> UiSettingsList { get; set; } = new();
+
+        public string ClientPath { get; set; } = @"C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt";
         private static AppSettings _instance;
 
         public static AppSettings Instance
@@ -25,6 +27,9 @@ namespace PoeAcolyte
                 {
                     // TODO add better error handling
                     _instance = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText("test.json"));
+
+                    if (_instance is null) return new AppSettings();
+
                     _instance.UiSettingsList.ForEach(p=>p.GenerateFrame());
                 }
                 catch (Exception e)
@@ -36,6 +41,9 @@ namespace PoeAcolyte
             set => _instance = value;
         }
 
+        /// <summary>
+        ///     DO NOT USE
+        /// </summary>
         public AppSettings()
         {
 
@@ -139,42 +147,6 @@ namespace PoeAcolyte
                     Frame.Visible = false;
             };
         }
-
-        // public void Edit(Control.ControlCollection owner)
-        // {
-        //     owner.Add(Frame);
-        //     Frame.BringToFront();
-        //     Frame.Visible = true;
-        // }
-        //
-        // public void StopEdit(Control.ControlCollection owner)
-        // {
-        //     Location = Frame.Location;
-        //     Size = Frame.Size;
-        //
-        //     owner.Remove(Frame);
-        // }
-        //
-        // public void StopEdit(Control.ControlCollection owner, Control control)
-        // {
-        //
-        //     Location = Frame.Location;
-        //     Size = Frame.Size;
-        //     control.Location = Location;
-        //     control.Size = Size;
-        //     owner.Remove(Frame);
-        // }
     }
-
-    // public static class UiExtensions
-    // {
-    //     public static void LoadUiBounds(this Control control, string region){
-    //         
-    //         var result = AppSettings.Instance.GetUiSettings(control.Name);
-    //         control.Location = result.Location;
-    //         control.Size = result.Size;
-    //     }
-    //
-    // }
 
 }

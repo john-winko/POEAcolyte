@@ -14,7 +14,7 @@ namespace PoeAcolyte.API.Services
         private PoeBroker(IInteractionContainer interactionContainer) 
         {
             InteractionContainer = interactionContainer;
-            _fileChangeMonitor = new FileChangeMonitor(GameClient.Default.ClientLogPath);
+            _fileChangeMonitor = new FileChangeMonitor(AppSettings.Instance.ClientPath);
             _fileChangeMonitor.FileChanged += ClientLogFileChanged;
             _poeClient = PoeClient.GetInstance();
             _poeClient.GameClientOpened += OnGameClientOpened;
