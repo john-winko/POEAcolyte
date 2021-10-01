@@ -35,7 +35,7 @@ namespace PoeAcolyte.UI
         private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-            
+            GC.Collect();
         }
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)

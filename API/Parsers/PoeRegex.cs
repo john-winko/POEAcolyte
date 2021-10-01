@@ -7,14 +7,14 @@ namespace PoeAcolyte.API.Parsers
     /// <summary>
     ///     Regex arrays bounced against client.txt file for matches in multiple languages
     /// </summary>
-    public static class PoeRegex
+    public class PoeRegex
     {
         /// <summary>
         ///     REGEX to determine if @From is found (meaning a whisper from someone) <br></br>
         ///     (?:From|De|От кого|จาก|Von|Desde|수신|來自) (?&lt;Player&gt;.*?): (?&lt;Other&gt;.*)
         ///     <value>Player, Other</value>
         /// </summary>
-        public static readonly Regex WhisperFrom =
+        public readonly Regex WhisperFrom =
             new(@"@(?:From|De|От кого|จาก|Von|Desde|수신|來自) (?<Player>.*?): (?<Other>.*)");
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (?:To|À|An|Para|Кому|ถึง|발신|向) (?&lt;Player&gt;.*?): (?&lt;Other&gt;.*)
         ///     <value>Player, Other</value>
         /// </summary>
-        public static readonly Regex WhisperTo =
+        public readonly Regex WhisperTo =
             new(@"@(?:To|À|An|Para|Кому|ถึง|발신|向) (?<Player>.*?): (?<Other>.*)");
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace PoeAcolyte.API.Parsers
         ///     &lt;(?&lt;Guild&gt;.*?)&gt; (?&lt;Player&gt;.*?):
         ///     <value>Guild, Player</value>
         /// </summary>
-        public static readonly Regex Guild = new(@"<(?<Guild>.*?)> (?<Player>.*?): ");
+        public readonly Regex Guild = new(@"<(?<Guild>.*?)> (?<Player>.*?): ");
 
         /// <summary>
         ///     Regex used as a catch all <br></br>
         ///     (.*?)] (?&lt;Message&gt;.*)
         ///     <value>Message</value>
         /// </summary>
-        public static readonly Regex SystemMessage = new(@"(.*?)] (?<Message>.*)");
+        public readonly Regex SystemMessage = new(@"(.*?)] (?<Message>.*)");
 
         /// <summary>
         ///     REGEX for Regular Priced trades - will need to parse <see cref="StashTabList" /><br></br>
@@ -45,7 +45,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (?&lt;League&gt;.*?)\(
         ///     <value>Item, PriceAmount, PriceUnit, League</value>
         /// </summary>
-        public static readonly Regex[] PricedTradeList =
+        public readonly Regex[] PricedTradeList =
         {
             /* ENG */
             new(
@@ -83,7 +83,7 @@ namespace PoeAcolyte.API.Parsers
         ///     \d+)\)(?&lt;Other&gt;.*)
         ///     <value>StashTab, Left, Top, Other</value>
         /// </summary>
-        public static readonly Regex[] StashTabList =
+        public readonly Regex[] StashTabList =
         {
             /* ENG */
             new(@"\(stash tab ""(?<StashTab>.*)""; position: left (?<Left>\d+), top (?<Top>\d+)\)(?<Other>.*)"),
@@ -116,7 +116,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (.*)Hi, I would like to buy your (?&lt;Item&gt;.*) in (?&lt;League&gt;.*?)\(
         ///     <value>Item, League</value>
         /// </summary>
-        public static readonly Regex[] UnpricedTradeList =
+        public readonly Regex[] UnpricedTradeList =
         {
             /* ENG */ new(@"(.*)Hi, I would like to buy your (?<Item>.*) in (?<League>.*?)\("),
             /* RUS */
@@ -140,7 +140,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (?&lt;BuyUnits&gt;.*?) in (?&lt;League&gt;.*).(?&lt;Other&gt;.*)
         ///     <value>(int)SellAmount, SellUnits, (int)BuyAmount, BuyUnits, League, Other</value>
         /// </summary>
-        public static readonly Regex[] BulkTradeList =
+        public readonly Regex[] BulkTradeList =
         {
             /* ENG */
             new(
@@ -179,7 +179,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (.*) : (?&lt;Player&gt;.*?) has joined the area.*
         ///     <value>Player</value>
         /// </summary>
-        public static readonly Regex[] AreaJoinedList =
+        public readonly Regex[] AreaJoinedList =
         {
             /* ENG */ new(@"(.*) : (?<Player>.*?) has joined the area.*"),
             /* FRE */ new(@"(.*) : (?<Player>.*?) a rejoint la zone.*"),
@@ -197,7 +197,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (.*) : (?&lt;Player&gt;.*?) has left the area.*
         ///     <value>Player</value>
         /// </summary>
-        public static readonly Regex[] AreaLeftList =
+        public readonly Regex[] AreaLeftList =
         {
             /* ENG */ new(@"(.*) : (?<Player>.*?) has left the area.*"),
             /* FRE */ new(@"(.*) : (?<Player>.*?) a quitté la zone.*"),
@@ -215,7 +215,7 @@ namespace PoeAcolyte.API.Parsers
         ///     (.*) : You have entered (?&lt;Area&gt;.*?).
         ///     <value>Area</value>
         /// </summary>
-        public static readonly Regex[] YouJoinList =
+        public readonly Regex[] YouJoinList =
         {
             /* ENG */ new(@"(.*) : You have entered (?<Area>.*).")
             // TODO add language specific regex
