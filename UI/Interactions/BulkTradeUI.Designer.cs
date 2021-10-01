@@ -17,6 +17,7 @@ namespace PoeAcolyte.UI.Interactions
         {
             if (disposing && (components != null))
             {
+                ToolTipHistory.RemoveAll();
                 components.Dispose();
             }
 
