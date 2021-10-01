@@ -25,18 +25,22 @@ namespace PoeAcolyte
                 if (_instance is not null) return _instance;
                 try
                 {
-                    // TODO add better error handling
+                    _instance = new AppSettings();
+
+                    if (!File.Exists("test.json")) return _instance;
+
                     _instance = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText("test.json"));
 
-                    if (_instance is null) return new AppSettings();
+                    if (_instance is null) return _instance;
 
-                    _instance.UiSettingsList.ForEach(p=>p.GenerateFrame());
+                    _instance.UiSettingsList.ForEach(p => p.GenerateFrame());
+                    return new AppSettings();
                 }
                 catch (Exception e)
                 {
                     Debug.Print(e.Message);
+                    return _instance;
                 }
-                return _instance;
             }
             set => _instance = value;
         }
