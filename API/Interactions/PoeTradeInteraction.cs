@@ -180,7 +180,7 @@ namespace PoeAcolyte.API.Interactions
             
             InteractionContainer.RemoveInteraction(this);
             Interaction_UI.Dispose();
-            //GC.Collect();
+            GC.Collect();
         }
 
         public bool HasPlayer(string playerName)
