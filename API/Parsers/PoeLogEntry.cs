@@ -5,6 +5,7 @@ namespace PoeAcolyte.API.Parsers
 {
     public class PoeLogEntry : IPoeLogEntry
     {
+        private PoeRegex _poeRegex = new ();
         /// <summary>
         ///     Parses <paramref name="raw" /> to determine if client.txt entry is a
         ///     whisper, system message or trade
@@ -47,7 +48,7 @@ namespace PoeAcolyte.API.Parsers
                 else if (CheckAreaJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.AreaJoined;
                 else if (CheckYouJoin()) PoeLogEntryType = PoeLogEntryTypeEnum.YouJoin;
                 else PoeLogEntryType = PoeLogEntryTypeEnum.SystemMessage;
-                Other = PoeRegex.SystemMessage.Match(Raw).Groups["Message"].Value;
+                Other = _poeRegex.SystemMessage.Match(Raw).Groups["Message"].Value;
             }
         }
 
@@ -109,24 +110,24 @@ namespace PoeAcolyte.API.Parsers
         /// <value><see cref="Player" />, <see cref="Other" />, (<see cref="Incoming" />/<see cref="Outgoing" />)</value>
         private bool CheckWhisper() //see if whisper and set flags (Outgoing/Incoming)
         {
-            if (PoeRegex.WhisperFrom.IsMatch(Raw))
+            if (_poeRegex.WhisperFrom.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperFrom.Match(Raw).Groups["Player"].Value;
-                Other = PoeRegex.WhisperFrom.Match(Raw).Groups["Other"].Value;
+                Player = _poeRegex.WhisperFrom.Match(Raw).Groups["Player"].Value;
+                Other = _poeRegex.WhisperFrom.Match(Raw).Groups["Other"].Value;
                 Incoming = true;
             }
-            else if (PoeRegex.WhisperTo.IsMatch(Raw))
+            else if (_poeRegex.WhisperTo.IsMatch(Raw))
             {
-                Player = PoeRegex.WhisperTo.Match(Raw).Groups["Player"].Value;
-                Other = PoeRegex.WhisperTo.Match(Raw).Groups["Other"].Value;
+                Player = _poeRegex.WhisperTo.Match(Raw).Groups["Player"].Value;
+                Other = _poeRegex.WhisperTo.Match(Raw).Groups["Other"].Value;
                 Outgoing = true;
             }
 
-            if (!PoeRegex.Guild.IsMatch(Raw)) return Incoming || Outgoing;
+            if (!_poeRegex.Guild.IsMatch(Raw)) return Incoming || Outgoing;
 
             // Override guild/player name if guild name is found
-            Guild = PoeRegex.Guild.Match(Raw).Groups["Guild"].Value;
-            Player = PoeRegex.Guild.Match(Raw).Groups["Player"].Value;
+            Guild = _poeRegex.Guild.Match(Raw).Groups["Guild"].Value;
+            Player = _poeRegex.Guild.Match(Raw).Groups["Player"].Value;
 
             return Incoming || Outgoing;
         }
@@ -138,7 +139,7 @@ namespace PoeAcolyte.API.Parsers
         /// <value><see cref="Top" />, <see cref="Left" />, <see cref="StashTab" />, <see cref="Other" /></value>
         private bool CheckStashTab()
         {
-            foreach (var regex in PoeRegex.StashTabList)
+            foreach (var regex in _poeRegex.StashTabList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Top = int.Parse(regex.Match(Raw).Groups["Top"].Value);
@@ -158,7 +159,7 @@ namespace PoeAcolyte.API.Parsers
         /// <value><see cref="Item" />, <see cref="PriceAmount" />, <see cref="PriceUnits" />, <see cref="League" /></value>
         private bool CheckPricedTrade()
         {
-            foreach (var regex in PoeRegex.PricedTradeList)
+            foreach (var regex in _poeRegex.PricedTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
 
@@ -182,7 +183,7 @@ namespace PoeAcolyte.API.Parsers
         /// <value><see cref="Item" />, <see cref="League" /></value>
         private bool CheckUnpricedTrade()
         {
-            foreach (var regex in PoeRegex.UnpricedTradeList)
+            foreach (var regex in _poeRegex.UnpricedTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
 
@@ -205,7 +206,7 @@ namespace PoeAcolyte.API.Parsers
         /// </value>
         private bool CheckBulkTrade()
         {
-            foreach (var regex in PoeRegex.BulkTradeList)
+            foreach (var regex in _poeRegex.BulkTradeList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 PriceAmount = decimal.Parse(regex.Match(Raw).Groups["SellAmount"].Value);
@@ -229,7 +230,7 @@ namespace PoeAcolyte.API.Parsers
         /// </value>
         private bool CheckAreaJoin()
         {
-            foreach (var regex in PoeRegex.AreaJoinedList)
+            foreach (var regex in _poeRegex.AreaJoinedList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Player = regex.Match(Raw).Groups["Player"].Value;
@@ -248,7 +249,7 @@ namespace PoeAcolyte.API.Parsers
         /// </value>
         private bool CheckAreaLeft()
         {
-            foreach (var regex in PoeRegex.AreaLeftList)
+            foreach (var regex in _poeRegex.AreaLeftList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Player = regex.Match(Raw).Groups["Player"].Value;
@@ -267,7 +268,7 @@ namespace PoeAcolyte.API.Parsers
         /// </value>
         private bool CheckYouJoin()
         {
-            foreach (var regex in PoeRegex.YouJoinList)
+            foreach (var regex in _poeRegex.YouJoinList)
             {
                 if (!regex.IsMatch(Raw)) continue;
                 Area = regex.Match(Raw).Groups["Area"].Value;

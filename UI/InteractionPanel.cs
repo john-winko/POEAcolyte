@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using PoeAcolyte.API;
+﻿using PoeAcolyte.API;
 using PoeAcolyte.API.Interactions;
 using PoeAcolyte.API.Parsers;
-using PoeAcolyte.UI.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PoeAcolyte.UI
 {
@@ -21,7 +19,7 @@ namespace PoeAcolyte.UI
         {
             InitializeComponent();
             Interactions = new List<IPoeTradeInteraction>();
-            LoadSettings();
+
         }
 
         protected List<IPoeTradeInteraction> Interactions { get; init; }
@@ -44,8 +42,12 @@ namespace PoeAcolyte.UI
 
         public void NewWhisper(IPoeLogEntry entry)
         {
+            
             // TODO try to handle linq query without using a method call
-            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player));
+            var matches = Interactions.Where(interaction => interaction.HasPlayer(entry.Player)).ToList();
+
+            // TODO collection modified error... have to null check or adding to tolist() enough?
+            if (!matches.Any()) return;
             foreach (var interaction in matches)
                 interaction.AddInteraction(entry);
         }
@@ -65,8 +67,13 @@ namespace PoeAcolyte.UI
 
         public void RemoveInteraction(IPoeTradeInteraction tradeInteraction)
         {
-            this.PerformSafely(() => Controls.Remove(tradeInteraction.Interaction_UI));
-            Interactions.Remove(tradeInteraction);
+            this.PerformSafely(() =>
+            {
+                Controls.Remove(tradeInteraction.Interaction_UI);
+                Interactions.Remove(tradeInteraction);
+                
+            });
+            
             // TODO verify UI elements are being properly disposed
         }
 
@@ -85,44 +92,6 @@ namespace PoeAcolyte.UI
                 _ => null
             };
         }
-
-        #region Edit bounds
-
-        private readonly FrameControl _frameControl = new()
-        {
-            Description = @"Trade UI Panel",
-            Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop),
-            Size = GameClient.Default.TradeUISize
-        };
-
-        public void EditSettings(ControlCollection owner)
-        {
-            _frameControl.Resize += (o, args) =>
-            {
-                if (o?.GetType() != typeof(FrameControl)) return;
-                var frame = (FrameControl) o;
-                GameClient.Default.TradeUITop = frame.Top;
-                GameClient.Default.TradeUILeft = frame.Left;
-                GameClient.Default.TradeUISize = frame.Size;
-            };
-            owner.Add(_frameControl);
-            _frameControl.BringToFront();
-        }
-
-        public void SaveSettings(ControlCollection owner)
-        {
-            GameClient.Default.Save();
-            LoadSettings();
-            owner.Remove(_frameControl);
-        }
-
-        public void LoadSettings()
-        {
-            Location = new Point(GameClient.Default.TradeUILeft, GameClient.Default.TradeUITop);
-            Size = GameClient.Default.TradeUISize;
-        }
-
-        #endregion
     }
 
     public interface IInteractionContainer

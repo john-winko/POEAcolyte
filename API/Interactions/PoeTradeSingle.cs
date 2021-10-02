@@ -116,8 +116,10 @@ namespace PoeAcolyte.API.Interactions
 
         public override void Complete()
         {
-            _gridOverlay?.Dispose();
             base.Complete();
+            
+            _gridOverlay?.Dispose();
+
         }
 
         public override bool ShowItemOverlay()
