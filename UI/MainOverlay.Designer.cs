@@ -35,6 +35,9 @@ namespace PoeAcolyte.UI
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testLogEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testLogEntryAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelTest = new System.Windows.Forms.Label();
             this.HomePanel = new System.Windows.Forms.FlowLayoutPanel();
             this.HideoutButton = new System.Windows.Forms.Button();
@@ -47,11 +50,13 @@ namespace PoeAcolyte.UI
             // 
             this.btnExit.BackgroundImage = global::PoeAcolyte.UI.Icons.exit;
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExit.ContextMenuStrip = this.contextMenuStrip1;
             this.btnExit.Location = new System.Drawing.Point(41, 3);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(32, 32);
             this.btnExit.TabIndex = 0;
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Visible = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // buttonTest3
@@ -64,29 +69,54 @@ namespace PoeAcolyte.UI
             this.buttonTest3.Size = new System.Drawing.Size(32, 32);
             this.buttonTest3.TabIndex = 4;
             this.buttonTest3.UseVisualStyleBackColor = true;
+            this.buttonTest3.Visible = false;
             this.buttonTest3.Click += new System.EventHandler(this.buttonTest3_Click);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editBoundsToolStripMenuItem,
-            this.saveBoundsToolStripMenuItem});
+            this.saveBoundsToolStripMenuItem,
+            this.exitProgramToolStripMenuItem,
+            this.testLogEntryToolStripMenuItem,
+            this.testLogEntryAllToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(142, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 114);
             // 
             // editBoundsToolStripMenuItem
             // 
             this.editBoundsToolStripMenuItem.Name = "editBoundsToolStripMenuItem";
-            this.editBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.editBoundsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.editBoundsToolStripMenuItem.Text = "Edit Bounds";
             this.editBoundsToolStripMenuItem.Click += new System.EventHandler(this.editBoundsToolStripMenuItem_Click);
             // 
             // saveBoundsToolStripMenuItem
             // 
             this.saveBoundsToolStripMenuItem.Name = "saveBoundsToolStripMenuItem";
-            this.saveBoundsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.saveBoundsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.saveBoundsToolStripMenuItem.Text = "Save Bounds";
             this.saveBoundsToolStripMenuItem.Click += new System.EventHandler(this.saveBoundsToolStripMenuItem_Click);
+            // 
+            // exitProgramToolStripMenuItem
+            // 
+            this.exitProgramToolStripMenuItem.Name = "exitProgramToolStripMenuItem";
+            this.exitProgramToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.exitProgramToolStripMenuItem.Text = "Exit Program";
+            this.exitProgramToolStripMenuItem.Click += new System.EventHandler(this.exitProgramToolStripMenuItem_Click);
+            // 
+            // testLogEntryToolStripMenuItem
+            // 
+            this.testLogEntryToolStripMenuItem.Name = "testLogEntryToolStripMenuItem";
+            this.testLogEntryToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.testLogEntryToolStripMenuItem.Text = "Test Log Entry";
+            this.testLogEntryToolStripMenuItem.Click += new System.EventHandler(this.testLogEntryToolStripMenuItem_Click);
+            // 
+            // testLogEntryAllToolStripMenuItem
+            // 
+            this.testLogEntryAllToolStripMenuItem.Name = "testLogEntryAllToolStripMenuItem";
+            this.testLogEntryAllToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.testLogEntryAllToolStripMenuItem.Text = "Test Log Entry (All)";
+            this.testLogEntryAllToolStripMenuItem.Click += new System.EventHandler(this.testLogEntryAllToolStripMenuItem_Click);
             // 
             // labelTest
             // 
@@ -114,6 +144,7 @@ namespace PoeAcolyte.UI
             // 
             this.HideoutButton.BackgroundImage = global::PoeAcolyte.UI.Icons.home;
             this.HideoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.HideoutButton.ContextMenuStrip = this.contextMenuStrip1;
             this.HideoutButton.Location = new System.Drawing.Point(79, 3);
             this.HideoutButton.Name = "HideoutButton";
             this.HideoutButton.Size = new System.Drawing.Size(32, 32);
@@ -164,5 +195,8 @@ namespace PoeAcolyte.UI
         private System.Windows.Forms.FlowLayoutPanel HomePanel;
         private System.Windows.Forms.Button HideoutButton;
         public System.Windows.Forms.FlowLayoutPanel StashPanel;
+        private System.Windows.Forms.ToolStripMenuItem exitProgramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testLogEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testLogEntryAllToolStripMenuItem;
     }
 }

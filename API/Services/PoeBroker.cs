@@ -102,9 +102,20 @@ namespace PoeAcolyte.API.Services
                 }
         }
 
-        public void ManualFire()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iterations">Number of times to manually fire the file change monitoring</param>
+        public void ManualFire(int iterations = 1)
         {
-            _fileChangeMonitor.ManualFire();
+            if (iterations < 1) return;
+
+            while (iterations > 0)
+            {
+                iterations--;
+                _fileChangeMonitor.ManualFire();
+            }
+            
         }
     }
 }

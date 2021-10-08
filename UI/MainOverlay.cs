@@ -29,13 +29,12 @@ namespace PoeAcolyte.UI
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            
         }
 
         private void buttonTest3_Click(object sender, EventArgs e)
         {
             _broker.ManualFire();
-           // GC.Collect();
         }
 
         private void editBoundsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,8 +50,23 @@ namespace PoeAcolyte.UI
 
         private void HideoutButton_Click(object sender, EventArgs e)
         {
-            //GameClientCommand.MyHideout();
-            
+            GameClientCommand.MyHideout();
+        }
+
+        private void exitProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void testLogEntryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _broker.ManualFire();
+
+        }
+
+        private void testLogEntryAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _broker.ManualFire(21);
         }
     }
 
